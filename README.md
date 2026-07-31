@@ -1,5 +1,8 @@
 # MailAgent
 
+> [!IMPORTANT]
+> Development has moved to [navorina-labs/AgentsOS](https://github.com/navorina-labs/AgentsOS/tree/main/agents/mail-agent). This repository is preserved as a read-only historical snapshot; use AgentsOS for source code, issues, and releases.
+
 Temporary inboxes for **AI agents** and **QA/E2E**: create an inbox, submit its address to a signup/login form, wait for OTP or magic link, and clean up automatically.
 
 Workspace Agent adds supplied-thread summaries, draft replies, reminders, persistent action history, and policy-gated idempotent replies from stored inbound messages. Sending is disabled by default; calendar writes remain disabled.
