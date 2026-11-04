@@ -1,6 +1,6 @@
 # MailAgent MCP for OpenAI Codex
 # Copy to ~/.codex/config.toml or .codex/config.toml (trusted project)
-# Docs: https://github.com/Alex0nder/MailAgent/blob/main/docs/CODEX.md
+# Docs: https://github.com/navorinaai/navorina/blob/main/agents-os/agents/mail-agent/docs/CODEX.md
 
 # --- Option A: stdio via published npm package (recommended) ---
 [mcp_servers.mailagent]
@@ -8,7 +8,7 @@ command = "npx"
 args = ["-y", "-p", "@mailagent/mcp@0.2.2", "mailagent-mcp"]
 
 [mcp_servers.mailagent.env]
-MAILAGENT_API_URL = "https://api.webmailagent.com"
+MAILAGENT_API_URL = "https://mail-api.navorina.ai"
 MAILAGENT_API_KEY = "REPLACE_WITH_YOUR_KEY"
 
 # --- Option B: local dev (MailAgent repo checkout) ---
@@ -22,7 +22,7 @@ MAILAGENT_API_KEY = "REPLACE_WITH_YOUR_KEY"
 
 # --- Option C: remote Streamable HTTP (no subprocess) ---
 # [mcp_servers.mailagent-remote]
-# url = "https://api.webmailagent.com/mcp"
+# url = "https://mail-api.navorina.ai/mcp"
 #
 # [mcp_servers.mailagent-remote.http_headers]
 # Authorization = "Bearer REPLACE_WITH_YOUR_KEY"

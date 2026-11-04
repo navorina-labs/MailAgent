@@ -1,6 +1,8 @@
 /** Shared fetch helpers for contract QA scripts (API-only simulate, no DATABASE_URL). */
+import { apiOrigin } from "./public-origins.mjs";
+
 export function contractBase() {
-  return (process.env.MAILAGENT_API_URL ?? "https://api.webmailagent.com").replace(/\/$/, "");
+  return apiOrigin();
 }
 
 export function contractHeaders() {

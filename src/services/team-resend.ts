@@ -5,6 +5,7 @@ import { decryptTeamSecret, encryptTeamSecret } from "../lib/team-secrets";
 import { createResendClient } from "./resend-mail";
 import type { Resend } from "resend";
 import type { PlanId } from "../lib/plans";
+import { publicApiOrigin } from "../lib/public-origin";
 
 export type DedicatedResendStatus = {
   configured: boolean;
@@ -37,8 +38,8 @@ async function getTeamResendRow(
   return rows[0] ?? null;
 }
 
-export function dedicatedWebhookUrl(teamId: string): string {
-  return `https://api.webmailagent.com/webhooks/resend/team/${teamId}`;
+export function dedicatedWebhookUrl(teamId: string, configuredOrigin?: string): string {
+  return `${publicApiOrigin(configuredOrigin)}/webhooks/resend/team/${teamId}`;
 }
 
 export function isEnterprisePlan(plan: PlanId): boolean {
@@ -53,7 +54,7 @@ export async function getDedicatedResendStatus(
   return {
     configured: Boolean(row?.dedicated_resend_api_key_cipher),
     configuredAt: row?.dedicated_resend_configured_at ?? null,
-    webhookUrl: dedicatedWebhookUrl(teamId),
+    webhookUrl: dedicatedWebhookUrl(teamId, env.MAILAGENT_PUBLIC_API_ORIGIN),
     planRequired: "enterprise",
   };
 }
@@ -151,7 +152,7 @@ export async function resolveResendTeamForDomain(
       return {
         ok: false,
         error: "dedicated_resend_required",
-        hint: `Enterprise teams must configure PUT /v1/team/dedicated-resend before custom domains. Webhook: ${dedicatedWebhookUrl(scope.teamId)}`,
+        hint: `Enterprise teams must configure PUT /v1/team/dedicated-resend before custom domains. Webhook: ${dedicatedWebhookUrl(scope.teamId, env.MAILAGENT_PUBLIC_API_ORIGIN)}`,
       };
     }
     const client = await createResendClientForTeam(env, scope.teamId);

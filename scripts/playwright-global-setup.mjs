@@ -8,8 +8,9 @@ import { writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { apiOrigin } from "./lib/public-origins.mjs";
 
-const base = (process.env.MAILAGENT_API_URL ?? "https://api.webmailagent.com").replace(/\/$/, "");
+const base = apiOrigin();
 const apiKey = process.env.MAILAGENT_API_KEY ?? process.env.API_KEY;
 const dbUrl = process.env.DATABASE_URL;
 const outPath =

@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 /** Smoke against prod API (requires MAILAGENT_API_URL + MAILAGENT_API_KEY) */
 import "./load-env.mjs";
+import { apiOrigin } from "./lib/public-origins.mjs";
 
-const base = (
-  process.env.MAILAGENT_API_URL ?? "https://api.webmailagent.com"
-).replace(/\/$/, "");
+const base = apiOrigin();
 const apiKey = process.env.MAILAGENT_API_KEY ?? process.env.API_KEY;
 
 if (!apiKey) {

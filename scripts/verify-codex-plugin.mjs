@@ -48,8 +48,8 @@ const manifest = JSON.parse(
 const iface = manifest.interface ?? {};
 for (const field of ["websiteURL", "privacyPolicyURL", "termsOfServiceURL"]) {
   const url = iface[field];
-  if (typeof url !== "string" || !url.startsWith("https://webmailagent.com/")) {
-    console.error(`plugin.json interface.${field} must be https://webmailagent.com/…`);
+  if (typeof url !== "string" || !url.startsWith("https://agents.navorina.ai/")) {
+    console.error(`plugin.json interface.${field} must be https://agents.navorina.ai/…`);
     process.exit(1);
   }
 }

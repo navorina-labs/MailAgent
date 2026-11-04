@@ -152,7 +152,7 @@ workspaceRoutes.get("/gmail/callback", async (c) => {
   const pending = await verifyGmailOAuthPending(gmailOAuthJwtSecret(c.env), state);
   if (!pending) return c.json({ error: "invalid_or_expired_state" }, 400);
 
-  const origin = publicOriginFromUrl(c.req.url);
+  const origin = publicOriginFromUrl(c.req.url, c.env.MAILAGENT_PUBLIC_API_ORIGIN);
   const redirectUri = `${origin}/v1/workspace/gmail/callback`;
   const exchanged = await exchangeGmailOAuthCode(c.env, code, redirectUri);
   if ("error" in exchanged) return c.json({ error: exchanged.error }, 502);
@@ -175,7 +175,12 @@ workspaceRoutes.get("/gmail/callback", async (c) => {
   );
 
   if (pending.returnTo) {
-    const url = resolveWorkspaceReturnTo(pending.returnTo, c.req.url);
+    const url = resolveWorkspaceReturnTo(
+      pending.returnTo,
+      c.req.url,
+      c.env.MAILAGENT_WORKSPACE_ORIGIN,
+      c.env.MAILAGENT_PUBLIC_API_ORIGIN
+    );
     url.searchParams.set("gmailAccountId", account.id);
     url.searchParams.set("email", account.email);
     return c.redirect(url.toString(), 302);
@@ -204,7 +209,7 @@ workspaceRoutes.get("/calendar/callback", async (c) => {
   const pending = await verifyCalendarOAuthPending(calendarOAuthJwtSecret(c.env), state);
   if (!pending) return c.json({ error: "invalid_or_expired_state" }, 400);
 
-  const origin = publicOriginFromUrl(c.req.url);
+  const origin = publicOriginFromUrl(c.req.url, c.env.MAILAGENT_PUBLIC_API_ORIGIN);
   const redirectUri = `${origin}/v1/workspace/calendar/callback`;
   const exchanged = await exchangeCalendarOAuthCode(c.env, code, redirectUri, pending.ownerKey);
   if ("error" in exchanged) return c.json({ error: exchanged.error }, 502);
@@ -227,7 +232,12 @@ workspaceRoutes.get("/calendar/callback", async (c) => {
   );
 
   if (pending.returnTo) {
-    const url = resolveWorkspaceReturnTo(pending.returnTo, c.req.url);
+    const url = resolveWorkspaceReturnTo(
+      pending.returnTo,
+      c.req.url,
+      c.env.MAILAGENT_WORKSPACE_ORIGIN,
+      c.env.MAILAGENT_PUBLIC_API_ORIGIN
+    );
     url.searchParams.set("calendarAccountId", account.id);
     url.searchParams.set("email", account.email);
     return c.redirect(url.toString(), 302);
@@ -517,7 +527,7 @@ workspaceRoutes.get("/gmail/connect", async (c) => {
     return c.json({ error: "gmail_oauth_not_configured" }, 503);
   }
   const returnTo = c.req.query("returnTo")?.trim();
-  const origin = publicOriginFromUrl(c.req.url);
+  const origin = publicOriginFromUrl(c.req.url, c.env.MAILAGENT_PUBLIC_API_ORIGIN);
   const redirectUri = `${origin}/v1/workspace/gmail/callback`;
   const state = await signGmailOAuthPending(gmailOAuthJwtSecret(c.env), {
     ownerKey: workspaceOwnerKey({
@@ -671,7 +681,7 @@ workspaceRoutes.get("/gmail/connect-compose", async (c) => {
     return c.json({ error: "gmail_oauth_not_configured" }, 503);
   }
   const returnTo = c.req.query("returnTo")?.trim();
-  const origin = publicOriginFromUrl(c.req.url);
+  const origin = publicOriginFromUrl(c.req.url, c.env.MAILAGENT_PUBLIC_API_ORIGIN);
   const redirectUri = `${origin}/v1/workspace/gmail/callback`;
   const state = await signGmailOAuthPending(gmailOAuthJwtSecret(c.env), {
     ownerKey: workspaceOwnerKey({
@@ -764,7 +774,7 @@ workspaceRoutes.get("/calendar/connect", async (c) => {
     return c.json({ error: "calendar_oauth_not_configured" }, 503);
   }
   const returnTo = c.req.query("returnTo")?.trim();
-  const origin = publicOriginFromUrl(c.req.url);
+  const origin = publicOriginFromUrl(c.req.url, c.env.MAILAGENT_PUBLIC_API_ORIGIN);
   const redirectUri = `${origin}/v1/workspace/calendar/callback`;
   const state = await signCalendarOAuthPending(calendarOAuthJwtSecret(c.env), {
     ownerKey: workspaceOwnerKey({
@@ -786,7 +796,7 @@ workspaceRoutes.get("/calendar/connect-write", async (c) => {
     return c.json({ error: "calendar_oauth_not_configured" }, 503);
   }
   const returnTo = c.req.query("returnTo")?.trim();
-  const origin = publicOriginFromUrl(c.req.url);
+  const origin = publicOriginFromUrl(c.req.url, c.env.MAILAGENT_PUBLIC_API_ORIGIN);
   const redirectUri = `${origin}/v1/workspace/calendar/callback`;
   const state = await signCalendarOAuthPending(calendarOAuthJwtSecret(c.env), {
     ownerKey: workspaceOwnerKey({

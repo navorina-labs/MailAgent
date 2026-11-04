@@ -2,7 +2,7 @@
 import { Hono } from "hono";
 import type { Env } from "../env";
 import type { ApiVariables } from "../lib/api-context";
-import { publicOriginFromUrl } from "../lib/public-origin";
+import { publicOriginFromUrl, workspaceUrl } from "../lib/public-origin";
 import { requireApiKey } from "../lib/auth";
 import { rateLimit } from "../lib/rate-limit";
 import { generateApiKeyToken } from "../lib/generate-api-key";
@@ -17,8 +17,8 @@ import {
   startOidcAuthorize,
 } from "../services/oidc-oauth";
 
-function publicOrigin(c: { req: { url: string } }): string {
-  return publicOriginFromUrl(c.req.url);
+function publicOrigin(c: { req: { url: string }; env: Env }): string {
+  return publicOriginFromUrl(c.req.url, c.env.MAILAGENT_PUBLIC_API_ORIGIN);
 }
 
 function authorizationServerMetadata(origin: string, env: Env) {
@@ -60,7 +60,10 @@ wellKnownRoutes.get("/.well-known/oauth-protected-resource/mcp", (c) => {
     authorization_servers: [origin],
     bearer_methods_supported: ["header"],
     scopes_supported: ["mcp:tools"],
-    resource_documentation: "https://webmailagent.com/docs/agents.html#mcp-oauth",
+    resource_documentation: workspaceUrl(
+      "/docs/agents.html#mcp-oauth",
+      c.env.MAILAGENT_WORKSPACE_ORIGIN
+    ),
   });
 });
 
@@ -84,7 +87,7 @@ oauthTokenRoutes.get("/authorize", async (c) => {
       {
         error: "oidc_not_configured",
         hint: "Set OIDC_ISSUER, OIDC_CLIENT_ID, OIDC_CLIENT_SECRET on Worker",
-        docs: "https://webmailagent.com/docs/MCP-OAUTH-IDP.html",
+        docs: workspaceUrl("/docs/MCP-OAUTH-IDP.html", c.env.MAILAGENT_WORKSPACE_ORIGIN),
       },
       501
     );

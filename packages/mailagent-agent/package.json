@@ -18,10 +18,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Alex0nder/MailAgent.git",
-    "directory": "packages/mailagent-agent"
+    "url": "git+https://github.com/navorinaai/navorina.git",
+    "directory": "agents-os/agents/mail-agent/packages/mailagent-agent"
   },
-  "homepage": "https://webmailagent.com/docs/agents.html",
+  "homepage": "https://github.com/navorinaai/navorina/tree/main/agents-os/agents/mail-agent/packages/mailagent-agent",
   "keywords": ["mailagent", "agents", "email", "verification", "otp"],
   "license": "MIT",
   "devDependencies": {

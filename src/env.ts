@@ -8,6 +8,10 @@ export interface Env {
   /** Optional: pilot keys comma-separated (hosted) */
   API_KEYS?: string;
   INBOX_DOMAIN: string;
+  /** Canonical public API origin used in generated links and OAuth metadata. */
+  MAILAGENT_PUBLIC_API_ORIGIN?: string;
+  /** Canonical console/docs origin used in redirects and user-facing links. */
+  MAILAGENT_WORKSPACE_ORIGIN?: string;
   DEFAULT_TTL_MINUTES: string;
   MAIL_QUEUE: Queue<EmailQueueMessage>;
   INBOX_WAIT: DurableObjectNamespace;

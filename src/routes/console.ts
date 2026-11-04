@@ -53,7 +53,7 @@ consoleRoutes.get("/inboxes/:id", async (c) => {
 
   const detail = await buildConsoleInboxDetail(c.env, inboxId, {
     apiKeyHint: c.get("apiKeyHint"),
-    apiBaseUrl: publicOriginFromUrl(c.req.url),
+    apiBaseUrl: publicOriginFromUrl(c.req.url, c.env.MAILAGENT_PUBLIC_API_ORIGIN),
     teamId: c.get("teamId"),
     plan: c.get("apiPlan"),
   });

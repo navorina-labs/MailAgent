@@ -2,6 +2,7 @@
 import type { Env } from "../env";
 import type { ApiKeyScope } from "../lib/key-scope";
 import type { PlanId } from "../lib/plans";
+import { publicApiOrigin } from "../lib/public-origin";
 import {
   assertInboxAccessible,
   assertLabelForCreate,
@@ -278,7 +279,7 @@ export async function executeMcpTool(
         if (!inbox || !assertInboxAccessible(auth.scope, inbox).ok) {
           return textResult({ error: "inbox_not_found" }, true);
         }
-        const apiBase = ctx?.apiBaseUrl?.replace(/\/$/, "") ?? "https://api.webmailagent.com";
+        const apiBase = ctx?.apiBaseUrl?.replace(/\/$/, "") ?? publicApiOrigin(env.MAILAGENT_PUBLIC_API_ORIGIN);
         const diagnose = await buildInboxDiagnose(env, input.inboxId!, {
           subjectContains: input.subjectContains,
           messageIndex: input.messageIndex,
@@ -294,7 +295,7 @@ export async function executeMcpTool(
       const writeErr = scopeWriteError(auth.scope);
       if (writeErr) return textResult(writeErr, true);
       try {
-        const apiBase = ctx?.apiBaseUrl?.replace(/\/$/, "") ?? "https://api.webmailagent.com";
+        const apiBase = ctx?.apiBaseUrl?.replace(/\/$/, "") ?? publicApiOrigin(env.MAILAGENT_PUBLIC_API_ORIGIN);
         const result = await startAgentRun(
           env,
           {
@@ -318,7 +319,7 @@ export async function executeMcpTool(
       const writeErr = scopeWriteError(auth.scope);
       if (writeErr) return textResult(writeErr, true);
       try {
-        const apiBase = ctx?.apiBaseUrl?.replace(/\/$/, "") ?? "https://api.webmailagent.com";
+        const apiBase = ctx?.apiBaseUrl?.replace(/\/$/, "") ?? publicApiOrigin(env.MAILAGENT_PUBLIC_API_ORIGIN);
         const result = await nextAgentRun(
           env,
           {
@@ -343,7 +344,7 @@ export async function executeMcpTool(
       const writeErr = scopeWriteError(auth.scope);
       if (writeErr) return textResult(writeErr, true);
       try {
-        const apiBase = ctx?.apiBaseUrl?.replace(/\/$/, "") ?? "https://api.webmailagent.com";
+        const apiBase = ctx?.apiBaseUrl?.replace(/\/$/, "") ?? publicApiOrigin(env.MAILAGENT_PUBLIC_API_ORIGIN);
         const result = await reportAgentRun(
           env,
           {
@@ -524,7 +525,7 @@ export async function executeMcpTool(
       if (!isGmailOAuthConfigured(env)) {
         return textResult({ error: "gmail_oauth_not_configured" }, true);
       }
-      const apiBase = ctx?.apiBaseUrl?.replace(/\/$/, "") ?? "https://api.webmailagent.com";
+      const apiBase = ctx?.apiBaseUrl?.replace(/\/$/, "") ?? publicApiOrigin(env.MAILAGENT_PUBLIC_API_ORIGIN);
       const redirectUri = `${apiBase}/v1/workspace/gmail/callback`;
       const state = await signGmailOAuthPending(gmailOAuthJwtSecret(env), {
         ownerKey: workspaceOwnerKey({
@@ -671,7 +672,7 @@ export async function executeMcpTool(
       if (!isCalendarOAuthConfigured(env)) {
         return textResult({ error: "calendar_oauth_not_configured" }, true);
       }
-      const apiBase = ctx?.apiBaseUrl?.replace(/\/$/, "") ?? "https://api.webmailagent.com";
+      const apiBase = ctx?.apiBaseUrl?.replace(/\/$/, "") ?? publicApiOrigin(env.MAILAGENT_PUBLIC_API_ORIGIN);
       const redirectUri = `${apiBase}/v1/workspace/calendar/callback`;
       const state = await signCalendarOAuthPending(calendarOAuthJwtSecret(env), {
         ownerKey: workspaceOwnerKey({
@@ -971,7 +972,7 @@ export async function executeMcpTool(
       if (!labelCheck.ok) {
         return textResult({ error: labelCheck.error, hint: labelCheck.hint }, true);
       }
-      const apiBase = ctx?.apiBaseUrl?.replace(/\/$/, "") ?? "https://api.webmailagent.com";
+      const apiBase = ctx?.apiBaseUrl?.replace(/\/$/, "") ?? publicApiOrigin(env.MAILAGENT_PUBLIC_API_ORIGIN);
       const result = await runAgentVerify(env, {
         inboxId: args.inboxId as string | undefined,
         service: args.service as string | undefined,
@@ -1063,7 +1064,7 @@ export async function executeMcpTool(
         if (!labelCheck.ok) {
           return textResult({ error: labelCheck.error, hint: labelCheck.hint }, true);
         }
-        const apiBase = ctx?.apiBaseUrl?.replace(/\/$/, "") ?? "https://api.webmailagent.com";
+        const apiBase = ctx?.apiBaseUrl?.replace(/\/$/, "") ?? publicApiOrigin(env.MAILAGENT_PUBLIC_API_ORIGIN);
         const v = await runAgentVerify(env, {
           service: args.service as string | undefined,
           expectFrom: args.expectFrom as string | string[] | undefined,
@@ -1503,7 +1504,7 @@ export async function executeMcpTool(
       if (!inbox || !assertInboxAccessible(auth.scope, inbox).ok) {
         return textResult({ error: "inbox_not_found" }, true);
       }
-      const apiBase = ctx?.apiBaseUrl?.replace(/\/$/, "") ?? "https://api.webmailagent.com";
+      const apiBase = ctx?.apiBaseUrl?.replace(/\/$/, "") ?? publicApiOrigin(env.MAILAGENT_PUBLIC_API_ORIGIN);
       const diagnose = await buildInboxDiagnose(env, inboxId, {
         subjectContains: args.subjectContains as string | undefined,
         messageIndex: args.messageIndex as number | undefined,

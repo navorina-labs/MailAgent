@@ -1,20 +1,19 @@
-<!-- Favicon: silver gradient tile + @ symbol -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="MailAgent">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="AgentsOS">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#d9d9d9" />
-      <stop offset="100%" stop-color="#888888" />
+    <linearGradient id="agentsos-mark" x1="4" y1="4" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#333333" />
+      <stop offset="1" stop-color="#171717" />
     </linearGradient>
   </defs>
-  <rect width="32" height="32" rx="7" fill="url(#bg)" />
+  <rect width="32" height="32" rx="10" fill="url(#agentsos-mark)" />
   <text
     x="16"
-    y="16.5"
+    y="17"
     text-anchor="middle"
     dominant-baseline="middle"
-    fill="#0a0a0a"
+    fill="#ecfef5"
     font-family="Georgia, 'Times New Roman', Times, serif"
-    font-size="15.5"
+    font-size="22"
     font-weight="500"
-  >@</text>
+  >a</text>
 </svg>

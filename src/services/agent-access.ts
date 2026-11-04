@@ -6,6 +6,7 @@ import { isRestrictedScope } from "../lib/key-scope";
 import { PLAN_LIMITS, type PlanId } from "../lib/plans";
 import { validateRunId } from "../lib/validate-run-id";
 import { addTeamKey, countTeamKeys } from "./api-key-store";
+import { publicApiOrigin } from "../lib/public-origin";
 
 export type AgentAccessInput = {
   purpose?: string;
@@ -149,7 +150,7 @@ export async function issueAgentAccess(
       cleanup: { labelPrefix },
     },
     env: {
-      MAILAGENT_API_URL: "https://api.webmailagent.com",
+      MAILAGENT_API_URL: publicApiOrigin(env.MAILAGENT_PUBLIC_API_ORIGIN),
       MAILAGENT_API_KEY: token,
       MAILAGENT_LABEL_PREFIX: labelPrefix,
     },

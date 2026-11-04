@@ -4,6 +4,10 @@ RESEND_WEBHOOK_SECRET=whsec_xxx
 API_KEY=local-dev-api-key-change-me
 INBOX_DOMAIN=your-id.resend.app
 
+# Optional public origins. Keep omitted until the Navorina hostname cutover.
+# MAILAGENT_PUBLIC_API_ORIGIN=https://mail-api.navorina.ai
+# MAILAGENT_WORKSPACE_ORIGIN=https://agents.navorina.ai
+
 # Optional: MCP browser login (Auth0) — see docs/MCP-OAUTH-IDP.md
 # OIDC_ISSUER=https://YOUR-TENANT.us.auth0.com
 # OIDC_CLIENT_ID=

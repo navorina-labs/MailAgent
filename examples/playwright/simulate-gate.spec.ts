@@ -3,7 +3,7 @@
  */
 import { test, expect } from "@playwright/test";
 
-const base = (process.env.MAILAGENT_API_URL ?? "https://api.webmailagent.com").replace(
+const base = (process.env.MAILAGENT_API_URL ?? "https://mail-api.navorina.ai").replace(
   /\/$/,
   ""
 );

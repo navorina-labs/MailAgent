@@ -18,7 +18,7 @@ const slackWebhook = process.env.MAILAGENT_SLACK_WEBHOOK;
 const ghToken = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN;
 const eventName = process.env.GITHUB_EVENT_NAME;
 
-function prNumberFromEvent(): string | undefined {
+function prNumberFromEvent() {
   const direct = process.env.GITHUB_EVENT_PULL_REQUEST_NUMBER;
   if (direct) return direct;
   const path = process.env.GITHUB_EVENT_PATH;
@@ -66,7 +66,7 @@ async function main() {
     contexts.push({
       inboxId: "(unknown)",
       apiMessagesUrl: "",
-      debugUiUrl: "https://webmailagent.com/debug.html",
+      debugUiUrl: "https://agents.navorina.ai/debug.html",
       messages: [],
     });
   }

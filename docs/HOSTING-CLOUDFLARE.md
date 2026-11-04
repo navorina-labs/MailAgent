@@ -11,6 +11,7 @@ After DNS migration:
 
 - https://webmailagent.com — landing
 - https://www.webmailagent.com — redirect to apex
+- https://agents.navorina.ai — Navorina workspace compatibility hostname
 
 ## Step 1 — Custom domains on Worker
 
@@ -20,6 +21,7 @@ After DNS migration:
 |-----------|--------|
 | *(empty)* | `webmailagent.com` |
 | `www` | `www.webmailagent.com` |
+| `agents` in the `navorina.ai` zone | `agents.navorina.ai` |
 
 `api.webmailagent.com` should already be in the list.
 

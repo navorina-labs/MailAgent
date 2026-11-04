@@ -1,5 +1,6 @@
 /** Agent verify: inbox → wait → extract + primaryAction for LLM */
 import type { Env } from "../env";
+import { publicApiOrigin } from "../lib/public-origin";
 import { parseCallbackUrl } from "../lib/callback-url";
 import { buildPrimaryAction, resolveAgentLabel } from "../lib/agent-recipes";
 import { debugUiUrl } from "./inbox-diagnose";
@@ -154,7 +155,7 @@ export async function runAgentVerify(env: Env, input: VerifyInput) {
       await deleteInbox(env, inbox.id, { apiKeyHint: input.apiKeyHint });
     }
     const debug = await buildWaitTimeoutDebug(env, inbox.id, waitOpts);
-    const apiBase = input.apiBaseUrl ?? "https://api.webmailagent.com";
+    const apiBase = input.apiBaseUrl ?? publicApiOrigin(env.MAILAGENT_PUBLIC_API_ORIGIN);
     const timeoutResult = {
       status: "timeout" as const,
       statusCode: 408 as const,

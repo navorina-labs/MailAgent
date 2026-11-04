@@ -7,10 +7,11 @@ import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 import { spawnSync } from "node:child_process";
 import "./load-env.mjs";
+import { apiOrigin } from "./lib/public-origins.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const devVarsPath = join(root, ".dev.vars");
-const PROD_API = "https://api.webmailagent.com";
+const PROD_API = apiOrigin();
 const customApi = (process.env.MAILAGENT_API_URL || "").replace(/\/$/, "");
 
 const GMAIL_CALLBACKS = [

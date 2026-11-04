@@ -1,6 +1,6 @@
 # @mailagent/qa
 
-Playwright / Cypress helpers for [MailAgent](https://webmailagent.com) test inboxes.
+Playwright / Cypress helpers for [MailAgent](https://agents.navorina.ai) test inboxes.
 
 ```bash
 npm install @mailagent/qa
@@ -67,7 +67,7 @@ Tasks: `mailagentRunLabel`, `mailagentCreateInbox`, `mailagentWaitVerification`,
 
 ## Docs
 
-- [QA guide](https://webmailagent.com/docs/qa.html)
+- [QA guide](https://agents.navorina.ai/docs/qa.html)
 - [Troubleshooting](../../docs/QA-TROUBLESHOOTING.md)
 - [Local SMTP (Mailpit)](../../docs/QA-LOCAL-SMTP.md)
 - [Service presets](../../docs/QA-PRESETS.md)

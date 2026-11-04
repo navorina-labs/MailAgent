@@ -18,8 +18,8 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://webmailagent.com/docs/agents.html"
-Repository = "https://github.com/Alex0nder/MailAgent"
+Homepage = "https://github.com/navorinaai/navorina/tree/main/agents-os/agents/mail-agent/packages/mailagent-agent-py"
+Repository = "https://github.com/navorinaai/navorina/tree/main/agents-os/agents/mail-agent/packages/mailagent-agent-py"
 
 [tool.setuptools.packages.find]
 where = ["."]

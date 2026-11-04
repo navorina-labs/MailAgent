@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /** Prod operator gaps — what you can enable without Stripe (OUTBOUND, OIDC, CI secrets) */
 import "./load-env.mjs";
+import { apiOrigin } from "./lib/public-origins.mjs";
 
-const apiUrl = "https://api.webmailagent.com";
+const apiUrl = apiOrigin();
 const apiKey = process.env.MAILAGENT_API_KEY ?? process.env.API_KEY;
 const resendKey = process.env.RESEND_API_KEY;
 
@@ -46,7 +47,7 @@ try {
       steps: [
         "Resend → Domains → verify DNS (SPF/DKIM)",
         "npx wrangler secret put OUTBOUND_FROM",
-        "# e.g. noreply@webmailagent.com",
+        "# e.g. noreply@navorina.ai",
         "Re-run: npm run doctor:operator",
       ],
       doc: "docs/YOUR-TURN.md#outbound",

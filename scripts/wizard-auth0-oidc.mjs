@@ -6,11 +6,12 @@ import { fileURLToPath } from "node:url";
 import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 import { spawnSync } from "node:child_process";
+import { apiUrl, workspaceUrl } from "./lib/public-origins.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const devVarsPath = join(root, ".dev.vars");
 const CALLBACKS = [
-  "https://api.webmailagent.com/v1/oauth/callback",
+  apiUrl("/v1/oauth/callback"),
   "http://127.0.0.1:8787/v1/oauth/callback",
 ];
 
@@ -35,7 +36,7 @@ Auth0 — создай Regular Web Application (5 мин)
    • Client Secret   → OIDC_CLIENT_SECRET
    (OIDC_AUDIENCE — опционально, для Auth0 API)
 
-Docs: docs/MCP-OAUTH-IDP.md · https://webmailagent.com/docs/oauth-idp.html
+Docs: docs/MCP-OAUTH-IDP.md · ${workspaceUrl("/docs/oauth-idp.html")}
 `);
 }
 

@@ -4,45 +4,39 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-41B4KG53D1"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZWFR0B14JX"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-      gtag("config", "G-41B4KG53D1");
+      gtag("config", "G-ZWFR0B14JX");
     </script>
-    <title>MailAgent — Email verification and workspace agent for CI and AI agents</title>
+    <title>Mail Agent: temporary inboxes for AI agents and E2E tests</title>
     <meta
       name="description"
-      content="Disposable inboxes for Playwright and AI agents. Verify OTPs and magic links, run Workspace Agent on MailAgent inbox messages, draft replies with DeepSeek/Qwen or local Ollama, and mint scoped run keys."
+      content="Temporary inboxes for signup, login, password reset and invite tests. The API waits for the email and returns the OTP or link. MCP, REST, npm."
     />
     <link rel="canonical" href="https://webmailagent.com/" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="MailAgent" />
+    <meta property="og:site_name" content="Mail Agent" />
     <meta property="og:url" content="https://webmailagent.com/" />
-    <meta
-      property="og:title"
-      content="MailAgent — Email verification and workspace agent for CI and AI agents"
-    />
+    <meta property="og:title" content="Mail Agent: temporary inboxes for AI agents and E2E tests" />
     <meta
       property="og:description"
-      content="Disposable inboxes for Playwright and AI agents. Verify OTPs and magic links, Workspace Agent on MailAgent inbox messages, MCP tools, scoped CI keys."
+      content="The API waits for the email and returns the OTP or link as agent.primaryAction. MCP, REST, Playwright, Cypress."
     />
     <meta property="og:image" content="https://webmailagent.com/logo-512.png" />
     <meta property="og:image:width" content="512" />
     <meta property="og:image:height" content="512" />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:card" content="summary" />
-    <meta
-      name="twitter:title"
-      content="MailAgent — Email verification for CI and AI agents"
-    />
+    <meta name="twitter:title" content="Mail Agent: temporary inboxes for AI agents and E2E tests" />
     <meta
       name="twitter:description"
-      content="Disposable inboxes, OTP extraction, MCP tools, and Playwright QA — no shared test mailbox."
+      content="The API waits for the email and returns the OTP or link as agent.primaryAction."
     />
     <meta name="twitter:image" content="https://webmailagent.com/logo-512.png" />
     <script type="application/ld+json">
@@ -52,7 +46,7 @@
           {
             "@type": "Organization",
             "@id": "https://webmailagent.com/#organization",
-            "name": "MailAgent",
+            "name": "Mail Agent",
             "url": "https://webmailagent.com/",
             "logo": {
               "@type": "ImageObject",
@@ -60,46 +54,80 @@
               "width": 512,
               "height": 512
             },
-            "sameAs": ["https://github.com/Alex0nder/MailAgent"]
+            "sameAs": ["https://github.com/navorina-labs/AgentsOS", "https://github.com/Alex0nder/MailAgent"]
           },
           {
             "@type": "WebSite",
             "@id": "https://webmailagent.com/#website",
             "url": "https://webmailagent.com/",
-            "name": "MailAgent",
+            "name": "Mail Agent",
+            "description": "Temporary inboxes for AI agents and E2E tests.",
             "publisher": { "@id": "https://webmailagent.com/#organization" }
           },
           {
             "@type": "SoftwareApplication",
             "@id": "https://webmailagent.com/#software",
-            "name": "MailAgent",
+            "name": "Mail Agent",
             "url": "https://webmailagent.com/",
             "applicationCategory": "DeveloperApplication",
-            "operatingSystem": "Web",
-            "description": "Disposable inboxes and structured OTP extraction for Playwright, Cypress, and AI agents via REST and MCP.",
-            "offers": {
-              "@type": "Offer",
-              "price": "0",
-              "priceCurrency": "USD"
-            },
+            "operatingSystem": "Cross-platform",
+            "description": "Temporary inboxes for AI agents and E2E tests. Waits for the verification email and returns the OTP, magic link or primary button as agent.primaryAction.",
             "featureList": [
-              "Signup email verification",
-              "49 MCP tools",
-              "Playwright and Cypress QA",
-              "Workspace Agent",
-              "Scoped CI run keys",
-              "Self-host on Cloudflare Workers"
+              "One inbox per agent run or CI job",
+              "OTP, magic link and primary button extraction",
+              "agent.primaryAction with type, value and instruction",
+              "Timeout diagnostics with debug URL",
+              "Simulated email without SMTP",
+              "MCP server, REST API, OpenAPI, npm and PyPI SDKs"
             ],
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD", "name": "Free" },
             "publisher": { "@id": "https://webmailagent.com/#organization" }
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Does my app need changes?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. Your app sends email as usual to the Mail Agent address."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What if the email does not arrive?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "The timeout response lists received subjects, the match count, a suggested subjectContains and a debug URL."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I test without sending real email?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. POST /v1/inboxes/:id/simulate injects a test email without SMTP."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is Pro billed automatically?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. Billing is not connected yet. Pro is enabled manually on request."
+                }
+              }
+            ]
           }
         ]
       }
     </script>
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
-    <link rel="icon" href="/favicon-16.png" type="image/png" sizes="16x16" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" href="/favicon.ico?v=20260802-logo-a" sizes="any" />
+    <link rel="icon" href="/favicon.svg?v=20260802-logo-a" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png?v=20260802-logo-a" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/favicon-16.png?v=20260802-logo-a" type="image/png" sizes="16x16" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260802-logo-a" />
     <meta name="theme-color" content="#000000" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -107,1031 +135,460 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/styles.css?v=20261104-pill-noborder" />
   </head>
   <body data-site="marketing">
     <div id="site-nav"></div>
 
-    <main class="landing">
+    <main class="landing agentsos-home">
       <div class="hero-block">
-      <section class="hero hero-split">
-        <div class="hero-inner site-container">
-          <div class="hero-copy">
-            <div class="pill-badges pill-oss">
-              <span class="pill-badge">Workspace Agent</span>
-              <span class="pill-badge">49 MCP tools</span>
+        <section class="hero hero-split" aria-labelledby="hero-title">
+          <div class="hero-inner site-container">
+            <div class="hero-copy">
+              <div class="pill-badges">
+                <span class="pill-badge">For AI agents and E2E tests</span>
+                <span class="pill-badge">MCP, REST, npm</span>
+              </div>
+              <h1 id="hero-title">Email for the AI agents that test your product</h1>
+              <p class="hero-lead">
+                Temporary inboxes for signup, login, password reset and invite tests.
+                The API waits for the email and returns the OTP or link as <code>agent.primaryAction</code>.
+              </p>
+              <div class="hero-ctas">
+                <a
+                  class="btn btn-primary"
+                  href="mailto:hello@webmailagent.com?subject=Mail%20Agent%20API%20key&body=What%20will%20your%20agent%20test%3F%20(signup%2C%20login%2C%20reset%2C%20invite)%0A%0AAgent%20or%20framework%3A%20"
+                  data-analytics-event="mailagent_key_requested"
+                  data-analytics-surface="hero"
+                >Get a free API key</a>
+                <a
+                  class="btn btn-outline"
+                  href="/docs/agents.html"
+                  data-analytics-event="agentsos_agent_selected"
+                  data-analytics-agent="mail"
+                  data-analytics-surface="hero"
+                  data-analytics-destination="documentation"
+                >Docs</a>
+              </div>
+              <p class="hero-proof">Free plan: 10 inboxes, 60 requests per minute</p>
             </div>
-            <h1>Email verification for CI and AI agents</h1>
-            <p class="hero-lead">
-              Disposable inbox per CI run — create, wait, and extract OTP or magic
-              link in one call. Scoped run keys, no shared test mailbox, no human
-              OTP checks.
-            </p>
-            <div class="hero-ctas">
-              <a class="btn btn-primary" href="/dashboard.html">Open console</a>
-              <a class="btn btn-outline" href="/docs/qa.html">Start QA setup</a>
-              <a class="btn btn-outline" href="/docs/agents.html">Agent docs</a>
+
+            <div class="agent-map hero-code-demo" aria-label="Mail Agent run">
+              <div class="hero-code-tabs" role="tablist" aria-label="Run step">
+                <button id="hero-tab-context" type="button" role="tab" aria-selected="true" aria-controls="hero-panel-context" tabindex="0">Inbox</button>
+                <button id="hero-tab-marketing" type="button" role="tab" aria-selected="false" aria-controls="hero-panel-marketing" tabindex="-1">Your app</button>
+                <button id="hero-tab-mail" type="button" role="tab" aria-selected="false" aria-controls="hero-panel-mail" tabindex="-1">Result</button>
+              </div>
+              <div class="hero-code-panels">
+                <div id="hero-panel-context" class="hero-code-panel is-active" role="tabpanel" aria-labelledby="hero-tab-context">
+                  <p class="hero-code-label">Create an inbox</p>
+                  <pre><code><span class="code-prompt">›</span> mailagent_create_inbox({
+    service: <em>"auth0"</em>, label: <em>"pr-482"</em>
+  })
+
+<span class="code-ok">✓</span> pr-482-k7f2@inbox.webmailagent.com</code></pre>
+                </div>
+                <div id="hero-panel-marketing" class="hero-code-panel" role="tabpanel" aria-labelledby="hero-tab-marketing" hidden>
+                  <p class="hero-code-label">Submit your form</p>
+                  <pre><code><span class="code-prompt">›</span> page.fill(<em>"#email"</em>, address)
+<span class="code-prompt">›</span> page.click(<em>"text=Create account"</em>)
+
+<span class="code-ok">✓</span> email received in 2.9s</code></pre>
+                </div>
+                <div id="hero-panel-mail" class="hero-code-panel" role="tabpanel" aria-labelledby="hero-tab-mail" hidden>
+                  <p class="hero-code-label">Get primaryAction</p>
+                  <pre><code>"agent": { "primaryAction": {
+  "type": <em>"otp"</em>,
+  "value": <em>"482901"</em>,
+  "instruction": <em>"Enter this code in the
+    verification field on the signup site."</em>
+} }
+
+<span class="code-ok">✓</span> verified, inbox deleted</code></pre>
+                </div>
+              </div>
+              <div class="hero-code-foot"><span>Free plan</span><span>MIT license</span><a href="/docs/">API reference ↗</a></div>
             </div>
           </div>
-          <div class="code-panel hero-code-panel" data-panel="hero" aria-label="MailAgent launch examples">
-            <div class="code-tabs">
-              <span class="code-tab active">MCP</span>
-              <span class="code-tab">Playwright</span>
-              <span class="code-tab">API</span>
-              <span class="code-tab">CLI</span>
-            </div>
-            <div class="code-body">
-              <pre><code><span class="t-cm">// Cursor / Codex MCP</span>
-<span class="t-kw">await</span> <span class="t-fn">mailagent_verify_signup</span>({
-  <span class="t-key">service</span>: <span class="t-str">"github"</span>,
-  <span class="t-key">runId</span>: <span class="t-str">"ci-4821"</span>,
-  <span class="t-key">deleteAfterSuccess</span>: <span class="t-str">true</span>,
-});
+        </section>
 
-<span class="t-cm">// → agent.primaryAction
-// → verification.primaryButton
-// → confidence: "high"</span></code></pre>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div class="hero-platform">
-        <div class="hero-platform-strip">
-          <div class="site-container hero-platform-strip-inner">
-            <ul class="hero-platform-logos" aria-label="Infrastructure">
-              <li class="hero-platform-logo-slot hero-platform-logo-slot--cloudflare">
-                <img
-                  class="hero-platform-logo-img"
-                  src="/assets/logos/cloudflare.svg"
-                  alt="Cloudflare"
-                  width="368"
-                  height="32"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </li>
-              <li class="hero-platform-logo-slot hero-platform-logo-slot--resend">
-                <img
-                  class="hero-platform-logo-img"
-                  src="/assets/logos/resend.svg"
-                  alt="Resend"
-                  width="151"
-                  height="32"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </li>
-              <li class="hero-platform-logo-slot hero-platform-logo-slot--neon">
-                <img
-                  class="hero-platform-logo-img"
-                  src="/assets/logos/neon.svg"
-                  alt="Neon"
-                  width="112"
-                  height="32"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </li>
-              <li class="hero-platform-logo-slot hero-platform-logo-slot--mcp">
-                <img
-                  class="hero-platform-logo-img"
-                  src="/assets/logos/mcp.svg"
-                  alt="Model Context Protocol"
-                  width="433"
-                  height="32"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </li>
-            </ul>
+        <div class="platform-role-strip" aria-label="Supported flows">
+          <div class="site-container platform-role-strip-inner">
+            <span>Signup</span><span>Login</span><span>Password reset</span><span>Invites</span><span>2FA codes</span>
           </div>
         </div>
       </div>
-      </div>
 
-      <section id="platform" class="page-section platform-section">
+      <section id="integrations" class="page-section agents-catalog-section" aria-labelledby="integrations-title">
         <div class="site-container">
-          <div class="section-head">
-            <p class="section-label">Platform</p>
-            <h2 class="section-title">Verify signup and workspace mail</h2>
-            <p class="section-desc">
-              Disposable inboxes and structured extraction for tests — plus
-              Workspace Agent for MailAgent inbox messages, reminders, and
-              policy-gated replies. One MCP server for QA and autonomous mail.
-            </p>
+          <div class="section-head agents-catalog-head">
+            <p class="section-label">Integrations</p>
+            <h2 id="integrations-title" class="section-title">Works with your agent and test runner</h2>
+            <p class="section-desc">Set <code>MAILAGENT_API_KEY</code>, then install for your client.</p>
           </div>
 
-          <div class="bento-grid">
-            <article class="bento-card bento-card--wide">
-              <div class="bento-illustration bento-illustration--verify" aria-hidden="true">
-                <svg class="bento-art" viewBox="0 0 520 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <linearGradient id="bento-v-panel" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stop-color="#333333" stop-opacity="0.14"/>
-                      <stop offset="100%" stop-color="#333333" stop-opacity="0.02"/>
-                    </linearGradient>
-                    <linearGradient id="bento-v-logo" x1="0" y1="0" x2="1" y2="1">
-                      <stop stop-color="#333333"/>
-                      <stop offset="1" stop-color="#1a1a1a"/>
-                    </linearGradient>
-                    <filter id="bento-v-logo-glow" x="-80%" y="-80%" width="260%" height="260%">
-                      <feDropShadow dx="0" dy="0" stdDeviation="1.5" flood-color="#000000" flood-opacity="0.4"/>
-                    </filter>
-                  </defs>
-
-                  <!-- Signup form -->
-                  <g class="art-signup">
-                    <rect x="24" y="20" width="140" height="92" rx="10" fill="url(#bento-v-panel)" stroke="#555555" stroke-opacity="0.38" stroke-width="1.25"/>
-                    <path d="M24 36h140" stroke="#333333" stroke-opacity="0.14"/>
-                    <circle cx="38" cy="28" r="2.5" fill="#ededed" opacity="0.75"/>
-                    <circle cx="48" cy="28" r="2.5" fill="#333333" opacity="0.3"/>
-                    <rect x="40" y="48" width="108" height="7" rx="3.5" fill="#333333" fill-opacity="0.12"/>
-                    <rect x="40" y="62" width="76" height="7" rx="3.5" fill="#333333" fill-opacity="0.07"/>
-                    <rect x="66" y="78" width="56" height="18" rx="9" fill="#1a1a1a" fill-opacity="0.55"/>
-                    <text x="94" y="90" text-anchor="middle" fill="#ededed" font-family="ui-monospace, monospace" font-size="8" font-weight="500">Sign up</text>
-                  </g>
-
-                  <!-- Flow: signup → inbox → extract -->
-                  <g class="art-connector" transform="translate(172 64)">
-                    <line class="art-flow" x1="16" y1="0" x2="168" y2="0" stroke="#444444" stroke-opacity="0.6" stroke-width="1.5" stroke-dasharray="4 6" stroke-linecap="round"/>
-                    <circle cx="16" cy="0" r="2.5" fill="#ededed" opacity="0.5"/>
-                    <circle cx="168" cy="0" r="2.5" fill="#ededed" opacity="0.5"/>
-                    <g class="art-packet">
-                      <rect x="-11" y="-11" width="22" height="22" rx="8" fill="url(#bento-v-logo)" filter="url(#bento-v-logo-glow)"/>
-                      <text x="0" y="0.5" text-anchor="middle" dominant-baseline="middle" fill="#ededed" font-family="Georgia, 'Times New Roman', Times, serif" font-size="12" font-weight="500">@</text>
-                    </g>
-                  </g>
-
-                  <!-- Extracted result -->
-                  <g class="art-result">
-                    <rect x="356" y="20" width="140" height="92" rx="10" fill="url(#bento-v-panel)" stroke="#333333" stroke-opacity="0.38" stroke-width="1.25"/>
-                    <path d="M356 36h140" stroke="#333333" stroke-opacity="0.14"/>
-                    <text x="372" y="30" fill="#888888" font-family="ui-monospace, monospace" font-size="7">primaryAction</text>
-                    <g class="art-check-badge" transform="translate(480 46)">
-                      <circle cx="0" cy="0" r="6" fill="#1a1a1a" fill-opacity="0.45" stroke="#555555" stroke-opacity="0.42"/>
-                      <path class="art-check" d="M-3 0l2 2 5-6" stroke="#ecfef5" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/>
-                    </g>
-                    <text x="372" y="56" fill="#ededed" font-family="ui-monospace, monospace" font-size="8">"type": "otp"</text>
-                    <text x="372" y="72" fill="#ededed" font-family="ui-monospace, monospace" font-size="8">"value": "482901"</text>
-                    <rect x="368" y="84" width="116" height="16" rx="8" fill="#333333" fill-opacity="0.1"/>
-                    <text x="426" y="92" text-anchor="middle" dominant-baseline="middle" fill="#888888" font-family="ui-monospace, monospace" font-size="6.5">confidence: high</text>
-                  </g>
-                </svg>
+          <div class="agent-catalog-grid">
+            <article class="agent-catalog-card">
+              <div class="agent-catalog-card-top">
+                <span class="agent-glyph" aria-hidden="true">C</span>
+                <span class="agent-status agent-status--live">MCP</span>
               </div>
-              <div class="bento-copy">
-                <h3>Verify signup in one call</h3>
-                <p>
-                  Create inbox, wait for the message, extract OTP or magic link, return
-                  <code>agent.primaryAction</code> — no inbox UI scraping.
-                </p>
+              <figure class="agent-visual agent-visual--context" aria-hidden="true">
+                <div class="agent-workspace">
+                  <div class="agent-workspace-bar"><span class="workspace-dots"><i></i><i></i><i></i></span><code>claude mcp add mailagent</code><span class="workspace-state">ready</span></div>
+                  <div class="agent-workspace-body">
+                    <div class="tui-query"><span>›</span><strong>verify signup on staging</strong><kbd>↵</kbd></div>
+                    <div class="tui-options">
+                      <p class="is-selected"><span>01</span><strong>mailagent_create_inbox</strong><em>run</em></p>
+                      <p><span>02</span><strong>mailagent_verify_signup</strong><em>wait</em></p>
+                      <p><span>03</span><strong>mailagent_diagnose_inbox</strong><em>timeout</em></p>
+                    </div>
+                    <div class="tui-footer"><span>stdio or remote</span><strong>Bearer key</strong></div>
+                  </div>
+                </div>
+              </figure>
+              <div class="agent-catalog-copy">
+                <p class="agent-kicker">MCP server</p>
+                <h3>Claude Code</h3>
+                <p><code>claude mcp add mailagent -e MAILAGENT_API_KEY=ma_… -- npx -y -p @mailagent/mcp@latest mailagent-mcp</code></p>
               </div>
-              <a class="bento-link" href="/docs/agents.html">Agent docs →</a>
+              <a class="agent-text-link" href="/docs/agents.html" data-analytics-event="agentsos_agent_selected" data-analytics-agent="mail" data-analytics-surface="integrations" data-analytics-destination="documentation">MCP setup →</a>
             </article>
 
-            <article class="bento-card">
-              <div class="bento-illustration bento-illustration--mcp" aria-hidden="true">
-                <svg class="bento-art" viewBox="0 0 220 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle class="art-ring art-ring--1" cx="110" cy="70" r="34" stroke="#333333" stroke-opacity="0.15" stroke-width="1"/>
-                  <circle class="art-ring art-ring--2" cx="110" cy="70" r="44" stroke="#555555" stroke-opacity="0.1" stroke-width="1"/>
-                  <circle class="art-hub" cx="110" cy="70" r="18" fill="#1a1a1a" fill-opacity="0.55" stroke="#555555" stroke-width="1.5"/>
-                  <text x="110" y="74" text-anchor="middle" fill="#ecfef5" font-family="ui-monospace, monospace" font-size="9" font-weight="600">MCP</text>
-                  <g class="art-node art-node--1">
-                    <line x1="110" y1="52" x2="110" y2="28" stroke="#333333" stroke-opacity="0.35"/>
-                    <circle cx="110" cy="22" r="11" fill="#0a0a0a" stroke="#555555" stroke-width="1.3"/>
-                    <path d="M106 22h8M110 18v8" stroke="#555555" stroke-width="1.2" stroke-linecap="round"/>
-                  </g>
-                  <g class="art-node art-node--2">
-                    <line x1="128" y1="70" x2="152" y2="70" stroke="#333333" stroke-opacity="0.35"/>
-                    <circle cx="158" cy="70" r="11" fill="#0a0a0a" stroke="#555555" stroke-width="1.3"/>
-                    <path d="M154 70h8M158 66v8" stroke="#555555" stroke-width="1.2" stroke-linecap="round"/>
-                  </g>
-                  <g class="art-node art-node--3">
-                    <line x1="110" y1="88" x2="110" y2="112" stroke="#333333" stroke-opacity="0.35"/>
-                    <circle cx="110" cy="118" r="11" fill="#0a0a0a" stroke="#555555" stroke-width="1.3"/>
-                    <path d="M106 118h8M110 114v8" stroke="#555555" stroke-width="1.2" stroke-linecap="round"/>
-                  </g>
-                  <g class="art-node art-node--4">
-                    <line x1="92" y1="70" x2="68" y2="70" stroke="#333333" stroke-opacity="0.35"/>
-                    <circle cx="62" cy="70" r="11" fill="#0a0a0a" stroke="#555555" stroke-width="1.3"/>
-                    <path d="M58 70h8M62 66v8" stroke="#555555" stroke-width="1.2" stroke-linecap="round"/>
-                  </g>
-                </svg>
+            <article class="agent-catalog-card">
+              <div class="agent-catalog-card-top">
+                <span class="agent-glyph" aria-hidden="true">X</span>
+                <span class="agent-status">Plugin</span>
               </div>
-              <div class="bento-copy">
-                <h3>MCP for Cursor &amp; Codex</h3>
-                <p>MCP tools: verify, workspace mail, simulate, scoped keys.</p>
+              <figure class="agent-visual agent-visual--design" aria-hidden="true">
+                <div class="agent-workspace">
+                  <div class="agent-workspace-bar"><span class="workspace-dots"><i></i><i></i><i></i></span><code>codex plugin add mailagent@mailagent</code><span class="workspace-state">added</span></div>
+                  <div class="agent-workspace-body workspace-split">
+                    <div class="workspace-code">
+                      <p><span>01</span><code><b>marketplace</b> add</code></p>
+                      <p><span>02</span><code><b>plugin</b> add</code></p>
+                      <p class="code-added"><span>03</span><code>+ mailagent <em>connected</em></code></p>
+                      <p><span>04</span><code><b>verify</b>(signup)</code></p>
+                    </div>
+                    <div class="workspace-inspector"><small>Plugin</small><p><span>MCP</span><b>on</b></p><p><span>Skill</span><b>on</b></p><p><span>Key</span><b>env</b></p></div>
+                  </div>
+                </div>
+              </figure>
+              <div class="agent-catalog-copy">
+                <p class="agent-kicker">Plugin</p>
+                <h3>Codex</h3>
+                <p><code>codex plugin marketplace add Alex0nder/MailAgent</code><br /><code>codex plugin add mailagent@mailagent</code></p>
               </div>
-              <a class="bento-link" href="/#mcp">Browse tools →</a>
+              <a class="agent-text-link" href="/docs/codex.html" data-analytics-event="agentsos_agent_selected" data-analytics-agent="mail" data-analytics-surface="integrations" data-analytics-destination="documentation">Codex guide →</a>
             </article>
 
-            <article class="bento-card">
-              <div class="bento-illustration bento-illustration--qa" aria-hidden="true">
-                <svg class="bento-art" viewBox="0 0 260 124" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <text x="130" y="14" text-anchor="middle" fill="#666666" font-family="ui-monospace, monospace" font-size="7" letter-spacing="0.04em">CI matrix · isolated inboxes</text>
-
-                  <g class="art-worker art-worker--1">
-                    <rect class="art-worker-frame" x="14" y="24" width="68" height="42" rx="10" fill="#1a1a1a" fill-opacity="0.35" stroke="#444444" stroke-opacity="0.22" stroke-width="1"/>
-                    <text x="48" y="42" text-anchor="middle" fill="#888888" font-family="ui-monospace, monospace" font-size="7" font-weight="600">pw-0</text>
-                    <text x="48" y="56" text-anchor="middle" fill="#555555" font-family="ui-monospace, monospace" font-size="6">a7f@inb</text>
-                  </g>
-
-                  <g class="art-worker art-worker--2">
-                    <rect class="art-worker-frame" x="96" y="24" width="68" height="42" rx="10" fill="#1a1a1a" fill-opacity="0.35" stroke="#444444" stroke-opacity="0.22" stroke-width="1"/>
-                    <text x="130" y="42" text-anchor="middle" fill="#ededed" font-family="ui-monospace, monospace" font-size="7" font-weight="600">pw-1</text>
-                    <text x="130" y="56" text-anchor="middle" fill="#777777" font-family="ui-monospace, monospace" font-size="6">k2m@inb</text>
-                  </g>
-
-                  <g class="art-worker art-worker--3">
-                    <rect class="art-worker-frame" x="178" y="24" width="68" height="42" rx="10" fill="#1a1a1a" fill-opacity="0.35" stroke="#444444" stroke-opacity="0.22" stroke-width="1"/>
-                    <text x="212" y="42" text-anchor="middle" fill="#888888" font-family="ui-monospace, monospace" font-size="7" font-weight="600">pw-2</text>
-                    <text x="212" y="56" text-anchor="middle" fill="#555555" font-family="ui-monospace, monospace" font-size="6">p9x@inb</text>
-                  </g>
-
-                  <g class="art-qa-connectors" stroke="#444444" stroke-width="1" fill="none" stroke-linecap="round">
-                    <path class="art-qa-flow" d="M48 66v6" stroke-opacity="0.2"/>
-                    <path class="art-qa-flow art-qa-flow--center" d="M130 66v14" stroke-opacity="0.28"/>
-                    <path class="art-qa-flow" d="M212 66v6" stroke-opacity="0.2"/>
-                    <path class="art-qa-flow" d="M48 72h164" stroke-opacity="0.16"/>
-                  </g>
-
-                  <g class="art-qa-hub">
-                    <rect class="art-qa-hub-box" x="94" y="84" width="72" height="24" rx="12" fill="#1a1a1a" fill-opacity="0.55" stroke="#555555" stroke-opacity="0.35" stroke-width="1"/>
-                    <text x="130" y="96" text-anchor="middle" dominant-baseline="central" fill="#ededed">
-                      <tspan font-family="Georgia, 'Times New Roman', Times, serif" font-size="10">@ </tspan>
-                      <tspan font-family="ui-monospace, monospace" font-size="7" font-weight="500">MailAgent</tspan>
-                    </text>
-                  </g>
-
-                  <g class="art-qa-result">
-                    <text x="130" y="118" text-anchor="middle" font-family="ui-monospace, monospace" font-size="7">
-                      <tspan fill="#666666" font-size="6.5">otp </tspan>
-                      <tspan class="art-otp" fill="#ededed" font-weight="600" letter-spacing="0.08em">482901</tspan>
-                    </text>
-                  </g>
-                </svg>
+            <article class="agent-catalog-card">
+              <div class="agent-catalog-card-top">
+                <span class="agent-glyph" aria-hidden="true">Cu</span>
+                <span class="agent-status agent-status--live">MCP</span>
               </div>
-              <div class="bento-copy">
-                <h3>Playwright &amp; Cypress</h3>
-                <p>Per-worker labels, <code>subjectContains</code>, simulate without SMTP in CI.</p>
+              <figure class="agent-visual agent-visual--marketing" aria-hidden="true">
+                <div class="agent-workspace">
+                  <div class="agent-workspace-bar"><span class="workspace-dots"><i></i><i></i><i></i></span><code>.cursor/mcp.json</code><span class="workspace-state">local</span></div>
+                  <div class="agent-workspace-body">
+                    <div class="tui-bento">
+                      <div class="tui-bento-main">
+                        <span>Free inboxes</span><strong>10</strong>
+                        <svg class="tui-sparkline" viewBox="0 0 140 32" preserveAspectRatio="none" aria-hidden="true">
+                          <path class="tui-sparkline-area" d="M2 27 L24 25 L42 26 L62 20 L80 22 L100 13 L119 15 L138 5 L138 31 L2 31 Z" />
+                          <path class="tui-sparkline-line" d="M2 27 L24 25 L42 26 L62 20 L80 22 L100 13 L119 15 L138 5" />
+                          <circle cx="138" cy="5" r="2.5" />
+                        </svg>
+                      </div>
+                      <div><span>Req/min</span><strong>60</strong></div>
+                      <div><span>SMTP</span><strong>none</strong></div>
+                      <div class="tui-bento-wide"><span>Extracts OTP, link, button</span><strong>3/3</strong></div>
+                    </div>
+                  </div>
+                </div>
+              </figure>
+              <div class="agent-catalog-copy">
+                <p class="agent-kicker">MCP config</p>
+                <h3>Cursor and other agents</h3>
+                <p>In <code>.cursor/mcp.json</code>: <code>npx -y -p @mailagent/mcp@latest mailagent-mcp</code><br />Skill: <code>npx skills add Alex0nder/MailAgent --skill mailagent</code></p>
               </div>
-              <a class="bento-link" href="/docs/qa.html">QA guide →</a>
+              <a class="agent-text-link" href="/docs/agent-skills.html" data-analytics-event="agentsos_agent_selected" data-analytics-agent="mail" data-analytics-surface="integrations" data-analytics-destination="documentation">Agent Skills →</a>
             </article>
 
-            <article class="bento-card">
-              <div class="bento-illustration bento-illustration--stack" aria-hidden="true">
-                <svg class="bento-art" viewBox="0 0 220 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path class="art-beam" d="M40 80h140" stroke="#333333" stroke-opacity="0.2" stroke-width="1.5" stroke-dasharray="5 7"/>
-                  <g class="art-layer art-layer--1">
-                    <text x="40" y="44" text-anchor="middle" fill="#ededed" font-family="ui-sans-serif, system-ui" font-size="8" font-weight="500">Workers</text>
-                    <ellipse cx="40" cy="62" rx="24" ry="7" stroke="#555555" stroke-opacity="0.45" stroke-width="1.2"/>
-                    <path d="M16 62v32c0 3.31 10.75 6 24 6s24-2.69 24-6V62" stroke="#555555" stroke-opacity="0.28" stroke-width="1.1"/>
-                    <ellipse cx="40" cy="94" rx="24" ry="7" stroke="#555555" stroke-opacity="0.22" stroke-width="1.1"/>
-                  </g>
-                  <g class="art-layer art-layer--2">
-                    <text x="110" y="44" text-anchor="middle" fill="#888888" font-family="ui-sans-serif, system-ui" font-size="8" font-weight="500">Resend</text>
-                    <ellipse cx="110" cy="62" rx="24" ry="7" stroke="#666666" stroke-opacity="0.4" stroke-width="1.2"/>
-                    <path d="M86 62v32c0 3.31 10.75 6 24 6s24-2.69 24-6V62" stroke="#666666" stroke-opacity="0.26" stroke-width="1.1"/>
-                    <ellipse cx="110" cy="94" rx="24" ry="7" stroke="#666666" stroke-opacity="0.2" stroke-width="1.1"/>
-                  </g>
-                  <g class="art-layer art-layer--3">
-                    <text x="180" y="44" text-anchor="middle" fill="#888888" font-family="ui-sans-serif, system-ui" font-size="8" font-weight="500">Neon</text>
-                    <ellipse cx="180" cy="62" rx="24" ry="7" stroke="#555555" stroke-opacity="0.35" stroke-width="1.2"/>
-                    <path d="M156 62v32c0 3.31 10.75 6 24 6s24-2.69 24-6V62" stroke="#555555" stroke-opacity="0.24" stroke-width="1.1"/>
-                    <ellipse cx="180" cy="94" rx="24" ry="7" stroke="#555555" stroke-opacity="0.18" stroke-width="1.1"/>
-                  </g>
-                  <circle class="art-pulse-dot" cx="40" cy="80" r="4" fill="#ededed"/>
-                </svg>
+            <article class="agent-catalog-card">
+              <div class="agent-catalog-card-top">
+                <span class="agent-glyph" aria-hidden="true">P</span>
+                <span class="agent-status">npm</span>
               </div>
-              <div class="bento-copy">
-                <h3>Self-host or hosted</h3>
-                <p>MIT on Cloudflare Workers + Resend, or <code>api.webmailagent.com</code> with an API key.</p>
+              <figure class="agent-visual agent-visual--safety" aria-hidden="true">
+                <div class="agent-workspace">
+                  <div class="agent-workspace-bar"><span class="workspace-dots"><i></i><i></i><i></i></span><code>npx playwright test signup</code><span class="workspace-state">passed</span></div>
+                  <div class="agent-workspace-body">
+                    <div class="tui-steps">
+                      <p><i>✓</i><span><strong>Create inbox</strong><small>one per worker</small></span><b>done</b></p>
+                      <p><i>✓</i><span><strong>Fill signup form</strong><small>staging.acme.dev</small></span><b>done</b></p>
+                      <p class="is-current"><i>03</i><span><strong>Wait and extract</strong><small>OTP 482901</small></span><b>passed</b></p>
+                    </div>
+                  </div>
+                </div>
+              </figure>
+              <div class="agent-catalog-copy">
+                <p class="agent-kicker">npm</p>
+                <h3>Playwright and Cypress</h3>
+                <p><code>npm i @mailagent/agent @mailagent/qa</code><br />Starters: <a href="https://github.com/Alex0nder/MailAgent/tree/main/examples/qa-pilot-starter" rel="noopener noreferrer">Playwright</a>, <a href="https://github.com/Alex0nder/MailAgent/tree/main/examples/qa-pilot-cypress-starter" rel="noopener noreferrer">Cypress</a></p>
               </div>
-              <a class="bento-link" href="/docs/integrate.html">Integration guide →</a>
+              <a class="agent-text-link" href="/docs/qa.html" data-analytics-event="agentsos_agent_selected" data-analytics-agent="mail" data-analytics-surface="integrations" data-analytics-destination="documentation">QA guide →</a>
             </article>
 
-            <article class="bento-card">
-              <div class="bento-illustration bento-illustration--keys" aria-hidden="true">
-                <svg class="bento-art" viewBox="0 0 220 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="32" y="34" width="156" height="72" rx="10" stroke="#333333" stroke-opacity="0.22" stroke-width="1.2"/>
-                  <text x="48" y="56" fill="#888888" font-family="ui-monospace, monospace" font-size="8">runId: ci-4821</text>
-                  <rect x="48" y="66" width="92" height="6" rx="3" fill="#333333" fill-opacity="0.1"/>
-                  <rect class="art-ttl-bar" x="48" y="66" width="92" height="6" rx="3" fill="#ededed" fill-opacity="0.75"/>
-                  <text x="180" y="71" text-anchor="end" fill="#888888" font-family="ui-monospace, monospace" font-size="7">15m</text>
-                  <text x="48" y="90" fill="#ededed" font-family="ui-monospace, monospace" font-size="9">ma_run_···8f2a</text>
-                </svg>
+            <article id="mail-agent" class="agent-catalog-card agent-catalog-card--live agent-catalog-card--featured">
+              <div class="agent-catalog-card-top">
+                <span class="agent-glyph" aria-hidden="true">@</span>
+                <span class="agent-status agent-status--live">CI</span>
               </div>
-              <div class="bento-copy">
-                <h3>Scoped run keys</h3>
-                <p>Agents mint short-lived keys per run — no permanent secrets in CI.</p>
+              <figure class="agent-visual agent-visual--mail" aria-hidden="true">
+                <div class="agent-workspace">
+                  <div class="agent-workspace-bar"><span class="workspace-dots"><i></i><i></i><i></i></span><code>label: ci-$GITHUB_RUN_ID</code><span class="workspace-state">live</span></div>
+                  <div class="agent-workspace-body">
+                    <div class="workspace-code">
+                      <p><span>01</span><code><b>const</b> inbox = <b>await</b> mail.createInbox()</code></p>
+                      <p><span>02</span><code><b>const</b> v = <b>await</b> mail.waitForVerification(inbox.id)</code></p>
+                      <p><span>03</span><code>expect(v.otp).toBeDefined()</code></p>
+                    </div>
+                    <div class="workspace-mail-result"><span class="mail-result-icon">@</span><div><small>verification received</small><strong>OTP 482 901</strong></div><b>1.8s</b></div>
+                  </div>
+                </div>
+              </figure>
+              <div class="agent-catalog-copy">
+                <p class="agent-kicker">GitHub Actions</p>
+                <h3>CI</h3>
+                <p>Store <code>MAILAGENT_API_KEY</code> as a secret. Use one inbox label per job.</p>
               </div>
-              <a class="bento-link" href="/docs/scoped-keys.html">Scoped keys →</a>
+              <div class="agent-catalog-actions">
+                <a class="btn btn-primary" href="mailto:hello@webmailagent.com?subject=Mail%20Agent%20API%20key&body=What%20will%20your%20agent%20test%3F%20(signup%2C%20login%2C%20reset%2C%20invite)%0A%0AAgent%20or%20framework%3A%20" data-analytics-event="mailagent_key_requested" data-analytics-surface="integrations">Get a free API key</a>
+                <a class="agent-text-link" href="/docs/autotests.html" data-analytics-event="agentsos_agent_selected" data-analytics-agent="mail" data-analytics-surface="integrations" data-analytics-destination="documentation">Autotests guide →</a>
+              </div>
             </article>
-          </div>
-
-          <div class="trust-strip">
-            <ul class="trust-logos">
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
-                Cloudflare Workers
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-                MCP · 49 tools
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16v12H4z"/><path d="M4 6l8 7 8-7"/></svg>
-                Resend Inbound
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
-                Forwarded mail
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="4"/></svg>
-                DeepSeek · Qwen · Ollama
-              </li>
-            </ul>
           </div>
         </div>
       </section>
 
-      <section class="value-block" aria-labelledby="value-block-title">
-        <div class="site-container value-block-inner">
-          <h2 id="value-block-title" class="value-block-title">
-            No SaaS markup<br />for CI verification
-          </h2>
-          <p class="value-block-lead">
-            Per-seat QA dashboards charge for UI your CI never opens. MailAgent
-            returns structured OTP and links — not another inbox tab.
-          </p>
-          <div class="value-equation" aria-label="Stack comparison">
-            <span class="value-equation-term">Resend Inbound</span>
-            <span class="value-equation-op" aria-hidden="true">+</span>
-            <span class="value-equation-term value-equation-term--accent">MailAgent</span>
-          </div>
-          <p class="value-block-foot">
-            MCP and REST extraction on Workers — self-host with MIT, or
-            <code>api.webmailagent.com</code> when you want hosted speed.
-          </p>
-        </div>
-      </section>
-
-      <section id="how" class="page-section landing-how">
+      <section id="how" class="page-section agentsos-workflow" aria-labelledby="how-title">
         <div class="site-container">
           <div class="section-head">
             <p class="section-label">How it works</p>
-            <h2 class="section-title">Up and running in 1, 2, 3…</h2>
-            <p class="section-desc">
-              No shared test inbox. No manual OTP checks.<br />
-              Scoped run keys instead of permanent secrets in CI.
-            </p>
+            <h2 id="how-title" class="section-title">Three API calls</h2>
           </div>
           <div class="steps landing-steps">
-            <div class="step">
-              <div class="step-num">1</div>
-              <h3>Create inbox</h3>
-              <p>
-                Test or agent calls MCP/API. You get an isolated address and optional
-                label tied to the CI run.
-              </p>
-            </div>
-            <div class="step">
-              <div class="step-num">2</div>
-              <h3>Wait &amp; extract</h3>
-              <p>
-                Submit the address in signup, then one call returns OTP or magic link as
-                <code>agent.primaryAction</code> — no inbox UI scraping.
-              </p>
-            </div>
-            <div class="step">
-              <div class="step-num">3</div>
-              <h3>Ship in CI</h3>
-              <p>
-                Simulate without SMTP in pipelines. Delete the inbox when the run succeeds,
-                or keep it open for debugging.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="features" class="page-section">
-        <div class="site-container">
-          <div class="section-head">
-            <p class="section-label">Output</p>
-            <h2 class="section-title">Return the action, not raw email markup</h2>
-            <p class="section-desc">
-              Tests and agents get structured verification: OTP, magic link,
-              safe HTML CTA, confidence, alternatives, and a recovery path when
-              the email never arrives.
-            </p>
-          </div>
-
-          <div class="features-grid">
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z" />
-                </svg>
-              </div>
-              <h3>Primary action</h3>
-              <p>
-                <code>agent.primaryAction</code> tells the agent whether to enter
-                an OTP or open a magic link.
-              </p>
+            <article class="step">
+              <div class="step-meta"><span class="step-num">01</span><span class="step-label">Inbox</span></div>
+              <h3>Create an inbox</h3>
+              <p><code>mailagent_create_inbox</code> returns a unique address for the run.</p>
             </article>
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                </svg>
-              </div>
-              <h3>Safe HTML buttons</h3>
-              <p>
-                <code>primaryButton</code> exposes buttons like “Verify email”
-                or “Reset password” without scraping raw HTML.
-              </p>
+            <article class="step">
+              <div class="step-meta"><span class="step-num">02</span><span class="step-label">Your app</span></div>
+              <h3>Submit your form</h3>
+              <p>The agent enters the address in your signup, login, reset or invite form.</p>
             </article>
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-                </svg>
-              </div>
-              <h3>Confidence metadata</h3>
-              <p>
-                Responses include <code>confidence</code>,
-                <code>matchedRule</code>, <code>reason</code>, and alternatives
-                for safer automation.
-              </p>
-            </article>
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 2 2 7l10 5 10-5-10-5z" />
-                  <path d="M2 17l10 5 10-5" />
-                  <path d="M2 12l10 5 10-5" />
-                </svg>
-              </div>
-              <h3>Diagnose on timeout</h3>
-              <p>
-                <code>diagnose</code> returns failure summary, recommended action,
-                and retry payloads for agents and CI logs.
-              </p>
-            </article>
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M12 6v6l4 2" />
-                </svg>
-              </div>
-              <h3>Run timeline</h3>
-              <p>
-                Trace inbox created, wait started, message received, extraction,
-                callback, notify, and cleanup events by <code>runId</code>.
-              </p>
-            </article>
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4 17l6-6-6-6" />
-                  <path d="M12 19h8" />
-                </svg>
-              </div>
-              <h3>Cleanup policies</h3>
-              <p>
-                Delete successful inboxes, keep failures for debugging, or clean
-                a whole CI run by <code>labelPrefix</code>.
-              </p>
-            </article>
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="11" width="18" height="11" rx="2" />
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                </svg>
-              </div>
-              <h3>Short-lived run keys</h3>
-              <p>
-                <code>mailagent_issue_access</code> mints temporary scoped keys
-                for a single agent run.
-                <a href="/docs/scoped-keys.html">Guide →</a>
-              </p>
-            </article>
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                  <path d="M14 2v6h6" />
-                  <path d="M16 13H8" />
-                  <path d="M16 17H8" />
-                  <path d="M10 9H8" />
-                </svg>
-              </div>
-              <h3>Raw MIME + attachments</h3>
-              <p>
-                Full <code>.eml</code> and attachments are available when a preview
-                is not enough.
-                <a href="/docs/raw-mime.html">Guide →</a>
-              </p>
-            </article>
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="11" width="18" height="11" rx="2" />
-                  <path d="M7 11V7a5 5 0 0 1 9.9-1" />
-                </svg>
-              </div>
-              <h3>MCP OAuth</h3>
-              <p>
-                Browser login for remote MCP — no API key in client config.
-                <a href="/docs/oauth-idp.html">OIDC guide →</a>
-              </p>
-            </article>
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="2" y="3" width="20" height="14" rx="2" />
-                  <path d="M8 21h8" />
-                  <path d="M12 17v4" />
-                </svg>
-              </div>
-              <h3>Hosted console</h3>
-              <p>
-                Dashboard for inboxes, domains, team keys, and audit log.
-                <a href="/dashboard.html">Open console →</a>
-              </p>
-            </article>
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                  <path d="M8 10h8M8 14h5" />
-                </svg>
-              </div>
-              <h3>Workspace Agent</h3>
-              <p>
-                Summarize threads, draft replies, suggest reminders, and execute
-                sends with <code>draft_only</code> or allowlisted auto-send.
-                <a href="https://github.com/Alex0nder/MailAgent/blob/main/docs/WORKSPACE-AUTONOMY.md" rel="noopener noreferrer">Autonomy guide →</a>
-              </p>
-            </article>
-            <article class="feature-card">
-              <div class="feature-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4 4h16v16H4z" />
-                  <path d="m4 4 8 7 8-7" />
-                  <path d="M4 12h16" />
-                </svg>
-              </div>
-              <h3>Forwarded mail workflow</h3>
-              <p>
-                Forward or send mail into a MailAgent inbox. Workspace tools
-                summarize stored messages and draft replies without Gmail API access.
-              </p>
+            <article class="step">
+              <div class="step-meta"><span class="step-num">03</span><span class="step-label">Result</span></div>
+              <h3>Get the action</h3>
+              <p><code>mailagent_verify_signup</code> waits for the email and returns <code>agent.primaryAction</code>.</p>
             </article>
           </div>
         </div>
       </section>
 
-      <section id="qa" class="page-section qa-section">
-        <div class="site-container">
-          <div class="section-head">
-            <p class="section-label">For QA teams</p>
-            <h2 class="section-title">Stop fighting shared test inboxes</h2>
+      <section class="page-section mail-spotlight" aria-labelledby="code-title">
+        <div class="site-container mail-spotlight-grid">
+          <div>
+            <p class="section-label">Response</p>
+            <h2 id="code-title" class="section-title">Structured result for the agent</h2>
             <p class="section-desc">
-              Each Playwright worker gets its own address. Filter by
-              <code>label</code>, narrow with <code>subjectContains</code>, keep
-              failed inboxes for debugging, and simulate email without SMTP in CI.
-              <a href="/playwright-email-verification.html">Playwright guide →</a>
-              · <a href="/mcp-signup-qa.html">MCP signup QA →</a>
+              <code>primaryAction</code> has type, value and instruction. On timeout, the response
+              lists received subjects, the match count and a debug URL.
             </p>
-          </div>
-
-          <div class="qa-pain-grid">
-            <article class="qa-pain-card">
-              <h3>Parallel runs collide</h3>
-              <p>
-                <code>label=pw-0-…</code> per worker — list and debug inboxes for
-                one CI job without stepping on teammates.
-              </p>
-            </article>
-            <article class="qa-pain-card">
-              <h3>Wrong email in the pile</h3>
-              <p>
-                Service presets, <code>subjectContains</code>, and
-                <code>messageIndex</code> keep the test on the intended email.
-              </p>
-            </article>
-            <article class="qa-pain-card">
-              <h3>Leaked CI secrets</h3>
-              <p>
-                Scoped keys with <code>labelPrefix=ci-</code> limit blast radius
-                if a pipeline secret escapes.
-                <a href="/docs/scoped-keys.html">Scoped keys →</a>
-              </p>
-            </article>
-          </div>
-
-          <div class="code-panel qa-code-panel" data-panel="qa">
-            <div class="code-tabs">
-              <span class="code-tab active">Playwright</span>
-              <span class="code-tab">open (one-shot)</span>
+            <div class="hero-ctas">
+              <a class="btn btn-primary" href="/docs/agents.html" data-analytics-event="agentsos_agent_selected" data-analytics-agent="mail" data-analytics-surface="spotlight" data-analytics-destination="documentation">MCP tools</a>
+              <a class="btn btn-outline" href="/docs/" data-analytics-event="agentsos_agent_selected" data-analytics-agent="mail" data-analytics-surface="spotlight" data-analytics-destination="documentation">REST reference</a>
             </div>
+          </div>
+          <div class="code-panel mail-spotlight-code" aria-label="mailagent_verify_signup example">
             <div class="code-body">
-              <pre><code><span class="t-kw">import</span> { createMailAgentQa, MailAgentQa } <span class="t-kw">from</span> <span class="t-str">"@mailagent/qa"</span>;
-
-<span class="t-kw">const</span> mail = <span class="t-fn">createMailAgentQa</span>();
-<span class="t-kw">const</span> { address, id } = <span class="t-kw">await</span> mail.<span class="t-fn">createInbox</span>({
-  <span class="t-key">label</span>: MailAgentQa.<span class="t-fn">runLabel</span>(<span class="t-str">"signup"</span>),
-  <span class="t-key">service</span>: <span class="t-str">"auth0"</span>,
+              <pre><code><span class="t-kw">await</span> <span class="t-fn">mailagent_verify_signup</span>({
+  <span class="t-key">inboxId</span>,
+  <span class="t-key">flow</span>: <span class="t-str">"signup"</span>,
+  <span class="t-key">deleteAfterSuccess</span>: <span class="t-str">true</span>
 });
 
-<span class="t-cm">// … fill signup form with address …</span>
-
-<span class="t-kw">const</span> { otp } = <span class="t-kw">await</span> mail.<span class="t-fn">waitForVerification</span>(id, {
-  <span class="t-key">subjectContains</span>: <span class="t-str">"verify"</span>,
-});</code></pre>
-            </div>
-          </div>
-
-          <p class="qa-docs-link">
-            <a href="/docs/qa.html">Read the QA guide</a>
-            — labels, callbacks, CI env, Playwright flow.
-            <a href="/docs/scoped-keys.html">Scoped keys for CI →</a>
-          </p>
-        </div>
-      </section>
-
-      <section id="workspace" class="page-section workspace-section">
-        <div class="site-container">
-          <div class="section-head">
-            <p class="section-label">Workspace Agent</p>
-            <h2 class="section-title">From verification to mail you can act on</h2>
-            <p class="section-desc">
-              After signup QA, agents keep working the thread: summarize context,
-              draft a reply, log actions, and complete reminders. Autonomous sends
-              stay off by default; admins set policy, idempotency keys prevent
-              double-send, and <code>mailagent_workspace_model_status</code> blocks
-              execution when no LLM is configured.
-            </p>
-          </div>
-
-          <div class="workspace-grid">
-            <article class="workspace-card">
-              <h3>Summarize &amp; draft</h3>
-              <p>
-                <code>mailagent_workspace_summarize</code> and
-                <code>mailagent_workspace_draft_reply</code> load mail from an
-                inbox id or supplied message payload. DeepSeek and Qwen fall back
-                to each other when both keys are set.
-              </p>
-            </article>
-            <article class="workspace-card">
-              <h3>Reminders &amp; audit trail</h3>
-              <p>
-                Suggest, create, and complete reminders. Log every agent step
-                with <code>mailagent_workspace_list_actions</code> so open
-                reminders are not drafted twice.
-              </p>
-            </article>
-            <article class="workspace-card">
-              <h3>Policy-gated send</h3>
-              <p>
-                <code>mailagent_workspace_execute_reply</code> dry-runs first,
-                then sends at most once per idempotency key. Modes:
-                <code>draft_only</code>, <code>auto_send_safe</code>, or
-                <code>full_auto</code> with domain allowlists.
-              </p>
-            </article>
-            <article class="workspace-card">
-              <h3>Local LLM (dev)</h3>
-              <p>
-                <code>WORKSPACE_LLM_PROVIDER=local</code> with Ollama or LM Studio
-                on the same machine as <code>npm run dev</code> — or use
-                <code>npm run dev:docker:ollama</code> for a one-command stack.
-                <a href="https://github.com/Alex0nder/MailAgent/blob/main/docs/WORKSPACE-LOCAL-LLM.md" rel="noopener noreferrer">Local LLM guide →</a>
-              </p>
-            </article>
-          </div>
-
-          <div class="code-panel workspace-code-panel">
-            <div class="code-tabs">
-              <span class="code-tab active">MCP</span>
-            </div>
-            <div class="code-body">
-              <pre><code><span class="t-cm">// Check LLM before workspace work</span>
-<span class="t-kw">await</span> <span class="t-fn">mailagent_workspace_model_status</span>();
-
-<span class="t-cm">// Draft from stored inbound message</span>
-<span class="t-kw">await</span> <span class="t-fn">mailagent_workspace_draft_reply</span>({
-  <span class="t-key">inboxId</span>: <span class="t-str">"inb_…"</span>,
-  <span class="t-key">messageId</span>: <span class="t-str">"msg_…"</span>,
-  <span class="t-key">instruction</span>: <span class="t-str">"Confirm QA review — no new commitments."</span>,
-});
-
-<span class="t-cm">// Send only when policy allows + idempotency key</span>
-<span class="t-kw">await</span> <span class="t-fn">mailagent_workspace_execute_reply</span>({
-  <span class="t-key">inboxId</span>: <span class="t-str">"inb_…"</span>,
-  <span class="t-key">messageId</span>: <span class="t-str">"msg_…"</span>,
-  <span class="t-key">idempotencyKey</span>: <span class="t-str">"run-4821-reply"</span>,
-});</code></pre>
+<span class="t-cm">// response</span>
+{ <span class="t-key">"status"</span>: <span class="t-str">"verified"</span>,
+  <span class="t-key">"agent"</span>: { <span class="t-key">"primaryAction"</span>: {
+    <span class="t-key">"type"</span>: <span class="t-str">"otp"</span>, <span class="t-key">"value"</span>: <span class="t-str">"482901"</span> } } }</code></pre>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="mcp" class="page-section">
+      <section id="compare" class="page-section" aria-labelledby="compare-title">
         <div class="site-container">
           <div class="section-head">
-            <p class="section-label">MCP</p>
-            <h2 class="section-title">MCP tools. Verify, workspace, simulate</h2>
-            <p class="section-desc">
-              Add <code>mailagent</code> to Cursor or Codex. Signup flows use
-              structured <code>primaryAction</code>; workspace tools summarize
-              MailAgent inbox messages, track reminders, and execute policy-gated
-              replies. Mint scoped run keys and call
-              <code>mailagent_plan_next</code> for recovery when a run stalls.
-            </p>
+            <p class="section-label">Comparison</p>
+            <h2 id="compare-title" class="section-title">Mail Agent and other tools</h2>
           </div>
-
-          <div class="table-scroll">
-            <table class="compare-table tools-table">
+          <div class="agentsos-proof-grid">
+            <article class="feature-card">
+              <div class="proof-card-meta"><span>01</span><strong>primaryAction</strong></div>
+              <div class="proof-card-copy"><h3>Next action</h3>
+              <p>Type, value and instruction in one field.</p></div>
+            </article>
+            <article class="feature-card">
+              <div class="proof-card-meta"><span>02</span><strong>diagnose</strong></div>
+              <div class="proof-card-copy"><h3>Timeout details</h3>
+              <p>Received subjects, match count, debug URL.</p></div>
+            </article>
+            <article class="feature-card">
+              <div class="proof-card-meta"><span>03</span><strong>MCP</strong></div>
+              <div class="proof-card-copy"><h3>MCP server</h3>
+              <p>stdio and remote, Codex plugin, agent skill.</p></div>
+            </article>
+            <article class="feature-card">
+              <div class="proof-card-meta"><span>04</span><strong>simulate</strong></div>
+              <div class="proof-card-copy"><h3>No SMTP in CI</h3>
+              <p>Inject a test email with one API call.</p></div>
+            </article>
+          </div>
+          <div class="table-scroll" style="margin-top: 32px">
+            <table class="compare-table">
+              <caption class="sr-only">Mail Agent compared with Mailpit, MailHog, Mailosaur, MailSlurp and Mailtrap</caption>
               <thead>
-                <tr>
-                  <th>Tool</th>
-                  <th>Description</th>
-                  <th>Category</th>
-                </tr>
+                <tr><th scope="col">Feature</th><th scope="col">Mail Agent</th><th scope="col">Mailpit, MailHog</th><th scope="col">Mailosaur, MailSlurp, Mailtrap</th></tr>
               </thead>
               <tbody>
-                <tr>
-                  <td class="tool-name">mailagent_workspace_model_status</td>
-                  <td>LLM readiness (DeepSeek, Qwen, local) — call before workspace execution</td>
-                  <td>Workspace</td>
-                </tr>
-                <tr>
-                  <td class="tool-name">mailagent_workspace_draft_reply</td>
-                  <td>Draft from stored MailAgent inbox message or supplied payload</td>
-                  <td>Workspace</td>
-                </tr>
-                <tr>
-                  <td class="tool-name">mailagent_workspace_execute_reply</td>
-                  <td>Policy-checked send with idempotency — default is deny</td>
-                  <td>Workspace</td>
-                </tr>
-                <tr>
-                  <td class="tool-name">mailagent_simulate_message</td>
-                  <td>Inject realistic test email without SMTP</td>
-                  <td>QA</td>
-                </tr>
-                <tr>
-                  <td class="tool-name">mailagent_issue_access</td>
-                  <td>Short-lived scoped key for one autonomous run</td>
-                  <td>Runs</td>
-                </tr>
-                <tr>
-                  <td class="tool-name">mailagent_plan_next</td>
-                  <td>Next MCP tool, payload, and recovery steps</td>
-                  <td>Autopilot</td>
-                </tr>
-                <tr>
-                  <td class="tool-name">mailagent_verify_signup</td>
-                  <td>Wait → extract → return agent.primaryAction</td>
-                  <td class="compare-yes">Recommended</td>
-                </tr>
-                <tr>
-                  <td class="tool-name">mailagent_create_inbox</td>
-                  <td>Temporary address with service preset, TTL, notifyEmail, cleanup</td>
-                  <td class="compare-muted">—</td>
-                </tr>
-                <tr>
-                  <td class="tool-name">mailagent_simulate_message</td>
-                  <td>OTP, magic_link, invite, attachments — no SMTP in CI</td>
-                  <td class="compare-muted">—</td>
-                </tr>
-                <tr>
-                  <td class="tool-name">mailagent_diagnose_inbox</td>
-                  <td>Explain timeouts and return retry payloads</td>
-                  <td class="compare-muted">—</td>
-                </tr>
+                <tr><td>Next action for the agent</td><td class="compare-yes">primaryAction</td><td>No</td><td>Code and link extraction</td></tr>
+                <tr><td>Timeout diagnostics</td><td class="compare-yes">Yes, with debug URL</td><td>No</td><td>Timeout error</td></tr>
+                <tr><td>MCP server</td><td class="compare-yes">Yes</td><td>No</td><td>Varies by vendor</td></tr>
+                <tr><td>Test without SMTP</td><td class="compare-yes">simulate</td><td>Needs SMTP</td><td>Needs SMTP</td></tr>
+                <tr><td>Staging and production senders</td><td class="compare-yes">Yes</td><td>Local only</td><td>Yes</td></tr>
+                <tr><td>Starting price</td><td class="compare-yes">Free, or self-host</td><td>Free, self-hosted</td><td>Paid, free tiers vary</td></tr>
               </tbody>
             </table>
           </div>
-          <p class="qa-docs-link">
-            Full tool list:
-            <a href="https://api.webmailagent.com/v1/agent" rel="noopener noreferrer">GET /v1/agent</a>
-            ·
-            <a href="/docs/agents.html">Agent docs</a>
-          </p>
         </div>
       </section>
 
-      <section id="compare" class="page-section">
+      <section id="pricing" class="page-section agentsos-workflow" aria-labelledby="pricing-title">
         <div class="site-container">
           <div class="section-head">
-            <p class="section-label">Positioning</p>
-            <h2 class="section-title">Agents, not burner extensions</h2>
-            <p class="section-desc">
-              Consumer burner mail protects your personal inbox. MailAgent automates
-              verification for code.
-            </p>
+            <p class="section-label">Pricing</p>
+            <h2 id="pricing-title" class="section-title">Plans</h2>
+            <p class="section-desc">Billing is not connected yet. Pro is enabled manually.</p>
           </div>
-
-          <div class="table-scroll">
-          <table class="compare-table">
-            <thead>
-              <tr>
-                <th></th>
-                <th>MailAgent</th>
-                <th>Mailosaur / QA SaaS</th>
-                <th>Typical burner mail</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>MCP / API-first</td>
-                <td class="compare-yes">Yes</td>
-                <td class="compare-yes">REST</td>
-                <td class="compare-muted">Browser UI</td>
-              </tr>
-              <tr>
-                <td>OTP + link extraction</td>
-                <td class="compare-yes">Built-in</td>
-                <td class="compare-yes">Built-in</td>
-                <td class="compare-muted">Manual</td>
-              </tr>
-              <tr>
-                <td>SSE wait</td>
-                <td class="compare-yes">Yes</td>
-                <td class="compare-muted">Poll</td>
-                <td class="compare-muted">—</td>
-              </tr>
-              <tr>
-                <td>Per-run isolated inbox</td>
-                <td class="compare-yes">label + API</td>
-                <td class="compare-yes">Yes</td>
-                <td class="compare-muted">Shared pool</td>
-              </tr>
-              <tr>
-                <td>Sender allowlist</td>
-                <td class="compare-yes">Yes</td>
-                <td class="compare-muted">Patterns</td>
-                <td class="compare-muted">Block in UI</td>
-              </tr>
-              <tr>
-                <td>Self-hosted domain</td>
-                <td class="compare-yes">Your Resend</td>
-                <td class="compare-muted">Their domain</td>
-                <td class="compare-muted">Their domain</td>
-              </tr>
-              <tr>
-                <td>Workspace summarize / draft</td>
-                <td class="compare-yes">MCP + REST</td>
-                <td class="compare-muted">—</td>
-                <td class="compare-muted">—</td>
-              </tr>
-              <tr>
-                <td>Google Gmail OAuth</td>
-                <td class="compare-muted">Disabled</td>
-                <td class="compare-muted">Varies</td>
-                <td class="compare-muted">—</td>
-              </tr>
-              <tr>
-                <td>Policy-gated auto-reply</td>
-                <td class="compare-yes">Opt-in</td>
-                <td class="compare-muted">—</td>
-                <td class="compare-muted">—</td>
-              </tr>
-              <tr>
-                <td>Local LLM (Ollama)</td>
-                <td class="compare-yes">Self-host dev</td>
-                <td class="compare-muted">—</td>
-                <td class="compare-muted">—</td>
-              </tr>
-              <tr>
-                <td>Long-lived aliases</td>
-                <td class="compare-muted">TTL only</td>
-                <td class="compare-yes">Yes</td>
-                <td class="compare-yes">Yes</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="steps landing-steps">
+            <article class="step">
+              <div class="step-meta"><span class="step-num">$0</span><span class="step-label">Free</span></div>
+              <h3>10 inboxes, 60 req/min</h3>
+              <p>All API, MCP and SDK features.</p>
+            </article>
+            <article class="step">
+              <div class="step-meta"><span class="step-num">Pro</span><span class="step-label">On request</span></div>
+              <h3>100 inboxes, 300 req/min</h3>
+              <p>Same features, higher limits.</p>
+            </article>
+            <article class="step">
+              <div class="step-meta"><span class="step-num">MIT</span><span class="step-label">Self-host</span></div>
+              <h3>Your Cloudflare account</h3>
+              <p>Same API and MCP tools. <a href="/docs/integrate.html">Self-host guide</a></p>
+            </article>
+          </div>
+          <div class="hero-ctas" style="margin-top: 32px; justify-content: center">
+            <a class="btn btn-primary" href="mailto:hello@webmailagent.com?subject=Mail%20Agent%20API%20key&body=What%20will%20your%20agent%20test%3F%20(signup%2C%20login%2C%20reset%2C%20invite)%0A%0AAgent%20or%20framework%3A%20" data-analytics-event="mailagent_key_requested" data-analytics-surface="pricing">Get a free API key</a>
+            <a class="btn btn-outline" href="mailto:hello@webmailagent.com?subject=Mail%20Agent%20Pro%20access&body=Team%3A%20%0AFlows%20to%20test%3A%20%0AAgents%20or%20CI%3A%20%0ARuns%20per%20day%3A%20" data-analytics-event="mailagent_pilot_requested" data-analytics-surface="pricing">Request Pro</a>
           </div>
         </div>
       </section>
 
-      <section id="open-source" class="page-section oss-section">
+      <section id="not-for" class="page-section" aria-labelledby="notfor-title">
         <div class="site-container">
           <div class="section-head">
-            <p class="section-label">Open source</p>
-            <h2 class="section-title">Hosted API when you need speed. Self-host when you need control.</h2>
-            <p class="section-desc">
-              MailAgent ships as a complete stack: Worker, MCP server, QA SDK,
-              docs, and deploy scripts. Use our API now, or run the same
-              architecture on your Cloudflare account.
-            </p>
+            <p class="section-label">Usage policy</p>
+            <h2 id="notfor-title" class="section-title">Not supported</h2>
+            <p class="section-desc">Use Mail Agent only for apps you own or are authorized to test.</p>
           </div>
-          <div class="oss-inner">
-            <div class="oss-copy">
-              <div class="hero-ctas oss-ctas">
-                <a
-                  class="btn btn-primary"
-                  href="https://github.com/Alex0nder/MailAgent"
-                  rel="noopener noreferrer"
-                  >View on GitHub</a
-                >
-                <a class="btn btn-outline" href="/docs/integrate.html">Integration guide</a>
-              </div>
-            </div>
-            <div class="oss-panel" aria-label="Open source details">
-              <div class="oss-panel-row">
-                <span class="oss-panel-label">License</span>
-                <strong>MIT</strong>
-                <span>free to use, fork, and self-host</span>
-              </div>
-              <div class="oss-panel-row">
-                <span class="oss-panel-label">Production stack</span>
-                <strong>Workers, Queues, Durable Objects, Neon</strong>
-                <span>the same pieces used by the hosted service</span>
-              </div>
-              <div class="oss-panel-row">
-                <span class="oss-panel-label">Hosted endpoint</span>
-                <strong><code>api.webmailagent.com</code></strong>
-                <span>optional API key for teams that do not want to operate infra</span>
-              </div>
-            </div>
+          <div class="agentsos-proof-grid">
+            <article class="feature-card">
+              <div class="proof-card-meta"><span>✕</span><strong>Policy</strong></div>
+              <div class="proof-card-copy"><h3>Bulk signups on third-party sites</h3>
+              <p>Keys are revoked.</p></div>
+            </article>
+            <article class="feature-card">
+              <div class="proof-card-meta"><span>✕</span><strong>Policy</strong></div>
+              <div class="proof-card-copy"><h3>CAPTCHA bypass</h3>
+              <p>Disable CAPTCHA in your staging.</p></div>
+            </article>
+            <article class="feature-card">
+              <div class="proof-card-meta"><span>✕</span><strong>Policy</strong></div>
+              <div class="proof-card-copy"><h3>Personal email</h3>
+              <p>Inboxes expire after the run.</p></div>
+            </article>
+            <article class="feature-card">
+              <div class="proof-card-meta"><span>✕</span><strong>Policy</strong></div>
+              <div class="proof-card-copy"><h3>Bulk outbound email</h3>
+              <p>Inbound testing only.</p></div>
+            </article>
           </div>
         </div>
       </section>
 
-      <section id="docs" class="page-section">
-        <div class="site-container">
+      <section id="faq" class="page-section agentsos-faq" aria-labelledby="faq-title">
+        <div class="site-container faq-layout">
           <div class="section-head">
-            <p class="section-label">API</p>
-            <h2 class="section-title">The response is already agent-readable</h2>
+            <p class="section-label">FAQ</p>
+            <h2 id="faq-title" class="section-title">FAQ</h2>
           </div>
-          <div class="code-panel">
-            <div class="code-tabs">
-              <span class="code-tab active">curl</span>
-            </div>
-            <div class="code-body">
-              <pre><code><span class="t-cm"># One-shot (recommended)</span>
-<span class="t-fn">curl</span> -X POST https://api.webmailagent.com/v1/inboxes/open \
-  -H <span class="t-str">"Authorization: Bearer $API_KEY"</span> \
-  -d <span class="t-str">'{"service":"github","timeoutSeconds":90}'</span>
-
-<span class="t-cm"># → verification.otp
-# → verification.primaryLink
-# → verification.primaryButton
-# → verification.confidence</span></code></pre>
-            </div>
+          <div class="faq-list">
+            <details>
+              <summary>Does my app need changes?</summary>
+              <p>No. Your app sends email as usual to the Mail Agent address.</p>
+            </details>
+            <details>
+              <summary>What if the email does not arrive?</summary>
+              <p>The timeout response lists received subjects, the match count, a suggested <code>subjectContains</code> and a debug URL. <a href="/docs/qa-troubleshooting.html">Troubleshooting</a></p>
+            </details>
+            <details>
+              <summary>Can I test without sending real email?</summary>
+              <p>Yes. <code>POST /v1/inboxes/:id/simulate</code> injects a test email without SMTP.</p>
+            </details>
+            <details>
+              <summary>Can I use my own domain or self-host?</summary>
+              <p>Yes. See <a href="/docs/custom-domain.html">custom domain</a> and <a href="/docs/integrate.html">self-host</a>.</p>
+            </details>
+            <details>
+              <summary>Is Pro billed automatically?</summary>
+              <p>No. Billing is not connected yet. Pro is enabled manually on request.</p>
+            </details>
           </div>
-          <p class="qa-docs-link">
-            Full reference:
-            <a href="/docs/">API docs</a>
-            ·
-            <a href="https://api.webmailagent.com/v1/openapi.json" rel="noopener noreferrer">OpenAPI</a>
-          </p>
         </div>
       </section>
 
       <section class="cta-block" id="get-started">
         <div class="cta-glow" aria-hidden="true"></div>
         <div class="site-container">
-        <div class="cta-inner">
-          <h2>Give your agent<br />an inbox &amp; a workspace</h2>
-          <p>
-            <strong>Signup QA:</strong> disposable inboxes, OTP extraction, CI simulate.
-            <strong>Workspace:</strong> summarize, draft, reminders, policy-gated send.
-            <strong>Open source</strong> — self-host or use the hosted API.
-          </p>
-          <div class="cta-buttons">
-            <a
-              class="btn btn-primary"
-              href="https://github.com/Alex0nder/MailAgent"
-              rel="noopener noreferrer"
-              >Star on GitHub</a
-            >
-            <a class="btn btn-outline" href="/docs/">API docs</a>
-            <a class="btn btn-outline" href="/dashboard.html">Console</a>
-            <a
-              class="btn btn-outline"
-              href="mailto:hello@webmailagent.com?subject=MailAgent%20hosted%20API%20key"
-              >Hosted API key</a
-            >
+          <div class="cta-inner agentsos-final-cta">
+            <h2>Get an API key</h2>
+            <p>Free plan with 10 inboxes. Pilot teams get Pro limits.</p>
+            <div class="cta-buttons">
+              <a class="btn btn-primary" href="mailto:hello@webmailagent.com?subject=Mail%20Agent%20API%20key&body=What%20will%20your%20agent%20test%3F%20(signup%2C%20login%2C%20reset%2C%20invite)%0A%0AAgent%20or%20framework%3A%20" data-analytics-event="mailagent_key_requested" data-analytics-surface="final_cta">Get a free API key</a>
+              <a class="btn btn-outline" href="mailto:hello@webmailagent.com?subject=Mail%20Agent%20pilot&body=Team%3A%20%0AProduct%20URL%3A%20%0AFlows%20to%20test%20(signup%2C%20login%2C%20reset%2C%20invite)%3A%20%0AAgent%20or%20test%20runner%3A%20" data-analytics-event="mailagent_pilot_requested" data-analytics-surface="final_cta">Become a pilot</a>
+            </div>
           </div>
-        </div>
         </div>
       </section>
     </main>
 
     <div id="site-footer"></div>
 
-    <script src="/site-shell.js" defer></script>
+    <script src="/product-analytics.js?v=20261104-mail-positioning-1" defer></script>
+    <script src="/site-shell.js?v=20261104-mail-positioning-2" defer></script>
     <script src="/site.js" defer></script>
   </body>
 </html>

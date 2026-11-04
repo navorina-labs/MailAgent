@@ -3,13 +3,14 @@
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { apiOrigin } from "./lib/public-origins.mjs";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 
-/** Prod gate always hits public API (ignore .env workers.dev for local dev). */
+/** Prod gate uses the explicitly configured public API, then the legacy fallback. */
 const prodEnv = {
   ...process.env,
-  MAILAGENT_API_URL: "https://api.webmailagent.com",
+  MAILAGENT_API_URL: apiOrigin(),
 };
 
 function run(script) {

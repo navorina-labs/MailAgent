@@ -7,6 +7,7 @@ import "./load-env.mjs";
 import { neon } from "@neondatabase/serverless";
 import { nanoid } from "nanoid";
 import { fireSimulatedCallback } from "./lib/fire-simulated-callback.mjs";
+import { apiOrigin } from "./lib/public-origins.mjs";
 
 const argv = process.argv.slice(2);
 let fireCallback = false;
@@ -86,6 +87,6 @@ console.log("inbox:", rows[0].address);
 console.log("otp:", otp);
 console.log(
   "check: curl -H \"Authorization: Bearer $API_KEY\"",
-  process.env.MAILAGENT_API_URL ?? "https://api.webmailagent.com",
+  apiOrigin(),
   "/v1/inboxes/" + inboxId + "/extract"
 );

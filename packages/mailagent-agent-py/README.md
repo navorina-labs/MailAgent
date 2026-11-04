@@ -1,6 +1,6 @@
 # mailagent-agent (Python)
 
-Minimal Python SDK for [MailAgent](https://webmailagent.com) agent verify flows — parity with `@mailagent/agent` core methods.
+Minimal Python SDK for [MailAgent](https://agents.navorina.ai) agent verify flows — parity with `@mailagent/agent` core methods.
 
 ```bash
 pip install mailagent-agent
@@ -9,7 +9,7 @@ pip install mailagent-agent
 ```python
 from mailagent import MailAgent
 
-client = MailAgent("https://api.webmailagent.com", "ma_…")
+client = MailAgent("https://mail-api.navorina.ai", "ma_…")
 result = client.verify_signup(service="github", timeout_seconds=90, delete_after=True)
 print(result.get("agent", {}).get("primaryAction"))
 ```
@@ -24,4 +24,4 @@ print(result.get("agent", {}).get("primaryAction"))
 - `diagnose_inbox(inbox_id, …)`
 - `list_runs(run_id=…, label=…)`
 
-Source: `packages/mailagent-agent-py` in [MailAgent](https://github.com/Alex0nder/MailAgent).
+Source: `agents-os/agents/mail-agent/packages/mailagent-agent-py` in [Navorina](https://github.com/navorinaai/navorina).

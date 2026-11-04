@@ -4,6 +4,7 @@ import { readFileSync, existsSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { apiOrigin } from "./lib/public-origins.mjs";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const mcpPkgPath = path.join(root, "mcp/package.json");
@@ -56,7 +57,7 @@ const rpcInput = [
 
 const env = {
   ...process.env,
-  MAILAGENT_API_URL: process.env.MAILAGENT_API_URL ?? "https://api.webmailagent.com",
+  MAILAGENT_API_URL: apiOrigin(),
   MAILAGENT_API_KEY: process.env.MAILAGENT_API_KEY ?? "mailagent_codex_smoke_redacted",
 };
 

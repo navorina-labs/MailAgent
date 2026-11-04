@@ -4,14 +4,15 @@ import { existsSync, readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import "./load-env.mjs";
+import { apiOrigin, apiUrl } from "./lib/public-origins.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const devVarsPath = join(root, ".dev.vars");
-const apiUrl = process.env.MAILAGENT_API_URL?.trim() || "https://api.webmailagent.com";
+const publicApi = apiOrigin();
 const apiKey = process.env.MAILAGENT_API_KEY ?? process.env.API_KEY;
 
 const STRIPE_KEYS = ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "STRIPE_PRICE_PRO"];
-const WEBHOOK_URL = "https://api.webmailagent.com/webhooks/stripe";
+const WEBHOOK_URL = apiUrl("/webhooks/stripe");
 
 function parseDevVars(path) {
   const out = {};
@@ -77,7 +78,7 @@ if (!apiKey) {
 }
 
 try {
-  const meRes = await fetch(`${apiUrl}/v1/me`, {
+  const meRes = await fetch(`${publicApi}/v1/me`, {
     headers: { Authorization: `Bearer ${apiKey}` },
   });
   const me = await meRes.json().catch(() => ({}));

@@ -6,9 +6,9 @@ import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const HUB = "https://agentskillhub.dev";
-const REPO_URL = "https://github.com/Alex0nder/MailAgent";
-const REPO_FULL = "Alex0nder/MailAgent";
-const SKILL_PATH = "skills/mailagent";
+const REPO_URL = "https://github.com/navorinaai/navorina";
+const REPO_FULL = "navorinaai/navorina";
+const SKILL_PATH = "agents-os/agents/mail-agent/skills/mailagent";
 
 const verify = spawnSync("npm", ["run", "verify:skills"], { cwd: root, stdio: "inherit" });
 if (verify.status !== 0) process.exit(verify.status ?? 1);

@@ -3,6 +3,7 @@ import { Hono } from "hono";
 import type { Env } from "../env";
 import { getDb } from "../db/client";
 import { MCP_SERVER_INFO } from "../mcp/manifest";
+import { workspaceUrl } from "../lib/public-origin";
 
 export const statusRoutes = new Hono<{ Bindings: Env }>();
 
@@ -17,7 +18,7 @@ statusRoutes.get("/status", async (c) => {
       version: MCP_SERVER_INFO.version,
       service: "mailagent",
       checkedAt,
-      docs: "https://webmailagent.com/docs/agents.html",
+      docs: workspaceUrl("/docs/agents.html", c.env.MAILAGENT_WORKSPACE_ORIGIN),
       health: "/health",
     });
   } catch (e) {

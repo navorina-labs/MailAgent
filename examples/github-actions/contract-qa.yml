@@ -26,7 +26,7 @@ jobs:
 
       - name: Contract QA (API simulate)
         env:
-          MAILAGENT_API_URL: https://api.webmailagent.com
+          MAILAGENT_API_URL: https://mail-api.navorina.ai
           MAILAGENT_API_KEY: ${{ secrets.MAILAGENT_API_KEY }}
         run: |
           npm run test:contract:qa

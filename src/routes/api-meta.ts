@@ -1,10 +1,12 @@
 /** Discovery endpoint for agents and documentation */
 
 import { Hono } from "hono";
+import type { Env } from "../env";
+import { workspaceUrl } from "../lib/public-origin";
 import { SERVICE_EXPECT_FROM } from "../lib/service-presets";
 import { MCP_TOOL_NAMES } from "../mcp/manifest";
 
-export const apiMetaRoutes = new Hono();
+export const apiMetaRoutes = new Hono<{ Bindings: Env }>();
 
 apiMetaRoutes.get("/", (c) => {
   return c.json({
@@ -19,7 +21,7 @@ apiMetaRoutes.get("/", (c) => {
       verify: "POST /v1/agent/verify",
       recipes: "GET /v1/agent/recipes/:service",
       remoteMcp: "POST /mcp (JSON-RPC, Bearer)",
-      docs: "https://webmailagent.com/docs/agents.html",
+      docs: workspaceUrl("/docs/agents.html", c.env.MAILAGENT_WORKSPACE_ORIGIN),
     },
     workspaceAgent: {
       hub: "GET /v1/workspace",
@@ -170,8 +172,8 @@ apiMetaRoutes.get("/", (c) => {
       label: "CI run id on create/open",
       subjectContains: "filter wait/open by subject",
       callbackUrl: "HTTPS POST on message.received",
-      docs: "https://webmailagent.com/docs/integrate.html",
-      qaDocs: "https://webmailagent.com/docs/qa.html",
+      docs: workspaceUrl("/docs/integrate.html", c.env.MAILAGENT_WORKSPACE_ORIGIN),
+      qaDocs: workspaceUrl("/docs/qa.html", c.env.MAILAGENT_WORKSPACE_ORIGIN),
     },
   });
 });

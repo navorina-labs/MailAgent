@@ -3,6 +3,7 @@
 import "./load-env.mjs";
 import { randomBytes, createHash } from "node:crypto";
 import { neon } from "@neondatabase/serverless";
+import { apiOrigin } from "./lib/public-origins.mjs";
 import { nanoid } from "nanoid";
 
 const args = process.argv.slice(2);
@@ -68,6 +69,6 @@ Or register in Neon (recommended for billing):
 }
 
 console.log(`Pilot .env:
-  MAILAGENT_API_URL=https://api.webmailagent.com
+  MAILAGENT_API_URL=${apiOrigin()}
   MAILAGENT_API_KEY=${key}
 `);

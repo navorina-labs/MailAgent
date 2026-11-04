@@ -83,6 +83,21 @@ Six primary cores: [context-os/CORE-DEFINITIONS.md](context-os/CORE-DEFINITIONS.
 
 After changing MCP tools, presets, migrations, or routes: `npm run sync:context-os`. CI runs `check:context-os-router` (F1 ≥ 0.9). Eval: [context-os/eval/](context-os/eval/) · framework: [AI-Context-OS](https://github.com/Alex0nder/AI-Context-OS).
 
+## Token budget discipline
+
+Default to **small, routed reads**. This repo is large enough that broad grep/diff/test output can burn a daily agent budget quickly.
+
+| Need | Do |
+|------|----|
+| Find files | `rg --files … \| head -80` or Context OS router first |
+| Search text | Use narrow paths and `-n`; avoid repo-wide `rg` unless routing is unknown |
+| Read files | `sed -n 'start,endp' file`; do not paste whole large HTML/CSS/docs |
+| Inspect changes | `git status --short`, then targeted `git diff -- file` |
+| Tests | Run targeted script from the table above; reserve `test:prod` for pre-merge/full verification |
+| Command output | Cap output (`head`, narrow paths, or tool `max_output_tokens`) and summarize |
+
+If the task is a simple question, answer from the relevant core/doc without opening `src/`. If the task touches code, read only the route/service/test files named by the matched core. More detail: [docs/CODEX-TOKEN-BUDGET.md](docs/CODEX-TOKEN-BUDGET.md).
+
 ## Connect clients
 
 | Client | Config |

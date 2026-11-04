@@ -5,6 +5,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { execSync, spawnSync } from "node:child_process";
 import "./load-env.mjs";
+import { apiUrl } from "./lib/public-origins.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const devVars = join(root, ".dev.vars");
@@ -56,6 +57,6 @@ if (apiKey) {
 } else {
   console.log("  npm run test:contract:qa:oidc   # set MAILAGENT_API_KEY in .env");
   console.log(
-    '  curl -sS https://api.webmailagent.com/v1/agent -H "Authorization: Bearer $MAILAGENT_API_KEY" | jq .auth.oidc'
+    `  curl -sS ${apiUrl("/v1/agent")} -H "Authorization: Bearer $MAILAGENT_API_KEY" | jq .auth.oidc`
   );
 }
