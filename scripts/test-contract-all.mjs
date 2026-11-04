@@ -3,13 +3,14 @@
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { apiOrigin } from "./lib/public-origins.mjs";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 
-/** Always prod (ignore .env workers.dev for local dev). */
+/** Use the explicitly configured hosted API, then the legacy fallback. */
 const prodEnv = {
   ...process.env,
-  MAILAGENT_API_URL: "https://api.webmailagent.com",
+  MAILAGENT_API_URL: apiOrigin(),
 };
 
 const scripts = [

@@ -1,6 +1,6 @@
 # @mailagent/agent
 
-Minimal SDK for [MailAgent](https://webmailagent.com) agent flows.
+Minimal SDK for [MailAgent](https://agents.navorina.ai) agent flows.
 
 ```bash
 npm install @mailagent/agent
@@ -10,7 +10,7 @@ npm install @mailagent/agent
 import { MailAgent } from "@mailagent/agent";
 
 const mail = new MailAgent({
-  baseUrl: "https://api.webmailagent.com",
+  baseUrl: "https://mail-api.navorina.ai",
   apiKey: process.env.MAILAGENT_API_KEY!,
 });
 
@@ -29,4 +29,4 @@ const step2 = await mail.verifySignup({
 console.log(step2.agent?.primaryAction);
 ```
 
-See [Agent docs](https://webmailagent.com/docs/agents.html).
+See [Agent docs](https://agents.navorina.ai/docs/agents.html).

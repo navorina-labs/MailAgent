@@ -2,15 +2,19 @@
  * Shared nav (thirdweb-style dropdowns), docs sidebar, and footer.
  */
 (function () {
-  const GITHUB = "https://github.com/Alex0nder/MailAgent";
+  const GITHUB = "https://github.com/navorina-labs/AgentsOS";
   const PORTFOLIO = "https://alexyoung33rd.com/";
-  const LOGO_SVG = `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><text x="12" y="12.5" text-anchor="middle" dominant-baseline="middle" fill="#ecfef5" font-family="Georgia, 'Times New Roman', Times, serif" font-size="14" font-weight="500">@</text></svg>`;
+  const CONTACT = "hello@webmailagent.com";
+  const KEY_REQUEST = `mailto:${CONTACT}?subject=Mail%20Agent%20API%20key`;
+  const LOGO_SVG = `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><text x="12" y="12.5" text-anchor="middle" dominant-baseline="middle" fill="#ecfef5" font-family="Georgia, 'Times New Roman', Times, serif" font-size="16" font-weight="500">a</text></svg>`;
 
   const NAV_DROPDOWNS = [
     {
       id: "product",
       label: "Product",
       items: [
+        { href: "/#agents", label: "Agent catalog", desc: "Mail, context, design, marketing, and safety" },
+        { href: "/dashboard.html", label: "Mail Agent", desc: "Production email and QA agent" },
         { href: "/#features", label: "Features", desc: "OTP, magic links, safe CTAs" },
         { href: "/#qa", label: "QA / Playwright", desc: "Isolated inboxes per CI worker" },
         { href: "/#workspace", label: "Workspace Agent", desc: "Summarize, draft, policy-gated send" },
@@ -120,6 +124,18 @@
   const mode = body.dataset.site || "marketing";
   const docId = body.dataset.doc || "";
   const path = location.pathname.replace(/\/$/, "") || "/";
+  const primaryMain = document.querySelector("main");
+
+  if (primaryMain) {
+    if (!primaryMain.id) primaryMain.id = "main-content";
+    if (!primaryMain.hasAttribute("tabindex")) primaryMain.setAttribute("tabindex", "-1");
+    if (!document.querySelector(".skip-link")) {
+      body.insertAdjacentHTML(
+        "afterbegin",
+        `<a class="skip-link" href="#${primaryMain.id}">Skip to main content</a>`,
+      );
+    }
+  }
 
   function isActive(href) {
     const h = href.replace(/\/$/, "") || "/";
@@ -188,8 +204,11 @@
 
   function renderNavLinks() {
     if (mode === "marketing") {
-      const dropdowns = NAV_DROPDOWNS.map(renderDropdown).join("");
-      return `${dropdowns}${navLink("/docs/", "Docs")}${navLink("/dashboard.html", "Console")}`;
+      return `${navLink("/#how", "How it works")}
+        ${navLink("/#integrations", "Integrations")}
+        ${navLink("/#compare", "Compare")}
+        ${navLink("/#pricing", "Pricing")}
+        ${navLink("/docs/", "Docs")}`;
     }
     return `${navLink("/docs/", "Docs")}
       ${navLink("/docs/integrate.html", "Self-host")}
@@ -201,17 +220,18 @@
   function renderNav() {
     if (mode === "app") return renderAppNav();
 
-    const consoleCta = `<a class="btn btn-sm btn-primary btn-nav-console" href="/dashboard.html">Console</a>`;
-    const qaCta = `<a class="btn btn-sm btn-ghost" href="/docs/qa.html">Start QA setup</a>`;
-    const navCtas = `${qaCta}${consoleCta}`;
+    const navCtas = mode === "marketing"
+      ? `<a class="btn btn-sm btn-primary btn-nav-console" href="${KEY_REQUEST}" data-analytics-event="mailagent_key_requested" data-analytics-surface="navigation">Get API key</a>`
+      : `<a class="btn btn-sm btn-primary btn-nav-console" href="/dashboard.html">Open Mail Agent</a>`;
     const links = renderNavLinks();
+    const brandName = mode === "marketing" ? "Mail Agent" : "MailAgent";
 
     return `<header class="nav" id="site-header">
       <div class="nav-inner site-container">
         <div class="nav-start">
           <a href="/" class="logo">
             <span class="logo-mark">${LOGO_SVG}</span>
-            MailAgent
+            ${brandName}
           </a>
         </div>
         <nav class="nav-links" id="nav-links" aria-label="Primary">${links}</nav>
@@ -259,64 +279,43 @@
   function renderFooterInner() {
     return `<div class="footer-inner">
         <div class="footer-col">
-          <h4>Product</h4>
+          <h4>Mail Agent</h4>
           <ul>
-            <li><a href="/#features">Features</a></li>
-            <li><a href="/#qa">For QA</a></li>
-            <li><a href="/#workspace">Workspace Agent</a></li>
-            <li><a href="/#mcp">MCP tools</a></li>
             <li><a href="/#how">How it works</a></li>
-            <li><a href="/playwright-email-verification.html">Playwright QA</a></li>
-            <li><a href="/mcp-signup-qa.html">MCP signup QA</a></li>
-            <li><a href="/python-agent-verify.html">Python SDK</a></li>
-            <li><a href="/status.html">Status</a></li>
+            <li><a href="/#integrations">Integrations</a></li>
+            <li><a href="/#compare">Compare</a></li>
+            <li><a href="/#pricing">Pricing</a></li>
+            <li><a href="/#faq">FAQ</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>Developers</h4>
           <ul>
-            <li><a href="${GITHUB}" rel="noopener noreferrer">GitHub</a></li>
-            <li><a href="/docs/integrate.html">Self-host</a></li>
             <li><a href="/docs/">API reference</a></li>
-            <li><a href="/docs/agents.html">AI agents &amp; MCP</a></li>
-            <li>
-              <a href="https://github.com/Alex0nder/MailAgent/blob/main/docs/WORKSPACE-AUTONOMY.md" rel="noopener noreferrer">Workspace autonomy</a>
-            </li>
-            <li>
-              <a href="https://github.com/Alex0nder/MailAgent/blob/main/docs/WORKSPACE-LOCAL-LLM.md" rel="noopener noreferrer">Local LLM (Ollama)</a>
-            </li>
-            <li><a href="/docs/qa.html">QA / Playwright</a></li>
-            <li><a href="/docs/scoped-keys.html">Scoped keys</a></li>
-            <li><a href="/docs/raw-mime.html">Raw MIME</a></li>
-            <li><a href="/docs/attachments.html">Attachments</a></li>
-            <li><a href="/docs/custom-domain.html">Custom domain</a></li>
-            <li><a href="/docs/dedicated-domains.html">Dedicated Resend</a></li>
-            <li><a href="/docs/enterprise.html">Enterprise</a></li>
+            <li><a href="/docs/agents.html">MCP and AI agents</a></li>
+            <li><a href="/docs/qa.html">Playwright and Cypress</a></li>
+            <li><a href="/docs/autotests.html">Autotests</a></li>
+            <li><a href="/docs/integrate.html">Self-host</a></li>
             <li><a href="https://api.webmailagent.com/v1/openapi.json" rel="noopener noreferrer">OpenAPI</a></li>
-            <li>
-              <a
-                href="mailto:hello@webmailagent.com?subject=MailAgent%20hosted%20API%20key"
-                title="Email hello@webmailagent.com"
-              >Hosted API key</a>
-            </li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>Console</h4>
           <ul>
-            <li><a href="/dashboard.html">Dashboard</a></li>
-            <li><a href="/workspace.html">Workspace</a></li>
-            <li><a href="/audit.html">Audit log</a></li>
-            <li><a href="/debug.html">Debug inboxes</a></li>
-            <li><a href="/agent-runs.html">Agent runs</a></li>
+            <li><a href="/dashboard.html">Hosted console</a></li>
+            <li><a href="/status.html">Service status</a></li>
+            <li><a href="/docs/security.html">Security</a></li>
+            <li><a href="mailto:${CONTACT}">${CONTACT}</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Stack</h4>
+          <h4>Project</h4>
           <ul>
-            <li><a href="https://resend.com" rel="noopener noreferrer">Resend</a></li>
-            <li><a href="https://developers.cloudflare.com/workers/" rel="noopener noreferrer">Cloudflare Workers</a></li>
-            <li><a href="/docs/agents.html#remote-mcp">MCP (setup)</a></li>
+            <li><a href="${GITHUB}" rel="noopener noreferrer">AgentsOS on GitHub</a></li>
+            <li><a href="${GITHUB}/tree/main/agents/mail-agent" rel="noopener noreferrer">Mail Agent source</a></li>
+            <li><a href="${GITHUB}/blob/main/LICENSE" rel="noopener noreferrer">MIT License</a></li>
+            <li><a href="/privacy.html">Privacy</a></li>
+            <li><a href="/terms.html">Terms</a></li>
           </ul>
         </div>
       </div>`;
@@ -325,21 +324,18 @@
   function renderFooterLegal() {
     return `<div class="footer-legal">
         <p class="footer-legal-copy">
-          © MailAgent. Open-source email verification for agents and QA.
-          <a href="${GITHUB}" rel="noopener noreferrer">Source</a>
-          · <a href="/privacy.html">Privacy</a>
-          · <a href="/terms.html">Terms</a>
+          © Mail Agent, part of AgentsOS
         </p>
         <p class="footer-legal-copy">
-          Made with love for agents &amp; QA —
-          <a href="${PORTFOLIO}" target="_blank" rel="noopener noreferrer">Alexander Young <span class="footer-heart" aria-hidden="true">♥</span></a>
+          Made by
+          <a href="${PORTFOLIO}" target="_blank" rel="noopener noreferrer">Alexander Young</a>
         </p>
       </div>`;
   }
 
   function renderFooterWordmark() {
-    return `<a href="/" class="footer-wordmark-link" aria-label="MailAgent — home">
-        <span class="footer-wordmark" id="footerWordmark">MailAgent</span>
+    return `<a href="/" class="footer-wordmark-link" aria-label="Mail Agent home">
+        <span class="footer-wordmark" id="footerWordmark">Mail Agent</span>
       </a>`;
   }
 
@@ -430,7 +426,7 @@
   function initNavDropdowns() {
     const header = document.getElementById("site-header");
     const dropdowns = header?.querySelectorAll(".nav-dropdown") ?? [];
-    if (!dropdowns.length) return;
+    if (!header) return;
 
     const desktop = () => window.matchMedia("(min-width: 900px)").matches;
     let keyboardOpened = null;
@@ -547,9 +543,12 @@
 
     document.addEventListener("keydown", (event) => {
       if (event.key !== "Escape") return;
+      const mobileMenuWasOpen = header?.classList.contains("is-open");
       dropdowns.forEach((dropdown) => closeDropdown(dropdown, true));
       header?.classList.remove("is-open");
-      document.getElementById("nav-toggle")?.setAttribute("aria-expanded", "false");
+      const navToggle = document.getElementById("nav-toggle");
+      navToggle?.setAttribute("aria-expanded", "false");
+      if (mobileMenuWasOpen) navToggle?.focus();
     });
   }
 
@@ -563,6 +562,39 @@
 
     sync();
     window.addEventListener("scroll", sync, { passive: true });
+  }
+
+  function initHeroCodeTabs() {
+    const tablist = document.querySelector(".hero-code-tabs");
+    if (!tablist) return;
+
+    const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
+    const activate = (nextTab, { focus = false } = {}) => {
+      tabs.forEach((tab) => {
+        const selected = tab === nextTab;
+        tab.setAttribute("aria-selected", selected ? "true" : "false");
+        tab.setAttribute("tabindex", selected ? "0" : "-1");
+        const panel = document.getElementById(tab.getAttribute("aria-controls"));
+        if (!panel) return;
+        panel.hidden = !selected;
+        panel.classList.toggle("is-active", selected);
+      });
+      if (focus) nextTab.focus();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => activate(tab));
+      tab.addEventListener("keydown", (event) => {
+        if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+        event.preventDefault();
+        let nextIndex = index;
+        if (event.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+        if (event.key === "ArrowLeft") nextIndex = (index - 1 + tabs.length) % tabs.length;
+        if (event.key === "Home") nextIndex = 0;
+        if (event.key === "End") nextIndex = tabs.length - 1;
+        activate(tabs[nextIndex], { focus: true });
+      });
+    });
   }
 
   const navMount = document.getElementById("site-nav");
@@ -595,8 +627,16 @@
         const open = header.classList.toggle("is-open");
         toggle.setAttribute("aria-expanded", open ? "true" : "false");
       });
+
+      header.addEventListener("click", (event) => {
+        if (!event.target.closest("a") || !header.classList.contains("is-open")) return;
+        header.classList.remove("is-open");
+        toggle.setAttribute("aria-expanded", "false");
+      });
     }
   }
+
+  initHeroCodeTabs();
 
   const sideMount = document.getElementById("site-doc-nav");
   if (sideMount && mode === "docs") {

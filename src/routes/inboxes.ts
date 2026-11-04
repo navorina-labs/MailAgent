@@ -548,7 +548,7 @@ inboxRoutes.get("/:id/diagnose", async (c) => {
     0,
     Math.floor(Number(c.req.query("messageIndex") ?? 0))
   );
-  const apiBase = publicOriginFromUrl(c.req.url);
+  const apiBase = publicOriginFromUrl(c.req.url, c.env.MAILAGENT_PUBLIC_API_ORIGIN);
 
   const diagnose = await buildInboxDiagnose(c.env, inbox.id, {
     subjectContains,

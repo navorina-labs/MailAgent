@@ -37,4 +37,4 @@ npm run test:staging
 ## Docs
 
 - [QA-PILOT.md](../../docs/QA-PILOT.md)
-- [webmailagent.com/docs/qa.html](https://webmailagent.com/docs/qa.html)
+- [agents.navorina.ai/docs/qa.html](https://agents.navorina.ai/docs/qa.html)

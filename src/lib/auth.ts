@@ -40,7 +40,7 @@ export async function requireMcpAuth(
 ) {
   const auth = await resolveAuth(c.env, bearerToken(c.req.header("Authorization")));
   if (!auth) {
-    const origin = publicOriginFromUrl(c.req.url);
+    const origin = publicOriginFromUrl(c.req.url, c.env.MAILAGENT_PUBLIC_API_ORIGIN);
     c.header(
       "WWW-Authenticate",
       `Bearer resource_metadata="${origin}/.well-known/oauth-protected-resource/mcp"`

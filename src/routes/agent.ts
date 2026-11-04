@@ -12,7 +12,7 @@ import {
   resolveAgentLabel,
 } from "../lib/agent-recipes";
 import { scopeLabelForCreate, scopeWriteDenied } from "../lib/scope-guard";
-import { publicOriginFromUrl } from "../lib/public-origin";
+import { publicOriginFromUrl, workspaceUrl } from "../lib/public-origin";
 import { SERVICE_EXPECT_FROM } from "../lib/service-presets";
 import { suggestPreset, type PresetAdviceInput } from "../lib/preset-advisor";
 import {
@@ -79,8 +79,8 @@ agentRoutes.get("/", (c) => {
       me: "GET /v1/me",
       mcpAuth: "GET /mcp/auth",
       oidcDocs: oidc
-        ? "https://webmailagent.com/docs/oauth-idp.html"
-        : "https://webmailagent.com/docs/agents.html#mcp-oauth",
+        ? workspaceUrl("/docs/oauth-idp.html", c.env.MAILAGENT_WORKSPACE_ORIGIN)
+        : workspaceUrl("/docs/agents.html#mcp-oauth", c.env.MAILAGENT_WORKSPACE_ORIGIN),
     },
     recommended: {
       verify: {
@@ -141,7 +141,7 @@ agentRoutes.get("/", (c) => {
       },
       auth: "GET /mcp/auth",
     },
-    docs: "https://webmailagent.com/docs/agents.html",
+    docs: workspaceUrl("/docs/agents.html", c.env.MAILAGENT_WORKSPACE_ORIGIN),
     distribution: {
       status: "https://github.com/Alex0nder/MailAgent/blob/main/docs/DISTRIBUTION-STATUS.md",
       skill: {
@@ -157,14 +157,14 @@ agentRoutes.get("/", (c) => {
       skillsCatalogPr: "https://github.com/VoltAgent/awesome-agent-skills/pull/659",
     },
     packages: NPM_PACKAGES,
-    console: "https://webmailagent.com/dashboard.html",
-    billing: "https://webmailagent.com/docs/billing.html",
-    enterprise: "https://webmailagent.com/docs/enterprise.html",
-    security: "https://webmailagent.com/docs/security.html",
-    privacy: "https://webmailagent.com/privacy.html",
-    terms: "https://webmailagent.com/terms.html",
-    dedicatedDomains: "https://webmailagent.com/docs/dedicated-domains.html",
-    autotests: "https://webmailagent.com/docs/autotests.html",
+    console: workspaceUrl("/dashboard.html", c.env.MAILAGENT_WORKSPACE_ORIGIN),
+    billing: workspaceUrl("/docs/billing.html", c.env.MAILAGENT_WORKSPACE_ORIGIN),
+    enterprise: workspaceUrl("/docs/enterprise.html", c.env.MAILAGENT_WORKSPACE_ORIGIN),
+    security: workspaceUrl("/docs/security.html", c.env.MAILAGENT_WORKSPACE_ORIGIN),
+    privacy: workspaceUrl("/privacy.html", c.env.MAILAGENT_WORKSPACE_ORIGIN),
+    terms: workspaceUrl("/terms.html", c.env.MAILAGENT_WORKSPACE_ORIGIN),
+    dedicatedDomains: workspaceUrl("/docs/dedicated-domains.html", c.env.MAILAGENT_WORKSPACE_ORIGIN),
+    autotests: workspaceUrl("/docs/autotests.html", c.env.MAILAGENT_WORKSPACE_ORIGIN),
     tests: {
       prodGateCi: "npm run test:prod:gate",
       prodGate: "npm run test:prod",
@@ -220,7 +220,7 @@ agentRoutes.post("/autopilot", async (c) => {
     ? await buildInboxDiagnose(c.env, body.inboxId!, {
         subjectContains: body.subjectContains,
         messageIndex: body.messageIndex,
-        apiBaseUrl: publicOriginFromUrl(c.req.url),
+        apiBaseUrl: publicOriginFromUrl(c.req.url, c.env.MAILAGENT_PUBLIC_API_ORIGIN),
         apiKeyHint: c.get("apiKeyHint"),
       })
     : null;
@@ -299,7 +299,7 @@ agentRoutes.post("/runs/start", async (c) => {
         ownerKey: sessionOwnerKey(c.get("teamId"), c.get("apiKeyHint")),
         teamId: c.get("teamId"),
         apiKeyHint: c.get("apiKeyHint"),
-        apiBaseUrl: publicOriginFromUrl(c.req.url),
+        apiBaseUrl: publicOriginFromUrl(c.req.url, c.env.MAILAGENT_PUBLIC_API_ORIGIN),
       },
       body
     );
@@ -331,7 +331,7 @@ agentRoutes.post("/runs/:runId/next", async (c) => {
         ownerKey: sessionOwnerKey(c.get("teamId"), c.get("apiKeyHint")),
         teamId: c.get("teamId"),
         apiKeyHint: c.get("apiKeyHint"),
-        apiBaseUrl: publicOriginFromUrl(c.req.url),
+        apiBaseUrl: publicOriginFromUrl(c.req.url, c.env.MAILAGENT_PUBLIC_API_ORIGIN),
       },
       c.req.param("runId"),
       body
@@ -364,7 +364,7 @@ agentRoutes.post("/runs/:runId/report", async (c) => {
         ownerKey: sessionOwnerKey(c.get("teamId"), c.get("apiKeyHint")),
         teamId: c.get("teamId"),
         apiKeyHint: c.get("apiKeyHint"),
-        apiBaseUrl: publicOriginFromUrl(c.req.url),
+        apiBaseUrl: publicOriginFromUrl(c.req.url, c.env.MAILAGENT_PUBLIC_API_ORIGIN),
       },
       c.req.param("runId"),
       body
@@ -495,7 +495,7 @@ agentRoutes.post("/verify", async (c) => {
     ...body,
     apiKeyHint: c.get("apiKeyHint"),
     teamId: c.get("teamId"),
-    apiBaseUrl: publicOriginFromUrl(c.req.url),
+    apiBaseUrl: publicOriginFromUrl(c.req.url, c.env.MAILAGENT_PUBLIC_API_ORIGIN),
   });
 
   if ("error" in result && result.error === "invalid_callback_url") {

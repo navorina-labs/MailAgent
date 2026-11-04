@@ -29,4 +29,4 @@ Prefer Playwright? Use [qa-pilot-starter](../qa-pilot-starter).
 ## Docs
 
 - [QA-PILOT.md](../../docs/QA-PILOT.md)
-- [webmailagent.com/docs/qa.html](https://webmailagent.com/docs/qa.html)
+- [agents.navorina.ai/docs/qa.html](https://agents.navorina.ai/docs/qa.html)

@@ -4,12 +4,13 @@ import "./load-env.mjs";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { apiOrigin } from "./lib/public-origins.mjs";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 const prodEnv = {
   ...process.env,
-  MAILAGENT_API_URL: "https://api.webmailagent.com",
+  MAILAGENT_API_URL: apiOrigin(),
 };
 
 function run(script) {

@@ -46,8 +46,8 @@ const diagnoseNoMessages: InboxDiagnoseResult = {
     },
   },
   nextActions: [],
-  debugUiUrl: "https://webmailagent.com/debug.html?inbox=inb_1",
-  apiMessagesUrl: "https://api.webmailagent.com/v1/inboxes/inb_1/messages",
+  debugUiUrl: "https://agents.navorina.ai/debug.html?inbox=inb_1",
+  apiMessagesUrl: "https://mail-api.navorina.ai/v1/inboxes/inb_1/messages",
 };
 
 function main() {

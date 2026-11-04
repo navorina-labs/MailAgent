@@ -5,6 +5,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { neon } from "@neondatabase/serverless";
+import { apiOrigin } from "./lib/public-origins.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -38,10 +39,7 @@ const notes = [];
 
 if (qaMode) {
   console.log("MailAgent doctor (--qa consumer)\n");
-  const apiUrl = (merged.MAILAGENT_API_URL ?? "https://api.webmailagent.com").replace(
-    /\/$/,
-    ""
-  );
+  const apiUrl = apiOrigin(merged);
   const apiKey = merged.MAILAGENT_API_KEY ?? merged.API_KEY;
   if (!apiKey) {
     console.log("✗ Set MAILAGENT_API_KEY (or API_KEY in .dev.vars)");
@@ -188,10 +186,7 @@ if (merged.DATABASE_URL && !merged.DATABASE_URL.includes("placeholder")) {
   notes.push("Skip DB check (no DATABASE_URL)");
 }
 
-const apiUrl = (merged.MAILAGENT_API_URL ?? "https://api.webmailagent.com").replace(
-  /\/$/,
-  ""
-);
+const apiUrl = apiOrigin(merged);
 const apiKey = merged.MAILAGENT_API_KEY ?? merged.API_KEY;
 
 if (merged.RESEND_API_KEY && !merged.RESEND_API_KEY.includes("xxx")) {

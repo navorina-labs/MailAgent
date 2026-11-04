@@ -12,6 +12,7 @@ import { debugUiUrl } from "./inbox-diagnose";
 import { PLAN_LIMITS, normalizePlan } from "../lib/plans";
 import { getTeam } from "./api-key-store";
 import { getTeamIdByApiKeyHint } from "./team-event-webhook";
+import { publicApiOrigin } from "../lib/public-origin";
 
 export type NotifyMailInput = {
   inbox: InboxRow;
@@ -119,7 +120,9 @@ export async function fireInboxNotify(
     });
   }
 
-  const apiBase = input.apiBaseUrl?.replace(/\/$/, "") ?? "https://api.webmailagent.com";
+  const apiBase =
+    input.apiBaseUrl?.replace(/\/$/, "") ??
+    publicApiOrigin(env.MAILAGENT_PUBLIC_API_ORIGIN);
   const debugUrl = debugUiUrl(apiBase, input.inbox.id);
   const { subject, text, html } = buildNotifyBodies(
     input.inbox,

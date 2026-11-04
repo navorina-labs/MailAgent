@@ -24,6 +24,7 @@ import { runDueWorkspaceMonitors } from "./services/workspace-monitor-runner";
 import { auditRoutes } from "./routes/audit";
 import { emailRoutes } from "./routes/emails";
 import { workspaceRoutes } from "./routes/workspace";
+import { isInsecureRequest } from "./lib/public-origin";
 
 export { InboxWait };
 
@@ -33,6 +34,8 @@ const ALLOWED_CORS_ORIGINS = new Set([
   "https://webmailagent.com",
   "https://www.webmailagent.com",
   "https://api.webmailagent.com",
+  "https://agents.navorina.ai",
+  "https://mail-api.navorina.ai",
   "http://127.0.0.1:8787",
   "http://localhost:8787",
   "http://127.0.0.1:4173",
@@ -97,26 +100,12 @@ app.route("/", wellKnownRoutes);
 
 app.notFound((c) => c.json({ error: "not_found" }, 404));
 
-/** Cloudflare serves http:// without redirect unless Always Use HTTPS is enabled */
-function isInsecureRequest(request: Request): boolean {
-  const proto = request.headers.get("X-Forwarded-Proto");
-  if (proto === "http") return true;
-  const visitor = request.headers.get("CF-Visitor");
-  if (visitor) {
-    try {
-      const parsed = JSON.parse(visitor) as { scheme?: string };
-      return parsed.scheme === "http";
-    } catch {
-      /* ignore malformed header */
-    }
-  }
-  return new URL(request.url).protocol === "http:";
-}
-
 const HTTPS_HOSTS = new Set([
   "webmailagent.com",
   "www.webmailagent.com",
   "api.webmailagent.com",
+  "agents.navorina.ai",
+  "mail-api.navorina.ai",
 ]);
 
 /** API → Hono; everything else → public/ static; www → apex; http → https */

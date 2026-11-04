@@ -13,6 +13,7 @@ import {
 } from "../services/billing";
 import { getTeamBilling } from "../services/api-key-store";
 import { auditRoute } from "../services/audit-log";
+import { workspaceUrl } from "../lib/public-origin";
 
 export const billingRoutes = new Hono<{ Bindings: Env; Variables: ApiVariables }>();
 
@@ -51,9 +52,9 @@ billingRoutes.post("/checkout", async (c) => {
   }
 
   const successUrl =
-    body.successUrl ?? "https://webmailagent.com/dashboard.html?billing=success";
+    body.successUrl ?? workspaceUrl("/dashboard.html?billing=success", c.env.MAILAGENT_WORKSPACE_ORIGIN);
   const cancelUrl =
-    body.cancelUrl ?? "https://webmailagent.com/dashboard.html?billing=cancel";
+    body.cancelUrl ?? workspaceUrl("/dashboard.html?billing=cancel", c.env.MAILAGENT_WORKSPACE_ORIGIN);
 
   try {
     const session = await createCheckoutSession(c.env, {
@@ -109,7 +110,7 @@ billingRoutes.post("/portal", async (c) => {
   }
 
   const returnUrl =
-    body.returnUrl ?? "https://webmailagent.com/dashboard.html?billing=portal";
+    body.returnUrl ?? workspaceUrl("/dashboard.html?billing=portal", c.env.MAILAGENT_WORKSPACE_ORIGIN);
 
   try {
     const session = await createBillingPortalSession(c.env, {

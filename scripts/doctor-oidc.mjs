@@ -4,10 +4,11 @@ import { existsSync, readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import "./load-env.mjs";
+import { apiOrigin, apiUrl } from "./lib/public-origins.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const devVarsPath = join(root, ".dev.vars");
-const apiUrl = "https://api.webmailagent.com";
+const publicApi = apiOrigin();
 const apiKey = process.env.MAILAGENT_API_KEY ?? process.env.API_KEY;
 
 function parseDevVars(path) {
@@ -31,7 +32,7 @@ console.log("MailAgent OIDC check\n");
 
 console.log("Auth0 app (Regular Web Application):");
 console.log("  Allowed Callback URLs:");
-console.log("    https://api.webmailagent.com/v1/oauth/callback");
+console.log(`    ${apiUrl("/v1/oauth/callback")}`);
 console.log("    http://127.0.0.1:8787/v1/oauth/callback");
 console.log("  OIDC Issuer = Auth0 Domain (https://TENANT.us.auth0.com)\n");
 
@@ -63,7 +64,7 @@ if (!apiKey) {
 }
 
 try {
-  const agentRes = await fetch(`${apiUrl}/v1/agent`, {
+  const agentRes = await fetch(`${publicApi}/v1/agent`, {
     headers: { Authorization: `Bearer ${apiKey}` },
   });
   const agent = await agentRes.json().catch(() => ({}));
@@ -72,7 +73,7 @@ try {
   console.log(`  auth.oidc: ${oidc}`);
 
   if (oidc === "enabled") {
-    const meta = await fetch(`${apiUrl}/.well-known/oauth-authorization-server`).then((r) =>
+    const meta = await fetch(`${publicApi}/.well-known/oauth-authorization-server`).then((r) =>
       r.json().catch(() => ({}))
     );
     console.log(`  authorization_endpoint: ${meta.authorization_endpoint ? "yes" : "no"}`);

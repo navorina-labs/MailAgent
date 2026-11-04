@@ -4,6 +4,12 @@ import { listCallbackDeliveries } from "./callback-log";
 import { getInbox, listMessages } from "./inbox";
 import { primaryLink } from "./extract";
 import { buildWaitTimeoutDebug } from "./wait";
+import {
+  LEGACY_API_ORIGIN,
+  LEGACY_WORKSPACE_ORIGIN,
+  NAVORINA_API_ORIGIN,
+  NAVORINA_WORKSPACE_ORIGIN,
+} from "../lib/public-origin";
 
 export type InboxDiagnoseOptions = {
   subjectContains?: string;
@@ -408,13 +414,12 @@ function dedupeActions(actions: DiagnoseAction[]): DiagnoseAction[] {
 
 export function debugUiUrl(apiBase: string, inboxId: string): string {
   const base = apiBase.replace(/\/$/, "");
-  if (base.includes("://api.")) {
-    return `${base.replace("://api.", "://")}/debug.html?inbox=${encodeURIComponent(inboxId)}`;
-  }
+  if (base === LEGACY_API_ORIGIN) return `${LEGACY_WORKSPACE_ORIGIN}/debug.html?inbox=${encodeURIComponent(inboxId)}`;
+  if (base === NAVORINA_API_ORIGIN) return `${NAVORINA_WORKSPACE_ORIGIN}/debug.html?inbox=${encodeURIComponent(inboxId)}`;
   if (base.includes("workers.dev") || base.includes("localhost") || base.includes("127.0.0.1")) {
     return `${base}/debug.html?inbox=${encodeURIComponent(inboxId)}`;
   }
-  return `https://webmailagent.com/debug.html?inbox=${encodeURIComponent(inboxId)}`;
+  return `${base}/debug.html?inbox=${encodeURIComponent(inboxId)}`;
 }
 
 function parseLinks(raw: unknown): string[] {

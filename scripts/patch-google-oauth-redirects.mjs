@@ -5,6 +5,7 @@ import { existsSync, mkdirSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { apiUrl } from "./lib/public-origins.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CLIENT_SUFFIX =
@@ -13,8 +14,8 @@ const PROJECT = "navorina";
 const PROFILE = join(homedir(), ".mailagent-gcp-oauth-profile");
 
 const REDIRECTS = [
-  "https://api.webmailagent.com/v1/workspace/gmail/callback",
-  "https://api.webmailagent.com/v1/workspace/calendar/callback",
+  apiUrl("/v1/workspace/gmail/callback"),
+  apiUrl("/v1/workspace/calendar/callback"),
   "https://mailagent.alex-young33rd.workers.dev/v1/workspace/gmail/callback",
   "https://mailagent.alex-young33rd.workers.dev/v1/workspace/calendar/callback",
   "http://127.0.0.1:8787/v1/workspace/gmail/callback",

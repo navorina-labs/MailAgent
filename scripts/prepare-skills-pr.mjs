@@ -32,13 +32,13 @@ if (!existsSync(skillPath)) {
 mkdirSync(outDir, { recursive: true });
 
 const entry =
-  "- **[Alex0nder/mailagent](https://github.com/Alex0nder/MailAgent/tree/main/skills/mailagent)** - Disposable inboxes for signup OTP and magic links\n";
+  "- **[navorinaai/mailagent](https://github.com/navorinaai/navorina/tree/main/agents-os/agents/mail-agent/skills/mailagent)** - Disposable inboxes for signup OTP and magic links\n";
 
 const meta = {
-  repo: "https://github.com/Alex0nder/MailAgent",
-  skillPath: "skills/mailagent/SKILL.md",
-  install: "npx skills add Alex0nder/MailAgent --skill mailagent",
-  ghInstall: "gh skill install Alex0nder/MailAgent mailagent --agent codex",
+  repo: "https://github.com/navorinaai/navorina",
+  skillPath: "agents-os/agents/mail-agent/skills/mailagent/SKILL.md",
+  install: "npx skills add navorinaai/navorina --skill mailagent",
+  ghInstall: "gh skill install navorinaai/navorina mailagent --agent codex",
   category: "Development and Testing",
   section: "Community Skills → Development and Testing",
 };
@@ -51,5 +51,5 @@ console.log("Entry:", outDir.replace(root + "/", "") + "/README-ENTRY.md");
 console.log("\nNext:");
 console.log("  1. Fork https://github.com/VoltAgent/awesome-agent-skills");
 console.log("  2. Add README-ENTRY.md line under Community → Development and Testing");
-console.log("  3. PR title: Add skill: Alex0nder/mailagent");
+console.log("  3. PR title: Add skill: navorinaai/mailagent");
 console.log("  4. See docs/SKILLS-SUBMIT.md");

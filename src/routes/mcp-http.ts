@@ -2,7 +2,7 @@
 import { Hono, type Context } from "hono";
 import type { Env } from "../env";
 import type { ApiVariables } from "../lib/api-context";
-import { publicOriginFromUrl } from "../lib/public-origin";
+import { publicOriginFromUrl, workspaceUrl } from "../lib/public-origin";
 import type { ApiKeyScope } from "../lib/key-scope";
 import { requireMcpAuth } from "../lib/auth";
 import { rateLimit } from "../lib/rate-limit";
@@ -25,7 +25,7 @@ mcpHttpRoutes.use("*", requireMcpAuth);
 mcpHttpRoutes.use("*", rateLimit);
 
 mcpHttpRoutes.get("/auth", (c) => {
-  const apiOrigin = publicOriginFromUrl(c.req.url);
+  const apiOrigin = publicOriginFromUrl(c.req.url, c.env.MAILAGENT_PUBLIC_API_ORIGIN);
   const oidc = isOidcEnabled(c.env);
   return c.json({
     type: "oauth2",
@@ -56,7 +56,7 @@ mcpHttpRoutes.get("/auth", (c) => {
     },
     issue: "npm run issue:key:db or /dashboard.html",
     oidc: oidc ? "enabled" : "disabled",
-    docs: "https://webmailagent.com/docs/oauth-idp.html",
+    docs: workspaceUrl("/docs/oauth-idp.html", c.env.MAILAGENT_WORKSPACE_ORIGIN),
   });
 });
 
@@ -76,7 +76,7 @@ mcpHttpRoutes.get("/", (c) => {
     auth: "Authorization: Bearer <API_KEY>",
     progress: "POST tools/call with Accept: text/event-stream on wait tools",
     tools: MCP_TOOLS.length,
-    docs: "https://webmailagent.com/docs/agents.html#remote-mcp",
+    docs: workspaceUrl("/docs/agents.html#remote-mcp", c.env.MAILAGENT_WORKSPACE_ORIGIN),
   });
 });
 

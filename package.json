@@ -2,10 +2,11 @@
   "name": "mailagent",
   "version": "0.1.0",
   "description": "Temporary email inboxes for AI agents & QA/E2E — MCP, REST, OTP/magic links. Cloudflare Workers, Neon, Resend. MIT.",
-  "homepage": "https://webmailagent.com",
+  "homepage": "https://github.com/navorinaai/navorina/tree/main/agents-os/agents/mail-agent",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Alex0nder/MailAgent.git"
+    "url": "git+https://github.com/navorinaai/navorina.git",
+    "directory": "agents-os/agents/mail-agent"
   },
   "private": true,
   "type": "module",
@@ -43,6 +44,9 @@
     "rotate:oidc": "node scripts/setup-oidc-prod.mjs",
     "deploy": "wrangler deploy",
     "check": "tsc --noEmit",
+    "test:product-analytics": "node scripts/test-product-analytics.mjs",
+    "test:public-origin": "npx -y tsx@4.21.0 --test scripts/public-origin.test.ts",
+    "test:script-origins": "node --test scripts/public-origins.test.mjs",
     "types": "wrangler types",
     "db:migrate": "node scripts/migrate.mjs",
     "build:mcp": "cd mcp && npm install && npm run build",
@@ -80,10 +84,10 @@
     "test:contract:qa:agent-runs": "node scripts/contract-qa-agent-runs.mjs",
     "test:contract:qa:workspace-agent": "node scripts/contract-qa-workspace-agent.mjs",
     "test:contract:qa:agent-access": "node scripts/contract-qa-agent-access.mjs",
-    "test:contract:qa:oidc": "MAILAGENT_API_URL=https://api.webmailagent.com node scripts/contract-qa-oidc.mjs",
-    "test:contract:qa:billing": "MAILAGENT_API_URL=https://api.webmailagent.com node scripts/contract-qa-billing.mjs",
+    "test:contract:qa:oidc": "node scripts/contract-qa-oidc.mjs",
+    "test:contract:qa:billing": "node scripts/contract-qa-billing.mjs",
     "test:contract:qa:session": "node scripts/contract-qa-session.mjs",
-    "test:contract:qa:outbound": "MAILAGENT_API_URL=https://api.webmailagent.com node scripts/contract-qa-outbound.mjs",
+    "test:contract:qa:outbound": "node scripts/contract-qa-outbound.mjs",
     "test:contract:all": "node scripts/test-contract-all.mjs",
     "test:prod": "node scripts/test-prod.mjs",
     "test:prod:gate": "node scripts/test-prod-gate.mjs",
@@ -102,12 +106,11 @@
     "prepare:skills-pr": "node scripts/prepare-skills-pr.mjs",
     "import:skill-hub": "node scripts/import-skill-hub.mjs",
     "check:catalog-prs": "node scripts/check-catalog-prs.mjs",
-    "harden:repo": "gh repo edit Alex0nder/MailAgent --enable-secret-scanning --enable-secret-scanning-push-protection",
+    "harden:repo": "gh repo edit navorinaai/navorina --enable-secret-scanning --enable-secret-scanning-push-protection",
     "package:codex": "node scripts/package-codex-plugin.mjs",
     "codex:install": "node scripts/codex-install.mjs",
     "test:pw:setup": "node scripts/playwright-global-setup.mjs",
     "ci:mailagent-alerts": "npm run build:qa && node scripts/ci-mailagent-alerts.mjs",
-    "repo:github-about": "gh repo edit Alex0nder/MailAgent --description \"Temporary email inboxes for AI agents & QA/E2E — MCP, REST, OTP/magic links. Cloudflare Workers, Neon, Resend. MIT.\" --homepage https://webmailagent.com",
     "eval:context-os:route": "node context-os/eval/route-eval.mjs",
     "eval:context-os:router-build": "node context-os/eval/build-router-embeddings.mjs",
     "eval:context-os:route-semantic": "node context-os/eval/route-eval.mjs --semantic",
@@ -128,17 +131,17 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
-    "hono": "^4.12.26",
+    "hono": "^4.12.32",
     "jose": "^6.2.3",
     "nanoid": "^5.1.6",
     "parse-otp-message": "^1.0.2",
     "resend": "^6.9.2"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260120.0",
+    "@cloudflare/workers-types": "^5.20260727.1",
     "@playwright/test": "^1.51.0",
     "typescript": "^5.9.3",
-    "wrangler": "^4.101.0"
+    "wrangler": "^4.114.0"
   },
   "overrides": {
     "esbuild": "^0.28.1",

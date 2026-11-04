@@ -26,10 +26,10 @@ cp .env.example .env
 chmod +x scripts/run-mailagent-mcp.sh
 ```
 
-Put secrets in `.env` (gitignored). `MAILAGENT_API_URL` defaults to `https://api.webmailagent.com`.
+Put secrets in `.env` (gitignored). `MAILAGENT_API_URL` defaults to `https://mail-api.navorina.ai`.
 `MAILAGENT_API_KEY` may also come from the parent process environment. Do not log or paste the key.
 
-Get a key: https://webmailagent.com/dashboard.html (Team keys).
+Get a key: https://agents.navorina.ai/dashboard.html (Team keys).
 
 ## Check MCP
 
@@ -53,9 +53,9 @@ If the form is already submitted, use `mailagent_verify_signup` to wait and extr
 ## Remote MCP (OAuth)
 
 For Streamable HTTP without a local subprocess, see
-[OAuth IdP docs](https://webmailagent.com/docs/oauth-idp.html) and use `https://api.webmailagent.com/mcp`
+[OAuth IdP docs](https://agents.navorina.ai/docs/oauth-idp.html) and use `https://mail-api.navorina.ai/mcp`
 with a short-lived `mat_` bearer token.
 
 This bundle keeps stdio MCP via `npx -y -p @mailagent/mcp@0.2.16 mailagent-mcp`.
 
-Docs: https://webmailagent.com/docs/codex.html · Upstream: https://github.com/Alex0nder/MailAgent
+Docs: https://agents.navorina.ai/docs/codex.html · Upstream: https://github.com/navorinaai/navorina/tree/main/agents-os/agents/mail-agent

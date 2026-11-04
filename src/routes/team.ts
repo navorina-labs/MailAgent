@@ -293,7 +293,7 @@ teamRoutes.put("/dedicated-resend", async (c) => {
     return c.json(
       {
         error: "enterprise_plan_required",
-        hint: "Contact hello@webmailagent.com or npm run team:plan -- TEAM_ID enterprise",
+        hint: "Contact Navorina support or run npm run team:plan -- TEAM_ID enterprise",
       },
       403
     );

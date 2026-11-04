@@ -5,11 +5,10 @@
 import "./load-env.mjs";
 import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
+import { apiOrigin } from "./lib/public-origins.mjs";
 
 const apiKey = process.env.MAILAGENT_API_KEY ?? process.env.API_KEY;
-const apiUrl = (
-  process.env.MAILAGENT_API_URL ?? "https://api.webmailagent.com"
-).replace(/\/$/, "");
+const apiUrl = apiOrigin();
 
 if (!apiKey) {
   console.error("codex-install: set API_KEY or MAILAGENT_API_KEY in .dev.vars");

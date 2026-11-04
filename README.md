@@ -1,7 +1,6 @@
-# MailAgent
+# Mail Agent
 
-> [!IMPORTANT]
-> Development has moved to [navorina-labs/AgentsOS](https://github.com/navorina-labs/AgentsOS/tree/main/agents/mail-agent). This repository is preserved as a read-only historical snapshot; use AgentsOS for source code, issues, and releases.
+**The email and communication agent in AgentsOS.** Mail Agent remains a focused product while its account, billing, run orchestration, and agent-discovery infrastructure evolves into the shared AgentsOS Cloud control plane.
 
 Temporary inboxes for **AI agents** and **QA/E2E**: create an inbox, submit its address to a signup/login form, wait for OTP or magic link, and clean up automatically.
 

@@ -50,7 +50,7 @@ Codex reads MCP from `~/.codex/config.toml` or **plugin** (bundled `.mcp.json`).
 ```bash
 codex mcp add mailagent -- npx -y -p @mailagent/mcp@0.2.2 mailagent-mcp
 export MAILAGENT_API_KEY=...
-export MAILAGENT_API_URL=https://api.webmailagent.com
+export MAILAGENT_API_URL=https://mail-api.navorina.ai
 ```
 
-Remote (no subprocess): `url = "https://api.webmailagent.com/mcp"` + `Authorization: Bearer …`.
+Remote (no subprocess): `url = "https://mail-api.navorina.ai/mcp"` + `Authorization: Bearer …`.

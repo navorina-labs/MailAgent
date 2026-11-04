@@ -82,14 +82,14 @@ writeFileSync(
 
 const pluginsEntry = {
   name: "MailAgent",
-  url: "https://github.com/Alex0nder/MailAgent",
-  owner: "Alex0nder",
-  repo: "MailAgent",
+  url: "https://github.com/navorinaai/navorina/tree/main/agents-os/agents/mail-agent",
+  owner: "navorinaai",
+  repo: "navorina",
   description: entry.description,
   category: entry.category,
   source: "awesome-codex-plugins",
   install_url:
-    "https://raw.githubusercontent.com/Alex0nder/MailAgent/HEAD/examples/codex/plugin/.codex-plugin/plugin.json",
+    "https://raw.githubusercontent.com/navorinaai/navorina/HEAD/agents-os/agents/mail-agent/examples/codex/plugin/.codex-plugin/plugin.json",
 };
 
 writeFileSync(
@@ -100,7 +100,7 @@ writeFileSync(
 
 writeFileSync(
   join(outRoot, "README-ENTRY.md"),
-  `- [MailAgent](https://github.com/Alex0nder/MailAgent) - ${entry.description}\n`,
+  `- [MailAgent](https://github.com/navorinaai/navorina/tree/main/agents-os/agents/mail-agent) - ${entry.description}\n`,
   "utf8"
 );
 

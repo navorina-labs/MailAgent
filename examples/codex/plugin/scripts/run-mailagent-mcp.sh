@@ -11,6 +11,6 @@ if [[ -f "$ROOT/.env" ]]; then
 fi
 
 : "${MAILAGENT_API_KEY:?Set MAILAGENT_API_KEY in env or .env at the plugin root}"
-export MAILAGENT_API_URL="${MAILAGENT_API_URL:-https://api.webmailagent.com}"
+export MAILAGENT_API_URL="${MAILAGENT_API_URL:-https://mail-api.navorina.ai}"
 
 exec npx -y -p @mailagent/mcp@0.2.16 mailagent-mcp

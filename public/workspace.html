@@ -86,6 +86,13 @@
       let meetingSuggestData = null;
       let meetingSuggestLoading = false;
       let openAgendaAfterConnect = false;
+      let nativeInboxes = [];
+      let nativeMessages = [];
+      let selectedNativeInboxId = "";
+      let selectedNativeMessageId = "";
+      let nativeSummary = "";
+      let nativeDraft = "";
+      let nativeLoading = false;
 
       function showSetupState() {
         if (GOOGLE_WORKSPACE_OAUTH_DISABLED) {
@@ -129,10 +136,188 @@
       function showEmptyState() {
         Gate()?.renderConnectGate(gateEl, {
           title: "Connect to Workspace",
-          desc: "Link Gmail and Calendar after connecting your API key. Triage, drafts, and rules live here.",
+          desc: "Connect your API key to summarize MailAgent inbox messages, draft replies, and create follow-ups.",
         });
         out.innerHTML = "";
         setBanner("");
+      }
+
+      function selectedNativeInbox() {
+        return nativeInboxes.find((inbox) => inbox.id === selectedNativeInboxId) || null;
+      }
+
+      function selectedNativeMessage() {
+        return nativeMessages.find((message) => message.id === selectedNativeMessageId) || null;
+      }
+
+      function renderNativeMessageList() {
+        if (nativeLoading) return `<p class="console-empty">Loading messages...</p>`;
+        if (!selectedNativeInboxId) return `<p class="console-empty">Select an inbox.</p>`;
+        if (!nativeMessages.length) {
+          return `<p class="console-empty">No messages yet. Forward mail to this inbox or use simulate from the inbox console.</p>`;
+        }
+        return `<ul class="workspace-thread-list">${nativeMessages
+          .map(
+            (message) => `<li><button type="button" class="workspace-thread-item${message.id === selectedNativeMessageId ? " is-active" : ""}" data-native-message="${esc(message.id)}">
+              <div>${esc(message.subject || "(no subject)")}</div>
+              <div class="workspace-thread-item__snippet">${esc(message.from || "unknown sender")} · ${esc(message.receivedAt ? new Date(message.receivedAt).toLocaleString() : "")}</div>
+              <div class="workspace-thread-item__snippet">${esc(message.text || message.snippet || "")}</div>
+            </button></li>`
+          )
+          .join("")}</ul>`;
+      }
+
+      function renderNativeWorkspace() {
+        const inboxOptions = nativeInboxes
+          .map((inbox) => {
+            const label = inbox.label ? `${inbox.label} · ${inbox.address}` : inbox.address;
+            return `<option value="${esc(inbox.id)}"${inbox.id === selectedNativeInboxId ? " selected" : ""}>${esc(label)}</option>`;
+          })
+          .join("");
+        const inbox = selectedNativeInbox();
+        const message = selectedNativeMessage();
+        out.innerHTML = `<div class="workspace-toolbar">
+            <div class="workspace-toolbar__field">
+              <label for="native-inbox">MailAgent inbox</label>
+              <select id="native-inbox">${inboxOptions || '<option value="">No inboxes</option>'}</select>
+            </div>
+            <div class="workspace-toolbar__actions">
+              <button type="button" class="app-btn app-btn--ghost" id="native-refresh">Refresh</button>
+              ${inbox ? `<a class="app-btn app-btn--ghost" href="/console-inbox.html?id=${encodeURIComponent(inbox.id)}">Open inbox</a>` : ""}
+            </div>
+          </div>
+          <div class="workspace-grid">
+            <section class="workspace-panel-card">
+              <h3>Inbox messages</h3>
+              <p class="console-meta">${inbox ? esc(inbox.address) : "Create an inbox from Dashboard or API first."}</p>
+              ${renderNativeMessageList()}
+            </section>
+            <section class="workspace-panel-card">
+              <h3>Workspace actions</h3>
+              <p class="console-meta">${message ? `${esc(message.subject || "(no subject)")} · ${esc(message.from || "")}` : "Select a message to summarize or draft."}</p>
+              <div class="workspace-actions-row workspace-actions-row--ai">
+                <button type="button" class="app-btn" id="native-summarize"${message ? "" : " disabled"}>Summarize</button>
+                <button type="button" class="app-btn" id="native-draft"${message ? "" : " disabled"}>Draft reply</button>
+                <button type="button" class="app-btn app-btn--ghost" id="native-reminders"${message ? "" : " disabled"}>Suggest reminders</button>
+              </div>
+              <textarea id="native-output" class="workspace-draft" rows="14" placeholder="Summary, draft, or reminders will appear here.">${esc(nativeDraft || nativeSummary)}</textarea>
+            </section>
+          </div>
+          <div class="workspace-panel-card">
+            <h3>Forwarding workflow</h3>
+            <p class="console-meta">Use MailAgent addresses directly in tests, forward real mail to a dedicated inbox, or simulate messages for local QA. No Gmail or Calendar OAuth is used.</p>
+          </div>`;
+
+        document.getElementById("native-inbox")?.addEventListener("change", async (e) => {
+          selectedNativeInboxId = e.target.value;
+          selectedNativeMessageId = "";
+          nativeSummary = "";
+          nativeDraft = "";
+          await loadNativeMessages();
+        });
+        document.getElementById("native-refresh")?.addEventListener("click", loadNativeWorkspace);
+        out.querySelectorAll("[data-native-message]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            selectedNativeMessageId = btn.getAttribute("data-native-message") || "";
+            nativeSummary = "";
+            nativeDraft = "";
+            renderNativeWorkspace();
+          });
+        });
+        document.getElementById("native-summarize")?.addEventListener("click", nativeSummarize);
+        document.getElementById("native-draft")?.addEventListener("click", nativeDraftReply);
+        document.getElementById("native-reminders")?.addEventListener("click", nativeSuggestReminders);
+        document.getElementById("native-output")?.addEventListener("input", (e) => {
+          nativeDraft = e.target.value;
+          nativeSummary = "";
+        });
+      }
+
+      async function loadNativeWorkspace() {
+        nativeLoading = true;
+        renderNativeWorkspace();
+        const r = await api("/v1/inboxes?limit=25");
+        nativeLoading = false;
+        if (!r.ok) {
+          await UI().alert({ title: "Inboxes failed", message: r.json.error || String(r.status) });
+          nativeInboxes = [];
+          renderNativeWorkspace();
+          return;
+        }
+        nativeInboxes = r.json.inboxes || [];
+        if (!nativeInboxes.find((inbox) => inbox.id === selectedNativeInboxId)) {
+          selectedNativeInboxId = nativeInboxes[0]?.id || "";
+        }
+        await loadNativeMessages();
+      }
+
+      async function loadNativeMessages() {
+        if (!selectedNativeInboxId) {
+          nativeMessages = [];
+          renderNativeWorkspace();
+          return;
+        }
+        nativeLoading = true;
+        renderNativeWorkspace();
+        const r = await api(`/v1/inboxes/${encodeURIComponent(selectedNativeInboxId)}/messages`);
+        nativeLoading = false;
+        if (!r.ok) {
+          nativeMessages = [];
+          await UI().alert({ title: "Messages failed", message: r.json.error || String(r.status) });
+          renderNativeWorkspace();
+          return;
+        }
+        nativeMessages = r.json.messages || [];
+        if (!nativeMessages.find((message) => message.id === selectedNativeMessageId)) {
+          selectedNativeMessageId = nativeMessages[0]?.id || "";
+        }
+        renderNativeWorkspace();
+      }
+
+      async function nativeWorkspacePost(path) {
+        if (!selectedNativeInboxId || !selectedNativeMessageId) return null;
+        const r = await api(path, {
+          method: "POST",
+          body: JSON.stringify({
+            inboxId: selectedNativeInboxId,
+            messageId: selectedNativeMessageId,
+          }),
+        });
+        if (!r.ok) {
+          await UI().alert({ title: "Workspace failed", message: r.json.error || r.json.reason || String(r.status) });
+          return null;
+        }
+        return r.json;
+      }
+
+      async function nativeSummarize() {
+        const result = await nativeWorkspacePost("/v1/workspace/summarize");
+        if (!result) return;
+        nativeSummary = result.summary || JSON.stringify(result, null, 2);
+        nativeDraft = "";
+        renderNativeWorkspace();
+        UI().toast("Summary ready", "ok");
+      }
+
+      async function nativeDraftReply() {
+        const result = await nativeWorkspacePost("/v1/workspace/draft-reply");
+        if (!result) return;
+        nativeDraft = result.draft || result.body || result.text || JSON.stringify(result, null, 2);
+        nativeSummary = "";
+        renderNativeWorkspace();
+        UI().toast("Draft ready", "ok");
+      }
+
+      async function nativeSuggestReminders() {
+        const result = await nativeWorkspacePost("/v1/workspace/reminders/suggest");
+        if (!result) return;
+        const remindersOut = result.reminders?.length
+          ? result.reminders.map((r, i) => `${i + 1}. ${r.title}${r.dueHint ? ` (${r.dueHint})` : ""}${r.reason ? ` — ${r.reason}` : ""}`).join("\n")
+          : "No reminders suggested.";
+        nativeDraft = remindersOut;
+        nativeSummary = "";
+        renderNativeWorkspace();
+        UI().toast("Reminder suggestions ready", "ok");
       }
 
       document.addEventListener("mailagent:session-ready", () => {
@@ -1518,12 +1703,7 @@
         Gate()?.clearConnectGate(gateEl);
         out.textContent = "Loading…";
 
-        const [modelRes, gmailRes, accRes, calAccRes] = await Promise.all([
-          api("/v1/workspace/models"),
-          api("/v1/workspace/gmail/status"),
-          api("/v1/workspace/gmail/accounts"),
-          api("/v1/workspace/calendar/accounts"),
-        ]);
+        const modelRes = await api("/v1/workspace/models");
 
         const readiness = modelRes.json?.readiness || modelRes.json;
         if (!readiness?.configured) {
@@ -1534,67 +1714,8 @@
           setBanner(`Model: ${esc(readiness.model || readiness.provider || "configured")}`);
         }
 
-        if (gmailRes.json?.phase === "disabled") {
-          out.innerHTML = `<div class="ws-setup">
-            <div class="ws-setup__card">
-              <p class="dash-onboard__eyebrow">Workspace</p>
-              <h2 class="ws-setup__title">Google Workspace OAuth is disabled</h2>
-              <p class="ws-setup__desc">${esc(gmailRes.json.hint || "Gmail and Calendar connections are paused while MailAgent runs without sensitive or restricted Google scopes.")}</p>
-              <p class="dash-onboard__hint"><a href="/docs/agents.html">Workspace Agent docs</a></p>
-            </div>
-          </div>`;
-          return;
-        }
-
-        if (!gmailRes.ok || !gmailRes.json?.configured) {
-          out.innerHTML = `<p class="app-err">${esc(gmailRes.json?.hint || "Gmail OAuth not configured on API.")}</p>
-            <p><a href="/docs/agents.html">Workspace Agent docs</a></p>`;
-          return;
-        }
-
-        accounts = accRes.ok ? accRes.json.accounts || [] : [];
-        calendarAccounts = calAccRes.ok ? calAccRes.json.accounts || [] : [];
-        if (
-          selectedCalendarAccountId &&
-          !calendarAccounts.find((a) => a.id === selectedCalendarAccountId)
-        ) {
-          selectedCalendarAccountId = calendarAccounts[0]?.id || "";
-        } else if (!selectedCalendarAccountId) {
-          selectedCalendarAccountId = calendarAccounts[0]?.id || "";
-        }
-        if (selectedAccountId && !accounts.find((a) => a.id === selectedAccountId)) {
-          selectedAccountId = accounts[0]?.id || "";
-        } else if (!selectedAccountId) {
-          selectedAccountId = accounts[0]?.id || "";
-        }
-        activeTab = "inbox";
-        triageData = null;
-        digestData = null;
-        agendaData = null;
-        availabilityData = null;
-        meetingSuggestData = null;
-        suggestedReminders = [];
-        rulesStatus = null;
-        rules = [];
-        ruleEvalResult = null;
-        monitors = [];
-        selectedMonitorId = "";
-        monitorRuns = [];
-        todayCandidates = [];
-        todayStatus = "open";
-
         await loadSideData();
-
-        if (!accounts.length) {
-          showSetupState();
-          return;
-        }
-
-        await loadThreads();
-        if (openAgendaAfterConnect && selectedCalendarAccountId) {
-          openAgendaAfterConnect = false;
-          switchTab("agenda");
-        }
+        await loadNativeWorkspace();
       }
     </script>
   </body>

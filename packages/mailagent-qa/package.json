@@ -4,11 +4,11 @@
   "description": "Playwright/Cypress helpers for MailAgent test inboxes",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Alex0nder/MailAgent.git",
-    "directory": "packages/mailagent-qa"
+    "url": "git+https://github.com/navorinaai/navorina.git",
+    "directory": "agents-os/agents/mail-agent/packages/mailagent-qa"
   },
-  "homepage": "https://webmailagent.com/docs/qa.html",
-  "bugs": "https://github.com/Alex0nder/MailAgent/issues",
+  "homepage": "https://github.com/navorinaai/navorina/tree/main/agents-os/agents/mail-agent/packages/mailagent-qa",
+  "bugs": "https://github.com/navorinaai/navorina/issues",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

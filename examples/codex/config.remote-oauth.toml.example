@@ -2,12 +2,12 @@
 # Docs: docs/CODEX.md · docs/MCP-OAUTH.md
 
 # Step 1: exchange API key for short-lived token (run once, refresh hourly)
-# curl -sS -X POST https://api.webmailagent.com/v1/oauth/token \
+# curl -sS -X POST https://mail-api.navorina.ai/v1/oauth/token \
 #   -H "Content-Type: application/x-www-form-urlencoded" \
 #   -d "grant_type=client_credentials&client_secret=YOUR_TEAM_API_KEY"
 
 [mcp_servers.mailagent-remote]
-url = "https://api.webmailagent.com/mcp"
+url = "https://mail-api.navorina.ai/mcp"
 
 [mcp_servers.mailagent-remote.http_headers]
 Authorization = "Bearer mat_REPLACE_AFTER_OAUTH"
@@ -18,5 +18,5 @@ Accept = "application/json, text/event-stream"
 # command = "npx"
 # args = ["-y", "-p", "@mailagent/mcp@0.2.2", "mailagent-mcp"]
 # [mcp_servers.mailagent.env]
-# MAILAGENT_API_URL = "https://api.webmailagent.com"
+# MAILAGENT_API_URL = "https://mail-api.navorina.ai"
 # MAILAGENT_API_KEY = "YOUR_KEY"

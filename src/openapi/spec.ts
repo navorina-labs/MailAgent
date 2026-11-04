@@ -321,10 +321,7 @@ export const openApiSpec = {
     description:
       "Temporary inboxes for AI agents and QA. Bearer auth on /v1 except webhooks.",
   },
-  servers: [
-    { url: "https://api.webmailagent.com", description: "Hosted" },
-    { url: "http://127.0.0.1:8787", description: "Local wrangler dev" },
-  ],
+  servers: [{ url: "http://127.0.0.1:8787", description: "Local wrangler dev" }],
   tags: [
     { name: "meta", description: "Discovery and stats" },
     { name: "inboxes", description: "Temporary inboxes" },

@@ -5,12 +5,10 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import "./load-env.mjs";
+import { apiOrigin, workspaceUrl } from "./lib/public-origins.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const apiUrl = (process.env.MAILAGENT_API_URL ?? "https://api.webmailagent.com").replace(
-  /\/$/,
-  ""
-);
+const apiUrl = apiOrigin();
 
 const args = process.argv.slice(2);
 const issueKeyIdx = args.indexOf("--issue-key");
@@ -61,9 +59,9 @@ console.log("═".repeat(60));
 console.log("Pilot package — copy to external team (see docs/PILOT-ONBOARD.md)");
 console.log("═".repeat(60));
 console.log(`
-Starter:  https://github.com/Alex0nder/MailAgent/tree/main/examples/qa-pilot-starter
-Cypress:  https://github.com/Alex0nder/MailAgent/tree/main/examples/qa-pilot-cypress-starter
-Docs:     https://webmailagent.com/docs/qa.html
+Starter:  https://github.com/navorinaai/navorina/tree/main/agents-os/agents/mail-agent/examples/qa-pilot-starter
+Cypress:  https://github.com/navorinaai/navorina/tree/main/agents-os/agents/mail-agent/examples/qa-pilot-cypress-starter
+Docs:     ${workspaceUrl("/docs/qa.html")}
 
 Their steps:
   1. cp -R examples/qa-pilot-starter → their repo

@@ -6,10 +6,11 @@ import { fileURLToPath } from "node:url";
 import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 import { spawnSync } from "node:child_process";
+import { apiUrl, workspaceUrl } from "./lib/public-origins.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const devVarsPath = join(root, ".dev.vars");
-const WEBHOOK_URL = "https://api.webmailagent.com/webhooks/stripe";
+const WEBHOOK_URL = apiUrl("/webhooks/stripe");
 const STRIPE_KEYS = ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "STRIPE_PRICE_PRO"];
 
 function printSteps() {
@@ -36,7 +37,7 @@ Stripe — Pro subscription (10–15 мин, test mode сначала)
 Локальный webhook (опционально):
   stripe listen --forward-to http://127.0.0.1:8787/webhooks/stripe
 
-Docs: docs/STRIPE-SETUP.md · https://webmailagent.com/docs/billing.html
+Docs: docs/STRIPE-SETUP.md · ${workspaceUrl("/docs/billing.html")}
 `);
 }
 

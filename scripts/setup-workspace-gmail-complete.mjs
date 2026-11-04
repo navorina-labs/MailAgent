@@ -5,6 +5,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import "./load-env.mjs";
+import { apiOrigin } from "./lib/public-origins.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -22,7 +23,7 @@ function parse(path) {
 }
 
 const vars = { ...parse(join(root, ".dev.vars")), ...parse(join(root, ".env")), ...process.env };
-const api = (vars.MAILAGENT_API_URL || "https://api.webmailagent.com").replace(/\/$/, "");
+const api = apiOrigin(vars);
 const apiKey = vars.MAILAGENT_API_KEY?.trim() || vars.API_KEY?.trim();
 
 const clientId = vars.GOOGLE_CLIENT_ID?.trim() || vars.GMAIL_CLIENT_ID?.trim();

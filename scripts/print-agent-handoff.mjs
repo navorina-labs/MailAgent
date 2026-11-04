@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 /** Print no-secret handoff instructions for another agent/session. */
+import { apiOrigin } from "./lib/public-origins.mjs";
+
+const hostedApi = apiOrigin();
 
 const mode = process.argv[2] ?? "qa-pilot";
 const supported = new Set(["qa-pilot", "mcp", "self-host"]);
@@ -12,11 +15,11 @@ if (!supported.has(mode)) {
 const common = `MailAgent agent handoff (no secrets)
 
 Do not paste MAILAGENT_API_KEY in public prompts, issues, PRs, logs, or screenshots.
-Full guide: https://github.com/Alex0nder/MailAgent/blob/main/docs/AGENT-HANDOFF.md
+Full guide: https://github.com/navorinaai/navorina/blob/main/agents-os/agents/mail-agent/docs/AGENT-HANDOFF.md
 
 Agent task:
-1. Read https://github.com/Alex0nder/MailAgent/blob/main/AGENTS.md
-2. Read https://github.com/Alex0nder/MailAgent/blob/main/docs/QA-PILOT.md
+1. Read https://github.com/navorinaai/navorina/blob/main/agents-os/agents/mail-agent/AGENTS.md
+2. Read https://github.com/navorinaai/navorina/blob/main/agents-os/agents/mail-agent/docs/QA-PILOT.md
 3. Use MailAgent for disposable signup/login/password-reset inboxes.
 4. Do not use Gmail/shared inboxes for OTP checks.
 5. If unsure what to do next, call mailagent_plan_next.
@@ -28,11 +31,11 @@ const blocks = {
   "qa-pilot": `${common}
 QA pilot path:
 
-git clone https://github.com/Alex0nder/MailAgent.git /tmp/mailagent
-cp -R /tmp/mailagent/examples/qa-pilot-starter ./mailagent-qa
+git clone https://github.com/navorinaai/navorina.git /tmp/navorina
+cp -R /tmp/navorina/agents-os/agents/mail-agent/examples/qa-pilot-starter ./mailagent-qa
 cd mailagent-qa
 cp .env.example .env
-# edit .env: MAILAGENT_API_URL=https://api.webmailagent.com
+# edit .env: MAILAGENT_API_URL=${hostedApi}
 # edit .env: MAILAGENT_API_KEY=<provided privately>
 npm install
 npm test
@@ -45,7 +48,7 @@ After simulate is green:
   mcp: `${common}
 MCP path:
 
-export MAILAGENT_API_URL=https://api.webmailagent.com
+export MAILAGENT_API_URL=${hostedApi}
 export MAILAGENT_API_KEY=<provided privately>
 npx -y -p @mailagent/mcp@0.2.7 mailagent-mcp
 
@@ -53,7 +56,7 @@ Codex local:
 codex mcp add mailagent -- npx -y -p @mailagent/mcp@0.2.7 mailagent-mcp
 
 Remote MCP:
-POST https://api.webmailagent.com/mcp
+POST ${hostedApi}/mcp
 Authorization: Bearer <MAILAGENT_API_KEY or mat_ token>
 `,
   "self-host": `${common}
@@ -61,7 +64,7 @@ Self-host path:
 
 Use this when no hosted API key should be issued.
 
-1. Read https://github.com/Alex0nder/MailAgent/blob/main/docs/INTEGRATE.md
+1. Read https://github.com/navorinaai/navorina/blob/main/agents-os/agents/mail-agent/docs/INTEGRATE.md
 2. Provision Cloudflare Workers, Neon, Resend, and inbound domain.
 3. Run:
    npm install

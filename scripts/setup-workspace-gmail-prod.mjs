@@ -5,13 +5,12 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { execSync } from "node:child_process";
 import "./load-env.mjs";
+import { apiOrigin, workspaceUrl } from "./lib/public-origins.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const devVars = join(root, ".dev.vars");
 const envFile = join(root, ".env");
-const PROD_API = (
-  process.env.MAILAGENT_API_URL?.trim() || "https://api.webmailagent.com"
-).replace(/\/$/, "");
+const PROD_API = apiOrigin();
 
 function parse(path) {
   const out = {};
@@ -86,5 +85,5 @@ if (!connectRes.ok || !connect.url) {
 
 console.log("\n✓ Gmail OAuth готов. Открой в браузере:\n");
 console.log(connect.url);
-console.log("\nИли в UI: https://webmailagent.com/workspace.html");
+console.log(`\nИли в UI: ${workspaceUrl("/workspace.html")}`);
 console.log(`Redirect URI: ${connect.redirectUri}`);

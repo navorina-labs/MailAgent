@@ -259,7 +259,12 @@ export class MailAgentQa {
     const key = config.apiKey?.trim();
     if (!key) throw new Error("MailAgentQa: apiKey is required");
     this.apiKey = key;
-    this.base = (config.apiUrl ?? process.env.MAILAGENT_API_URL ?? "https://api.webmailagent.com").replace(/\/$/, "");
+    this.base = (
+      config.apiUrl ??
+      process.env.MAILAGENT_API_URL ??
+      process.env.MAILAGENT_PUBLIC_API_ORIGIN ??
+      "https://mail-api.navorina.ai"
+    ).replace(/\/$/, "");
   }
 
   /** TTL from env `QA_TTL_MINUTES` (1–1440), else API default */
@@ -687,9 +692,11 @@ export class MailAgentQa {
   }
 
   debugUiUrl(inboxId: string): string {
-    const origin = this.base.includes("api.")
-      ? this.base.replace("://api.", "://")
-      : "https://webmailagent.com";
+    const origin = this.base === "https://mail-api.navorina.ai"
+      ? "https://agents.navorina.ai"
+      : this.base === "https://api.webmailagent.com"
+        ? "https://webmailagent.com"
+        : this.base;
     return `${origin.replace(/\/$/, "")}/debug.html?inbox=${encodeURIComponent(inboxId)}`;
   }
 
