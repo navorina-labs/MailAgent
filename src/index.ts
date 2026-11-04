@@ -16,6 +16,7 @@ import { teamRoutes } from "./routes/team";
 import { domainRoutes } from "./routes/domains";
 import { agentRoutes } from "./routes/agent";
 import { mcpHttpRoutes } from "./routes/mcp-http";
+import { isApiPath } from "./lib/api-path";
 import { pilotRoutes } from "./routes/pilot";
 import { oauthTokenRoutes, wellKnownRoutes } from "./routes/oauth";
 import { webhookRoutes } from "./routes/webhooks";
@@ -135,14 +136,7 @@ async function handleFetch(
   }
 
   const path = url.pathname;
-  const isApi =
-    path.startsWith("/v1") ||
-    path.startsWith("/webhooks") ||
-    path.startsWith("/mcp") ||
-    path.startsWith("/.well-known") ||
-    path === "/health";
-
-  if (isApi) {
+  if (isApiPath(path)) {
     return app.fetch(request, env, ctx);
   }
 

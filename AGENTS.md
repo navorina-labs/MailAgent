@@ -1,5 +1,11 @@
 # Agent autonomy — verify prod without human OTP checks
 
+## Source of truth and deploy
+
+- This repository (`navorina-labs/MailAgent`) is the source of truth for Mail Agent. Edit and open PRs here.
+- Merging to `main` deploys production through the **Deploy Worker** GitHub Action. Do not run `wrangler deploy` from other copies (for example the Navorina monorepo `agents-os/agents/mail-agent/`): the next merge overwrites it, and a deploy from an older copy rolls prod back.
+- Rollback: `npx wrangler rollback <version-id>` (`npx wrangler deployments list` shows versions).
+
 Temporary inboxes for signup verification (OTP, magic links). Works in **Cursor**, **Codex**, and any MCP client.
 
 **Operator (human):** one-time secrets only → [docs/OPERATOR.md](docs/OPERATOR.md)
