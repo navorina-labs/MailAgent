@@ -9747,6 +9747,169 @@ body[data-doc="workspace"] .workspace-today-item > .workspace-actions-row {
   }
 }
 
+/* Hero panels share one grid cell: the demo keeps the tallest panel's height on every tab */
+.agentsos-home .hero-code-panels {
+  display: grid;
+}
+
+.agentsos-home .hero-code-panel {
+  grid-area: 1 / 1;
+}
+
+.agentsos-home .hero-code-panel[hidden] {
+  display: block;
+  visibility: hidden;
+}
+
+/* Product motion — landing-motion.js adds the classes; rest state is the static layout */
+@media (prefers-reduced-motion: no-preference) {
+  /* Hero run: selected tab underline fills while the step runs */
+  .agentsos-home .hero-code-demo.is-autoplay .hero-code-tabs button[aria-selected="true"]::after {
+    transform-origin: left center;
+    animation: motion-progress var(--hero-step-ms, 2600ms) linear both;
+  }
+
+  .agentsos-home .is-revealing .code-ok {
+    display: inline-block;
+    animation: motion-arrive 320ms cubic-bezier(0.2, 0, 0, 1) var(--motion-arrive-delay, 0ms) backwards;
+  }
+
+  /* Claude Code: query typed, tools listed, first tool selected */
+  .agentsos-home .agent-visual.is-playing .tui-query strong {
+    animation: motion-type 900ms steps(24, end) backwards;
+  }
+
+  .agentsos-home .agent-visual.is-playing .tui-query kbd {
+    animation: motion-key 360ms ease-out 950ms backwards;
+  }
+
+  .agentsos-home .agent-visual.is-playing .tui-options p {
+    animation: motion-rise 280ms cubic-bezier(0.2, 0, 0, 1) backwards;
+  }
+
+  .agentsos-home .agent-visual.is-playing .tui-options p:nth-child(1) { animation-delay: 1150ms; }
+  .agentsos-home .agent-visual.is-playing .tui-options p:nth-child(2) { animation-delay: 1260ms; }
+  .agentsos-home .agent-visual.is-playing .tui-options p:nth-child(3) { animation-delay: 1370ms; }
+
+  .agentsos-home .agent-visual.is-playing .tui-options p.is-selected {
+    animation:
+      motion-rise 280ms cubic-bezier(0.2, 0, 0, 1) 1150ms backwards,
+      motion-select 260ms ease-out 1750ms backwards;
+  }
+
+  /* Code lines run in order: Codex plugin steps, CI test */
+  .agentsos-home .agent-visual.is-playing .workspace-code p {
+    animation: motion-line-in 260ms ease-out backwards;
+  }
+
+  .agentsos-home .agent-visual.is-playing .workspace-code p:nth-child(1) { animation-delay: 200ms; }
+  .agentsos-home .agent-visual.is-playing .workspace-code p:nth-child(2) { animation-delay: 560ms; }
+  .agentsos-home .agent-visual.is-playing .workspace-code p:nth-child(3) { animation-delay: 920ms; }
+  .agentsos-home .agent-visual.is-playing .workspace-code p:nth-child(4) { animation-delay: 1280ms; }
+
+  .agentsos-home .agent-visual.is-playing .workspace-inspector b {
+    animation: motion-line-in 240ms ease-out 1100ms backwards;
+  }
+
+  .agentsos-home .agent-visual.is-playing .workspace-state {
+    animation: motion-line-in 260ms ease-out 1500ms backwards;
+  }
+
+  /* CI: the verification mail arrives after the wait line */
+  .agentsos-home .agent-visual.is-playing .workspace-mail-result {
+    animation: motion-arrive 380ms cubic-bezier(0.2, 0, 0, 1) 1500ms backwards;
+  }
+
+  .agentsos-home .agent-visual.is-playing .workspace-mail-result > b {
+    animation: motion-line-in 240ms ease-out 1850ms backwards;
+  }
+
+  /* Cursor: quota sparkline draws, latest point lands */
+  .agentsos-home .agent-visual.is-playing .tui-sparkline-line {
+    stroke-dasharray: 600;
+    animation: motion-draw 1200ms cubic-bezier(0.4, 0, 0.2, 1) 200ms backwards;
+  }
+
+  .agentsos-home .agent-visual.is-playing .tui-sparkline-area {
+    animation: motion-line-in 600ms ease-out 800ms backwards;
+  }
+
+  .agentsos-home .agent-visual.is-playing .tui-sparkline circle {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: motion-arrive 320ms cubic-bezier(0.2, 0, 0, 1) 1350ms backwards;
+  }
+
+  .agentsos-home .agent-visual.is-playing .tui-bento-wide strong {
+    animation: motion-line-in 260ms ease-out 1500ms backwards;
+  }
+
+  /* Playwright: steps get checked one by one, the last one passes */
+  .agentsos-home .agent-visual.is-playing .tui-steps i,
+  .agentsos-home .agent-visual.is-playing .tui-steps p > b {
+    animation: motion-arrive 300ms cubic-bezier(0.2, 0, 0, 1) backwards;
+  }
+
+  .agentsos-home .agent-visual.is-playing .tui-steps p:nth-child(1) :is(i, b) { animation-delay: 300ms; }
+  .agentsos-home .agent-visual.is-playing .tui-steps p:nth-child(2) :is(i, b) { animation-delay: 750ms; }
+  .agentsos-home .agent-visual.is-playing .tui-steps p:nth-child(3) :is(i, b) { animation-delay: 1250ms; }
+
+  .agentsos-home .agent-visual.is-playing .tui-steps p.is-current {
+    animation: motion-select 300ms ease-out 1250ms backwards;
+  }
+
+  /* How it works: the run moves 01 → 02 → 03 */
+  .agentsos-home .agentsos-workflow .landing-steps.is-playing .step-num {
+    animation: motion-step 420ms ease-out backwards;
+  }
+
+  .agentsos-home .agentsos-workflow .landing-steps.is-playing .step-meta::after {
+    transform-origin: left center;
+    animation: motion-progress 520ms cubic-bezier(0.4, 0, 0.2, 1) backwards;
+  }
+
+  .agentsos-home .agentsos-workflow .landing-steps.is-playing .step:nth-child(2) .step-num,
+  .agentsos-home .agentsos-workflow .landing-steps.is-playing .step:nth-child(2) .step-meta::after { animation-delay: 520ms; }
+  .agentsos-home .agentsos-workflow .landing-steps.is-playing .step:nth-child(3) .step-num,
+  .agentsos-home .agentsos-workflow .landing-steps.is-playing .step:nth-child(3) .step-meta::after { animation-delay: 1040ms; }
+}
+
+@keyframes motion-progress {
+  from { transform: scaleX(0); }
+}
+
+@keyframes motion-arrive {
+  from { opacity: 0; transform: translateY(3px) scale(0.92); }
+}
+
+@keyframes motion-rise {
+  from { opacity: 0.15; transform: translateY(3px); }
+}
+
+@keyframes motion-line-in {
+  from { opacity: 0.12; }
+}
+
+@keyframes motion-type {
+  from { clip-path: inset(0 100% 0 0); }
+}
+
+@keyframes motion-key {
+  from { color: rgba(255, 255, 255, 0.8); }
+}
+
+@keyframes motion-select {
+  from { border-color: transparent; color: rgba(255, 255, 255, 0.3); background-color: transparent; }
+}
+
+@keyframes motion-draw {
+  from { stroke-dashoffset: 600; }
+}
+
+@keyframes motion-step {
+  from { border-color: rgba(255, 255, 255, 0.3); color: rgba(255, 255, 255, 0.95); background-color: rgba(255, 255, 255, 0.08); }
+}
+
 /* AgentsOS responsive stabilization — content-driven breakpoints */
 .agentsos-home :is(.section-title, .value-block-title)[id] {
   scroll-margin-top: calc(var(--nav-h) + 72px);
