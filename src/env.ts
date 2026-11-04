@@ -44,6 +44,8 @@ export interface Env {
   ATTACHMENT_MAX_STORE_BYTES?: string;
   /** Verified From for outbound (Resend). Default: inbox address */
   OUTBOUND_FROM?: string;
+  /** Where landing pilot requests are emailed (default hello@webmailagent.com) */
+  PILOT_INBOX?: string;
   /** Workers AI — semantic search embeddings (optional) */
   AI?: Ai;
   /** Override embed model (default @cf/baai/bge-base-en-v1.5) */

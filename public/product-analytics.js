@@ -8,6 +8,8 @@
     "agentsos_agent_selected",
     "mailagent_key_requested",
     "mailagent_pilot_requested",
+    "mailagent_pilot_submitted",
+    "mailagent_pricing_viewed",
   ]);
   const PARAMS = ["agent", "surface", "destination"];
 
@@ -44,7 +46,30 @@
     });
   }
 
+  /** Fire a view event once when an element with data-analytics-view scrolls into view. */
+  function observeViews() {
+    if (typeof IntersectionObserver === "undefined") return;
+    const targets = document.querySelectorAll?.("[data-analytics-view]") ?? [];
+    if (!targets.length) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          observer.unobserve(entry.target);
+          track(entry.target.dataset.analyticsView, { surface: entry.target.dataset.analyticsSurface });
+        });
+      },
+      { threshold: 0.4 },
+    );
+    targets.forEach((target) => observer.observe(target));
+  }
+
   window.AgentsOSAnalytics = Object.freeze({ track });
   document.addEventListener("click", handleClick);
+  if (document.readyState === "loading") {
+    document.addEventListener?.("DOMContentLoaded", observeViews);
+  } else {
+    observeViews();
+  }
 })();
 

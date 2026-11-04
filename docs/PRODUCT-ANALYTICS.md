@@ -8,6 +8,8 @@ The landing (`public/index.html`, original AgentsOS styles from `styles.css`) me
 | --- | --- | --- |
 | `mailagent_key_requested` | A visitor opens the "Get API key" email (navigation, hero, pricing, final CTA) | `surface` |
 | `mailagent_pilot_requested` | A visitor opens the Pro access or pilot email (pricing, final CTA) | `surface` |
+| `mailagent_pilot_submitted` | The pilot form was accepted by `POST /v1/pilot-requests` (202) | `surface` (`pilot_form`) |
+| `mailagent_pricing_viewed` | The pricing section scrolled into view (once per page load) | `surface` (`pricing`) |
 | `agentsos_agent_selected` | A visitor follows a link to Mail Agent docs, the hosted console, or the self-host guide | `agent`, `surface`, `destination` (`documentation`, `console`, `self_host`) |
 | `agentsos_catalog_opened` | Legacy AgentsOS catalog CTA; still accepted, not used on the current landing | `surface` |
 
