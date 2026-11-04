@@ -10217,3 +10217,165 @@ body[data-doc="workspace"] .workspace-today-item > .workspace-actions-row {
     flex-direction: row;
   }
 }
+
+/* —— Landing pilot form —— */
+.agentsos-home .pilot-form {
+  display: grid;
+  gap: 16px;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+}
+
+.agentsos-home .pilot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.agentsos-home .pilot-row {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.agentsos-home .pilot-row > label,
+.agentsos-home .pilot-flows legend {
+  display: block;
+  margin-bottom: 8px;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.agentsos-home .pilot-form input[type="email"],
+.agentsos-home .pilot-form input[type="text"],
+.agentsos-home .pilot-form input[type="url"] {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 15px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  transition: border-color 0.15s ease;
+}
+
+.agentsos-home .pilot-form input::placeholder {
+  color: var(--text-dim);
+}
+
+.agentsos-home .pilot-form input:hover {
+  border-color: var(--border-strong);
+}
+
+.agentsos-home .pilot-form input:focus-visible {
+  outline: 2px solid var(--text-muted);
+  outline-offset: 1px;
+  border-color: var(--text-muted);
+}
+
+.agentsos-home .pilot-form input[aria-invalid="true"] {
+  border-color: #f87171;
+}
+
+.agentsos-home .pilot-flows {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.agentsos-home .pilot-flows legend {
+  width: 100%;
+}
+
+.agentsos-home .pilot-flows label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.agentsos-home .pilot-flows label:hover {
+  background: var(--surface-hover);
+}
+
+.agentsos-home .pilot-flows input {
+  accent-color: var(--accent-bright);
+  margin: 0;
+}
+
+.agentsos-home .pilot-flows label:has(input:focus-visible) {
+  outline: 2px solid var(--text-muted);
+  outline-offset: 2px;
+}
+
+.agentsos-home .pilot-hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.agentsos-home .pilot-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+}
+
+.agentsos-home .pilot-actions .btn[disabled] {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.agentsos-home .pilot-status {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.agentsos-home .pilot-status.is-error {
+  color: #f87171;
+}
+
+.agentsos-home .pilot-status.is-success {
+  color: var(--code-green);
+}
+
+.agentsos-home .pilot-alt a {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .agentsos-home .pilot-section .mail-spotlight-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .agentsos-home .pilot-form {
+    padding: 20px;
+  }
+  .agentsos-home .pilot-grid {
+    grid-template-columns: 1fr;
+  }
+  .agentsos-home .pilot-actions .btn {
+    width: 100%;
+  }
+}

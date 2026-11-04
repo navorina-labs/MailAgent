@@ -135,7 +135,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/styles.css?v=20261104-motion-1" />
+    <link rel="stylesheet" href="/styles.css?v=20261104-pilot-1" />
   </head>
   <body data-site="marketing">
     <div id="site-nav"></div>
@@ -476,7 +476,7 @@
         </div>
       </section>
 
-      <section id="pricing" class="page-section agentsos-workflow" aria-labelledby="pricing-title">
+      <section id="pricing" class="page-section agentsos-workflow" aria-labelledby="pricing-title" data-analytics-view="mailagent_pricing_viewed" data-analytics-surface="pricing">
         <div class="site-container">
           <div class="section-head">
             <p class="section-label">Pricing</p>
@@ -502,8 +502,55 @@
           </div>
           <div class="hero-ctas" style="margin-top: 32px; justify-content: center">
             <a class="btn btn-primary" href="mailto:hello@webmailagent.com?subject=Mail%20Agent%20API%20key&body=What%20will%20your%20agent%20test%3F%20(signup%2C%20login%2C%20reset%2C%20invite)%0A%0AAgent%20or%20framework%3A%20" data-analytics-event="mailagent_key_requested" data-analytics-surface="pricing">Get a free API key</a>
-            <a class="btn btn-outline" href="mailto:hello@webmailagent.com?subject=Mail%20Agent%20Pro%20access&body=Team%3A%20%0AFlows%20to%20test%3A%20%0AAgents%20or%20CI%3A%20%0ARuns%20per%20day%3A%20" data-analytics-event="mailagent_pilot_requested" data-analytics-surface="pricing">Request Pro</a>
+            <a class="btn btn-outline" href="#pilot" data-analytics-event="mailagent_pilot_requested" data-analytics-surface="pricing">Request Pro</a>
           </div>
+        </div>
+      </section>
+
+      <section id="pilot" class="page-section mail-spotlight pilot-section" aria-labelledby="pilot-title">
+        <div class="site-container mail-spotlight-grid">
+          <div>
+            <p class="section-label">Pilot</p>
+            <h2 id="pilot-title" class="section-title">Become a pilot</h2>
+            <p class="section-desc">Pro limits during the pilot and help with the first flow.</p>
+            <p class="section-desc pilot-alt">Or email <a href="mailto:hello@webmailagent.com?subject=Mail%20Agent%20pilot">hello@webmailagent.com</a></p>
+          </div>
+          <form class="pilot-form" id="pilot-form" action="https://api.webmailagent.com/v1/pilot-requests" method="post" novalidate>
+            <div class="pilot-row">
+              <label for="pilot-email">Work email</label>
+              <input id="pilot-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@company.com" />
+            </div>
+            <div class="pilot-grid">
+              <div class="pilot-row">
+                <label for="pilot-company">Company</label>
+                <input id="pilot-company" name="company" type="text" autocomplete="organization" maxlength="120" />
+              </div>
+              <div class="pilot-row">
+                <label for="pilot-url">Product URL</label>
+                <input id="pilot-url" name="productUrl" type="url" inputmode="url" maxlength="300" placeholder="https://" />
+              </div>
+            </div>
+            <fieldset class="pilot-row pilot-flows">
+              <legend>Flows to test</legend>
+              <label><input type="checkbox" name="flows" value="signup" /> Signup</label>
+              <label><input type="checkbox" name="flows" value="login" /> Login</label>
+              <label><input type="checkbox" name="flows" value="password_reset" /> Password reset</label>
+              <label><input type="checkbox" name="flows" value="invite" /> Invites</label>
+              <label><input type="checkbox" name="flows" value="2fa" /> 2FA codes</label>
+            </fieldset>
+            <div class="pilot-row">
+              <label for="pilot-runner">Agent or test runner</label>
+              <input id="pilot-runner" name="runner" type="text" maxlength="120" placeholder="Claude Code, Playwright, Cypress" />
+            </div>
+            <div class="pilot-row pilot-hp" aria-hidden="true">
+              <label for="pilot-website">Website</label>
+              <input id="pilot-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+            </div>
+            <div class="pilot-actions">
+              <button type="submit" class="btn btn-primary" id="pilot-submit">Request a pilot</button>
+              <p class="pilot-status" id="pilot-status" role="status" aria-live="polite"></p>
+            </div>
+          </form>
         </div>
       </section>
 
@@ -578,7 +625,7 @@
             <p>Free plan with 10 inboxes. Pilot teams get Pro limits.</p>
             <div class="cta-buttons">
               <a class="btn btn-primary" href="mailto:hello@webmailagent.com?subject=Mail%20Agent%20API%20key&body=What%20will%20your%20agent%20test%3F%20(signup%2C%20login%2C%20reset%2C%20invite)%0A%0AAgent%20or%20framework%3A%20" data-analytics-event="mailagent_key_requested" data-analytics-surface="final_cta">Get a free API key</a>
-              <a class="btn btn-outline" href="mailto:hello@webmailagent.com?subject=Mail%20Agent%20pilot&body=Team%3A%20%0AProduct%20URL%3A%20%0AFlows%20to%20test%20(signup%2C%20login%2C%20reset%2C%20invite)%3A%20%0AAgent%20or%20test%20runner%3A%20" data-analytics-event="mailagent_pilot_requested" data-analytics-surface="final_cta">Become a pilot</a>
+              <a class="btn btn-outline" href="#pilot" data-analytics-event="mailagent_pilot_requested" data-analytics-surface="final_cta">Become a pilot</a>
             </div>
           </div>
         </div>
@@ -587,9 +634,10 @@
 
     <div id="site-footer"></div>
 
-    <script src="/product-analytics.js?v=20261104-mail-positioning-1" defer></script>
+    <script src="/product-analytics.js?v=20261104-pilot-1" defer></script>
     <script src="/site-shell.js?v=20261104-mail-positioning-2" defer></script>
     <script src="/site.js" defer></script>
+    <script src="/pilot-form.js?v=20261104-pilot-1" defer></script>
     <script src="/landing-motion.js?v=20261104-motion-1" defer></script>
   </body>
 </html>

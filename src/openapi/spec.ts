@@ -412,6 +412,42 @@ export const openApiSpec = {
         responses: { "200": { description: "This schema" } },
       },
     },
+    "/v1/pilot-requests": {
+      post: {
+        tags: ["meta"],
+        summary: "Request a pilot (public landing form, emailed to the team)",
+        security: [],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                required: ["email"],
+                properties: {
+                  email: { type: "string", format: "email" },
+                  name: { type: "string", maxLength: 100 },
+                  company: { type: "string", maxLength: 120 },
+                  productUrl: { type: "string", format: "uri", maxLength: 300 },
+                  flows: {
+                    type: "array",
+                    items: { type: "string", enum: ["signup", "login", "password_reset", "invite", "2fa"] },
+                  },
+                  runner: { type: "string", maxLength: 120 },
+                  message: { type: "string", maxLength: 1000 },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          "202": { description: "received" },
+          "400": { description: "invalid_email, invalid_flows, invalid_product_url, field_too_long" },
+          "429": { description: "rate_limit_exceeded (5 per hour per IP)" },
+          "503": { description: "pilot_unavailable" },
+        },
+      },
+    },
     "/v1/emails/check": {
       post: {
         tags: ["meta"],
