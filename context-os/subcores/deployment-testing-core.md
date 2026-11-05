@@ -148,7 +148,7 @@ Cron: `0 * * * *` — hourly purge expired inboxes и audit events.
 ### Установка
 
 ```bash
-git clone https://github.com/Alex0nder/MailAgent.git
+git clone https://github.com/navorina-labs/MailAgent.git
 cd MailAgent
 npm install
 ```

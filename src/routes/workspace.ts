@@ -319,7 +319,7 @@ workspaceRoutes.get("/", (c) => {
       today: "GET /v1/workspace/today",
       todayDecision: "POST /v1/workspace/today/:id/decision",
     },
-    roadmap: "https://github.com/Alex0nder/MailAgent/blob/main/docs/WORKSPACE-AGENT-PBR.md",
+    roadmap: "https://github.com/navorina-labs/MailAgent/blob/main/docs/WORKSPACE-AGENT-PBR.md",
   });
 });
 
@@ -517,7 +517,7 @@ workspaceRoutes.get("/gmail/status", (c) => {
     hint: configured
       ? "GET /v1/workspace/gmail/connect to link a mailbox, then pass gmailAccountId + gmailThreadId to summarize/draft/reminders."
       : "Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET (or GMAIL_* aliases) on the Worker.",
-    docs: "https://github.com/Alex0nder/MailAgent/blob/main/docs/WORKSPACE-AGENT-PBR.md#p1--gmail-read-connector",
+    docs: "https://github.com/navorina-labs/MailAgent/blob/main/docs/WORKSPACE-AGENT-PBR.md#p1--gmail-read-connector",
   });
 });
 
@@ -764,7 +764,7 @@ workspaceRoutes.get("/calendar/status", (c) => {
     hint: configured
       ? "GET /v1/workspace/calendar/connect to link Google Calendar, then availability/agenda/suggest-meeting."
       : "Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET (same as Gmail OAuth).",
-    docs: "https://github.com/Alex0nder/MailAgent/blob/main/docs/WORKSPACE-AGENT-PBR.md#p2--calendar-read-connector",
+    docs: "https://github.com/navorina-labs/MailAgent/blob/main/docs/WORKSPACE-AGENT-PBR.md#p2--calendar-read-connector",
   });
 });
 

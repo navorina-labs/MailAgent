@@ -8,10 +8,10 @@ Inspired by curated catalogs like [membranedev/application-skills](https://githu
 
 ```bash
 # Agent Skills CLI (repo-root skill)
-npx skills add Alex0nder/MailAgent --skill mailagent
+npx skills add navorina-labs/MailAgent --skill mailagent
 
 # Cursor — skill syncs to .cursor/skills/mailagent-mcp/ on npm run sync:skills
-# Codex — codex plugin marketplace add Alex0nder/MailAgent && codex plugin add mailagent@mailagent
+# Codex — codex plugin marketplace add navorina-labs/MailAgent && codex plugin add mailagent@mailagent
 ```
 
 Canonical source: [`skills/mailagent/SKILL.md`](../skills/mailagent/SKILL.md)

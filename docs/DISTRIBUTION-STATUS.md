@@ -18,9 +18,9 @@ Last automated check: CI `check:catalog-prs` (weekly) · discovery: `GET /v1/age
 
 | Channel | Command |
 |---------|---------|
-| Agent skill | `npx skills add Alex0nder/MailAgent --skill mailagent` |
-| Pinned release | `gh skill install Alex0nder/MailAgent mailagent --pin skills-0.2.5` |
-| Codex marketplace | `codex plugin marketplace add Alex0nder/MailAgent` → `codex plugin add mailagent@mailagent` |
+| Agent skill | `npx skills add navorina-labs/MailAgent --skill mailagent` |
+| Pinned release | `gh skill install navorina-labs/MailAgent mailagent --pin skills-0.2.5` |
+| Codex marketplace | `codex plugin marketplace add navorina-labs/MailAgent` → `codex plugin add mailagent@mailagent` |
 | MCP npm | `npx -y -p @mailagent/mcp@latest mailagent-mcp` |
 | REST SDK | `npm i @mailagent/agent @mailagent/qa` |
 

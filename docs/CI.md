@@ -46,7 +46,7 @@ Agent autotest instructions: [AUTOTESTS.md](./AUTOTESTS.md).
 
 ### Deploy failed: `CLOUDFLARE_API_TOKEN` / npx exit 1
 
-Typical cause ([example run](https://github.com/Alex0nder/MailAgent/actions/runs/27020682647)):
+Typical cause ([example run](https://github.com/navorina-labs/MailAgent/actions/runs/27020682647)):
 
 ```
 In a non-interactive environment, it's necessary to set a CLOUDFLARE_API_TOKEN

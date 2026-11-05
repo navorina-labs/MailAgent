@@ -51,12 +51,12 @@ Would you be open to trying it and telling me where the setup breaks or feels un
 Great. I’ll send two things:
 
 1. Setup instructions:
-   https://github.com/Alex0nder/MailAgent/tree/main/examples/qa-pilot-starter
+   https://github.com/navorina-labs/MailAgent/tree/main/examples/qa-pilot-starter
 
 2. A scoped MAILAGENT_API_KEY separately through a private channel.
 
 Start with:
-  git clone https://github.com/Alex0nder/MailAgent.git /tmp/mailagent
+  git clone https://github.com/navorina-labs/MailAgent.git /tmp/mailagent
   cp -R /tmp/mailagent/examples/qa-pilot-starter ./mailagent-qa
   cd mailagent-qa
   cp .env.example .env
@@ -75,7 +75,7 @@ After simulate is green, send me:
 - Issue or reuse a scoped key only after acceptance.
 - Prefer scoped keys with `labelPrefix=ci-`.
 - Send the key separately from the invite text, via 1Password, encrypted DM, or another private channel.
-- Record only status and feedback in [issue #5](https://github.com/Alex0nder/MailAgent/issues/5).
+- Record only status and feedback in [issue #5](https://github.com/navorina-labs/MailAgent/issues/5).
 
 ## Feedback Questions
 

@@ -7,8 +7,8 @@ This doc is for **third-party curated lists** like [awesome-codex-plugins](https
 
 | Channel | Command |
 |---------|---------|
-| GitHub marketplace | `codex plugin marketplace add Alex0nder/MailAgent` |
-| Agent Skills | `npx skills add Alex0nder/MailAgent --skill mailagent` |
+| GitHub marketplace | `codex plugin marketplace add navorina-labs/MailAgent` |
+| Agent Skills | `npx skills add navorina-labs/MailAgent --skill mailagent` |
 | npm MCP | `npx -y -p @mailagent/mcp@0.2.16 mailagent-mcp` |
 
 Docs: https://webmailagent.com/docs/codex.html · https://webmailagent.com/docs/agents.html
@@ -58,7 +58,7 @@ Marketplace entry shape (for reference):
 
 Disposable inboxes for agent signup flows — OTP and magic link extraction via MCP.
 
-- Repo: https://github.com/Alex0nder/MailAgent
+- Repo: https://github.com/navorina-labs/MailAgent
 - Docs: https://webmailagent.com/docs/codex.html
 - MCP tools: 40 (suggest_preset, verify_signup, Workspace Agent, simulate, diagnose, threads, domains, …)
 - MIT license
@@ -73,7 +73,7 @@ Install after merge:
 For [Agent Skills](https://agentskills.io/) catalogs, point maintainers at:
 
 - Canonical skill: `skills/mailagent/SKILL.md`
-- Install: `npx skills add Alex0nder/MailAgent --skill mailagent`
+- Install: `npx skills add navorina-labs/MailAgent --skill mailagent`
 - Guide: [AGENT-SKILLS.md](./AGENT-SKILLS.md)
 
 ## Official OpenAI Plugin Directory

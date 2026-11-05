@@ -9,9 +9,9 @@ What **only a human** can enable. Everything else runs without you.
 | Path | Command / URL |
 |------|----------------|
 | MCP + REST verify | `MAILAGENT_API_KEY` in CI · `npm run smoke:agent` |
-| Agent skill from GitHub | `npx skills add Alex0nder/MailAgent --skill mailagent` |
-| Pinned skill release | `gh skill install Alex0nder/MailAgent mailagent --pin skills-0.2.5` |
-| Codex plugin (repo marketplace) | `codex plugin marketplace add Alex0nder/MailAgent` → `codex plugin add mailagent@mailagent` |
+| Agent skill from GitHub | `npx skills add navorina-labs/MailAgent --skill mailagent` |
+| Pinned skill release | `gh skill install navorina-labs/MailAgent mailagent --pin skills-0.2.5` |
+| Codex plugin (repo marketplace) | `codex plugin marketplace add navorina-labs/MailAgent` → `codex plugin add mailagent@mailagent` |
 | npm packages | `@mailagent/mcp` · `@mailagent/agent` · `@mailagent/qa` |
 | Docs / privacy / terms / SLA draft | hosted on webmailagent.com |
 
@@ -62,7 +62,7 @@ Repo → **Settings → Secrets and variables → Actions**
 | `DATABASE_URL` | optional | auto `db:migrate` on deploy; copy to `.env` for `issue:pilot-key` |
 | `PYPI_API_TOKEN` | optional | `mailagent-agent` on tag `v*` — re-run publish workflow after add |
 
-Verify: last [Deploy Worker](https://github.com/Alex0nder/MailAgent/actions/workflows/deploy-worker.yml) run is green.
+Verify: last [Deploy Worker](https://github.com/navorina-labs/MailAgent/actions/workflows/deploy-worker.yml) run is green.
 
 **QA pilot #1:** baseline green (`wizard:qa-pilot:onboard`). First pick/contact a candidate: [PILOT-CANDIDATES.md](./PILOT-CANDIDATES.md). After they accept, send invite: `npm run print:pilot-invite -- <slug>`. Issue/send key locally and privately: [PILOT-ONBOARD.md](./PILOT-ONBOARD.md).
 
@@ -116,7 +116,7 @@ npm run doctor:operator
 **Repo marketplace (works today):**
 
 ```bash
-codex plugin marketplace add Alex0nder/MailAgent
+codex plugin marketplace add navorina-labs/MailAgent
 codex plugin add mailagent@mailagent
 ```
 

@@ -36,7 +36,7 @@ apiMetaRoutes.get("/", (c) => {
       today: "GET /v1/workspace/today",
       todayDecision: "POST /v1/workspace/today/:id/decision",
       status: "autonomy_preview",
-      docs: "https://github.com/Alex0nder/MailAgent/blob/main/docs/WORKSPACE-AGENT-PBR.md",
+      docs: "https://github.com/navorina-labs/MailAgent/blob/main/docs/WORKSPACE-AGENT-PBR.md",
     },
     endpoints: {
       open: { method: "POST", path: "/v1/inboxes/open", note: "create + wait + extract (+ delete)" },

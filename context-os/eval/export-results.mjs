@@ -111,7 +111,7 @@ function main() {
           paired_questions: summary.paired_questions,
           conditions: summary.conditions,
           model: prev.model ?? "gpt-4o-mini",
-          source_repo: "Alex0nder/MailAgent",
+          source_repo: "navorina-labs/MailAgent",
           mailagent_commit: process.env.MAILAGENT_COMMIT ?? null,
         },
         null,
@@ -123,7 +123,7 @@ function main() {
   const manifest = {
     run_id: runName,
     exported_at: new Date().toISOString(),
-    source_repo: "Alex0nder/MailAgent",
+    source_repo: "navorina-labs/MailAgent",
     source_path: `context-os/eval/results/${runName}`,
     mailagent_commit: process.env.MAILAGENT_COMMIT ?? null,
     files: fs.readdirSync(outDir).sort(),

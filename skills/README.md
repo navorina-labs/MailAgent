@@ -4,7 +4,7 @@ Canonical skill for the [Agent Skills](https://agentskills.io/) ecosystem (Curso
 
 | Skill | Path | Install |
 |-------|------|---------|
-| **mailagent** | [mailagent/SKILL.md](./mailagent/SKILL.md) | `npx skills add Alex0nder/MailAgent --skill mailagent` |
+| **mailagent** | [mailagent/SKILL.md](./mailagent/SKILL.md) | `npx skills add navorina-labs/MailAgent --skill mailagent` |
 
 ## Sync to client paths
 

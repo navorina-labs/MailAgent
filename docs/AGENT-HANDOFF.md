@@ -35,8 +35,8 @@ Goal:
 - Use simulate-first tests before real SMTP/staging.
 
 Setup:
-1. Read https://github.com/Alex0nder/MailAgent/blob/main/AGENTS.md
-2. Read https://github.com/Alex0nder/MailAgent/blob/main/docs/QA-PILOT.md
+1. Read https://github.com/navorina-labs/MailAgent/blob/main/AGENTS.md
+2. Read https://github.com/navorina-labs/MailAgent/blob/main/docs/QA-PILOT.md
 3. If using Codex/Cursor MCP:
    npx -y -p @mailagent/mcp@0.2.16 mailagent-mcp
 4. Set:
@@ -79,7 +79,7 @@ npm run wizard:qa-pilot
 ### Fresh QA repo
 
 ```bash
-git clone https://github.com/Alex0nder/MailAgent.git /tmp/mailagent
+git clone https://github.com/navorina-labs/MailAgent.git /tmp/mailagent
 cp -R /tmp/mailagent/examples/qa-pilot-starter ./mailagent-qa
 cd mailagent-qa
 cp .env.example .env
@@ -163,4 +163,4 @@ Ask the receiving agent/team to return:
 | Diagnose quality | clear/unclear next step |
 | Flake rate | target under 2% |
 
-Record feedback in issue [#5](https://github.com/Alex0nder/MailAgent/issues/5) or in a private operator note without secrets.
+Record feedback in issue [#5](https://github.com/navorina-labs/MailAgent/issues/5) or in a private operator note without secrets.

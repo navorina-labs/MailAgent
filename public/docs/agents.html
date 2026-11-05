@@ -85,10 +85,10 @@ Authorization: Bearer &lt;API_KEY&gt;
       <p>Build: <code>npm run build:mcp</code>. Skill: <code>skills/mailagent/SKILL.md</code> (synced to Cursor/Codex)</p>
 
       <h2>Agent Skills install</h2>
-      <pre class="doc-pre"><code>npx skills add Alex0nder/MailAgent --skill mailagent</code></pre>
+      <pre class="doc-pre"><code>npx skills add navorina-labs/MailAgent --skill mailagent</code></pre>
       <p>
         Canonical skill at repo root <code>skills/mailagent/</code> —
-        <a href="https://github.com/Alex0nder/MailAgent/blob/main/docs/AGENT-SKILLS.md">Agent Skills guide</a>.
+        <a href="https://github.com/navorina-labs/MailAgent/blob/main/docs/AGENT-SKILLS.md">Agent Skills guide</a>.
         After signup verify, use app-specific skills (e.g. Membrane <code>github</code>, <code>slack</code>) for post-login actions.
       </p>
 
@@ -107,7 +107,7 @@ MAILAGENT_API_URL = "https://api.webmailagent.com"
 MAILAGENT_API_KEY = "your_key"</code></pre>
       <p>
         Plugin scaffold:
-        <a href="https://github.com/Alex0nder/MailAgent/tree/main/examples/codex/plugin">examples/codex/plugin</a>
+        <a href="https://github.com/navorina-labs/MailAgent/tree/main/examples/codex/plugin">examples/codex/plugin</a>
         · Remote MCP: use <code>POST https://api.webmailagent.com/mcp</code> (see below).
       </p>
 
@@ -163,7 +163,7 @@ Authorization: Bearer &lt;TEAM_API_KEY&gt;
 
 GET /v1/oauth/clients/:id  (metadata, no secret)</code></pre>
       <p>401 on <code>/mcp</code> includes <code>WWW-Authenticate</code> with resource metadata URL.</p>
-      <p>Full guide: <a href="/docs/oauth-idp.html">MCP OAuth (Auth0 / Google)</a> · <a href="https://github.com/Alex0nder/MailAgent/blob/main/docs/MCP-OAUTH.md">MCP-OAUTH.md</a></p>
+      <p>Full guide: <a href="/docs/oauth-idp.html">MCP OAuth (Auth0 / Google)</a> · <a href="https://github.com/navorina-labs/MailAgent/blob/main/docs/MCP-OAUTH.md">MCP-OAUTH.md</a></p>
 
       <h3 id="scoped-keys">Scoped keys for agents &amp; CI</h3>
       <p>
@@ -185,7 +185,7 @@ tools/call mailagent_wait_for_message
 
 → SSE: notifications/progress (elapsed/total)
 → SSE: final tools/call result</code></pre>
-      <p>With <code>Mcp-Session-Id</code>, progress also relays on <code>GET /mcp</code> SSE. Guide: <a href="https://github.com/Alex0nder/MailAgent/blob/main/docs/MCP-PROGRESS.md">docs/MCP-PROGRESS.md</a></p>
+      <p>With <code>Mcp-Session-Id</code>, progress also relays on <code>GET /mcp</code> SSE. Guide: <a href="https://github.com/navorina-labs/MailAgent/blob/main/docs/MCP-PROGRESS.md">docs/MCP-PROGRESS.md</a></p>
 
       <p>Call a tool:</p>
       <pre class="doc-pre"><code>{

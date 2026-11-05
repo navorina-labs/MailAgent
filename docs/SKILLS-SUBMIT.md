@@ -5,8 +5,8 @@ Canonical skill: [`skills/mailagent/SKILL.md`](../skills/mailagent/SKILL.md)
 ## Install paths (live today)
 
 ```bash
-npx skills add Alex0nder/MailAgent --skill mailagent
-gh skill install Alex0nder/MailAgent mailagent --agent codex
+npx skills add navorina-labs/MailAgent --skill mailagent
+gh skill install navorina-labs/MailAgent mailagent --agent codex
 ```
 
 After edits: `npm run sync:skills` · `npm run verify:skills`
@@ -18,7 +18,7 @@ Validation uses the same layout as install (`skills/mailagent/SKILL.md`).
 ```bash
 gh skill publish --dry-run   # validate only
 gh skill publish --tag skills-0.2.5   # release tag (published on MailAgent repo)
-gh skill install Alex0nder/MailAgent mailagent --pin skills-0.2.5
+gh skill install navorina-labs/MailAgent mailagent --pin skills-0.2.5
 ```
 
 Current validation: `gh skill publish --dry-run` passes. Remaining warning is
@@ -35,7 +35,7 @@ npm run prepare:skills-pr
 Optional hardening (warnings from `gh skill publish`):
 
 ```bash
-gh repo edit Alex0nder/MailAgent --add-topic agent-skills
+gh repo edit navorina-labs/MailAgent --add-topic agent-skills
 gh repo edit --enable-secret-scanning
 gh repo edit --enable-secret-scanning-push-protection
 ```
@@ -49,7 +49,7 @@ export SKILLHUB_TOKEN=sk_live_…
 npm run import:skill-hub
 ```
 
-Manual: [agentskillhub.dev](https://agentskillhub.dev) → import `https://github.com/Alex0nder/MailAgent` → select `skills/mailagent`.
+Manual: [agentskillhub.dev](https://agentskillhub.dev) → import `https://github.com/navorina-labs/MailAgent` → select `skills/mailagent`.
 
 API: [doc.agentskillhub.dev/guide/api.html](https://doc.agentskillhub.dev/guide/api.html)
 
