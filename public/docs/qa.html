@@ -48,7 +48,7 @@
       <p class="doc-lead">
         Open-source QA flows — temporary inbox per test run, OTP and magic links
         without a shared <code>test@company.com</code>.
-        <a href="https://github.com/Alex0nder/MailAgent" rel="noopener noreferrer">Source on GitHub</a>.
+        <a href="https://github.com/navorina-labs/MailAgent" rel="noopener noreferrer">Source on GitHub</a>.
       </p>
 
       <h2>Problems we solve</h2>
@@ -66,11 +66,11 @@
       <h2>30-minute pilot</h2>
       <p>
         Fastest: copy
-        <a href="https://github.com/Alex0nder/MailAgent/tree/main/examples/qa-pilot-starter">qa-pilot-starter</a>
+        <a href="https://github.com/navorina-labs/MailAgent/tree/main/examples/qa-pilot-starter">qa-pilot-starter</a>
         (simulate in CI · staging via <code>APP_SIGNUP_URL</code>) ·
-        <a href="https://github.com/Alex0nder/MailAgent/tree/main/examples/qa-pilot-cypress-starter">Cypress starter</a>.
+        <a href="https://github.com/navorina-labs/MailAgent/tree/main/examples/qa-pilot-cypress-starter">Cypress starter</a>.
         Guide:
-        <a href="https://github.com/Alex0nder/MailAgent/blob/main/docs/QA-PILOT.md">QA-PILOT.md</a>
+        <a href="https://github.com/navorina-labs/MailAgent/blob/main/docs/QA-PILOT.md">QA-PILOT.md</a>
         · validate with <code>npm run wizard:qa-pilot</code>.
       </p>
 
@@ -111,7 +111,7 @@ const v = await mail.waitForVerification(inbox.id, {
   messageIndex: 0, // 1 = second matching email
 });
 // callbackUrl flows: await mail.waitForCallback(inbox.id, { since: inbox.createdAt });</code></pre>
-      <p>Fixture with auto-delete: <a href="https://github.com/Alex0nder/MailAgent/tree/main/examples/playwright">examples/playwright/mailagent.fixture.ts</a></p>
+      <p>Fixture with auto-delete: <a href="https://github.com/navorina-labs/MailAgent/tree/main/examples/playwright">examples/playwright/mailagent.fixture.ts</a></p>
 
       <h2>QA fields</h2>
       <table class="doc-table">
@@ -130,7 +130,7 @@ const v = await mail.waitForVerification(inbox.id, {
 // setupNodeEvents: on("task", createMailAgentCypressTasks())</code></pre>
       <p>
         Example:
-        <a href="https://github.com/Alex0nder/MailAgent/tree/main/examples/cypress">examples/cypress</a>
+        <a href="https://github.com/navorina-labs/MailAgent/tree/main/examples/cypress">examples/cypress</a>
       </p>
 
       <h2>CI secrets</h2>
@@ -151,18 +151,18 @@ GET /v1/inboxes/:id/callbacks</code></pre>
 
       <h2>More guides</h2>
       <ul class="doc-list">
-        <li><a href="https://github.com/Alex0nder/MailAgent/blob/main/docs/QA-TROUBLESHOOTING.md">Troubleshooting (timeout, OTP, webhook)</a></li>
-        <li><a href="https://github.com/Alex0nder/MailAgent/blob/main/docs/QA-LOCAL-SMTP.md">Local dev with Mailpit</a></li>
-        <li><a href="https://github.com/Alex0nder/MailAgent/blob/main/docs/QA-RELEASE.md">Release checklist (smoke, migrate, publish)</a></li>
+        <li><a href="https://github.com/navorina-labs/MailAgent/blob/main/docs/QA-TROUBLESHOOTING.md">Troubleshooting (timeout, OTP, webhook)</a></li>
+        <li><a href="https://github.com/navorina-labs/MailAgent/blob/main/docs/QA-LOCAL-SMTP.md">Local dev with Mailpit</a></li>
+        <li><a href="https://github.com/navorina-labs/MailAgent/blob/main/docs/QA-RELEASE.md">Release checklist (smoke, migrate, publish)</a></li>
         <li><a href="/docs/scoped-keys.html">Scoped API keys</a></li>
-        <li><a href="https://github.com/Alex0nder/MailAgent/blob/main/docs/QA-PRESETS.md">Service presets matrix</a></li>
-        <li><a href="https://github.com/Alex0nder/MailAgent/blob/main/docs/QA-CALLBACK.md">Callback cookbook</a></li>
-        <li><a href="https://github.com/Alex0nder/MailAgent/blob/main/docs/QA-ONBOARDING.md">QA team onboarding</a></li>
+        <li><a href="https://github.com/navorina-labs/MailAgent/blob/main/docs/QA-PRESETS.md">Service presets matrix</a></li>
+        <li><a href="https://github.com/navorina-labs/MailAgent/blob/main/docs/QA-CALLBACK.md">Callback cookbook</a></li>
+        <li><a href="https://github.com/navorina-labs/MailAgent/blob/main/docs/QA-ONBOARDING.md">QA team onboarding</a></li>
       </ul>
 
       <p>
         <strong>QA roadmap (P0–P2):</strong>
-        <a href="https://github.com/Alex0nder/MailAgent/blob/main/docs/QA-ROADMAP.md">docs/QA-ROADMAP.md</a>
+        <a href="https://github.com/navorina-labs/MailAgent/blob/main/docs/QA-ROADMAP.md">docs/QA-ROADMAP.md</a>
       </p>
 
       <p class="doc-note">

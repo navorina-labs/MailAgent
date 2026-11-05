@@ -27,7 +27,7 @@ export OPENAI_BASE_URL=https://...    # OpenAI-compatible (опциональн�
 ## Быстрый старт (из клона MailAgent)
 
 ```bash
-git clone https://github.com/Alex0nder/MailAgent.git
+git clone https://github.com/navorina-labs/MailAgent.git
 cd MailAgent
 
 # 1) Router only (без LLM, ~1 сек)
@@ -58,7 +58,7 @@ mkdir -p experiments/mailagent/runs
 cd experiments/mailagent/runs
 
 # Обновить клон MailAgent и скопировать последний run
-git clone https://github.com/Alex0nder/MailAgent.git _mailagent 2>/dev/null || git -C _mailagent pull
+git clone https://github.com/navorina-labs/MailAgent.git _mailagent 2>/dev/null || git -C _mailagent pull
 LATEST=$(ls -td _mailagent/context-os/eval/results/run-* 2>/dev/null | head -1)
 cp -R "$LATEST" ./$(basename "$LATEST")
 cat ./$(basename "$LATEST")/SUMMARY.md
@@ -67,7 +67,7 @@ cat ./$(basename "$LATEST")/SUMMARY.md
 Или sparse checkout только eval (быстрее):
 
 ```bash
-git clone --filter=blob:none --sparse https://github.com/Alex0nder/MailAgent.git _mailagent
+git clone --filter=blob:none --sparse https://github.com/navorina-labs/MailAgent.git _mailagent
 git -C _mailagent sparse-checkout set context-os/eval
 ```
 

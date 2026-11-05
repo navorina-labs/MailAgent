@@ -60,7 +60,7 @@ P0–P3 **done** (pilot #20 = human). Next: **P4** (console & SDK polish).
 | 17 | **SEO / nav links** | ✅ footer + landing cross-links |
 | 18 | **QA SDK `scenario`** | ✅ `@mailagent/qa` + pilot starter test |
 | 19 | **Pilot starter ↔ monorepo** | ✅ CI installs local `@mailagent/qa` |
-| 20 | **Run first external pilot** | ⏳ key issued · invite ready · feedback issue [#5](https://github.com/Alex0nder/MailAgent/issues/5) |
+| 20 | **Run first external pilot** | ⏳ key issued · invite ready · feedback issue [#5](https://github.com/navorina-labs/MailAgent/issues/5) |
 | 21 | **Team webhook docs** | ✅ `teams.html#event-webhook` |
 | 22 | **QA troubleshooting URL** | ✅ `/docs/qa-troubleshooting.html` |
 | PyPI `mailagent-agent@0.1.0` | ✅ |
@@ -143,6 +143,6 @@ Spec: [AGENT-PBR.md](./AGENT-PBR.md)
 2. P3 #20 — identify/contact Pilot #1 candidate using [PILOT-CANDIDATES.md](./PILOT-CANDIDATES.md).
 3. After they accept, send `print:pilot-invite -- external-pilot` + scoped key out-of-band.
 4. Pilot #1 — external test repo copies starter, sets `MAILAGENT_API_KEY`, and gets green `npm test`.
-5. Pilot #1 — add staging `APP_SIGNUP_URL` + service preset, then collect feedback in [#5](https://github.com/Alex0nder/MailAgent/issues/5).
+5. Pilot #1 — add staging `APP_SIGNUP_URL` + service preset, then collect feedback in [#5](https://github.com/navorina-labs/MailAgent/issues/5).
 
 Track in [ROADMAP.md](./ROADMAP.md) § v0.69.

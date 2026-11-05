@@ -1708,7 +1708,7 @@
         const readiness = modelRes.json?.readiness || modelRes.json;
         if (!readiness?.configured) {
           setBanner(
-            `LLM not configured — set DEEPSEEK_API_KEY, QWEN_API_KEY, or local Ollama. <a href="https://github.com/Alex0nder/MailAgent/blob/main/docs/WORKSPACE-LOCAL-LLM.md">Local LLM guide</a>`
+            `LLM not configured — set DEEPSEEK_API_KEY, QWEN_API_KEY, or local Ollama. <a href="https://github.com/navorina-labs/MailAgent/blob/main/docs/WORKSPACE-LOCAL-LLM.md">Local LLM guide</a>`
           );
         } else {
           setBanner(`Model: ${esc(readiness.model || readiness.provider || "configured")}`);

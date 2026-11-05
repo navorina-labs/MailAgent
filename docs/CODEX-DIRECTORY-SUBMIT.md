@@ -12,7 +12,7 @@ OpenAI self-serve publish is **coming soon**. This checklist is ready when the d
 | `verify:codex` asserts publisher URLs | ✅ |
 | Tarball packaging | ✅ `npm run package:codex` → `dist/mailagent-codex-plugin-0.2.5.tar.gz` |
 | Curated catalog PR | [awesome-codex-plugins #195](https://github.com/hashgraph-online/awesome-codex-plugins/pull/195) (parallel track) |
-| Repo marketplace install | ✅ `codex plugin marketplace add Alex0nder/MailAgent` → `codex plugin add mailagent@mailagent` |
+| Repo marketplace install | ✅ `codex plugin marketplace add navorina-labs/MailAgent` → `codex plugin add mailagent@mailagent` |
 
 ## When the directory opens
 

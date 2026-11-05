@@ -322,7 +322,7 @@ Deploy on push `main`: [CI.md](./CI.md) — `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_
 | `npm run sync:skills` → Cursor + Codex plugin copies | ✅ |
 | `npm run verify:skills` · [AGENT-SKILLS.md](./AGENT-SKILLS.md) | ✅ |
 | Combo flows (verify → Membrane / app skills) documented | ✅ |
-| `npx skills add Alex0nder/MailAgent --skill mailagent` | ✅ |
+| `npx skills add navorina-labs/MailAgent --skill mailagent` | ✅ |
 | OIDC contract `test:contract:qa:oidc` (skip if disabled) | ✅ |
 | `npm run doctor:oidc` + setup:oidc-prod verify hook | ✅ |
 | Catalog submit guide [CATALOG-SUBMIT.md](./CATALOG-SUBMIT.md) | ✅ |
@@ -415,7 +415,7 @@ Deploy on push `main`: [CI.md](./CI.md) — `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_
 | Merge `upstream/main` into PR [#195](https://github.com/hashgraph-online/awesome-codex-plugins/pull/195) (llm-transpile + mailagent) | ✅ |
 | `plugins.json` entry (106 plugins) | ✅ |
 | Catalog bundle + `LICENSE` in `plugins/Alex0nder/mailagent` | ✅ |
-| HOL plugin scanner CI on MailAgent `main` | ✅ [workflow](https://github.com/Alex0nder/MailAgent/actions/workflows/hol-plugin-scanner.yml) |
+| HOL plugin scanner CI on MailAgent `main` | ✅ [workflow](https://github.com/navorina-labs/MailAgent/actions/workflows/hol-plugin-scanner.yml) |
 | `SECURITY.md` + scanner score 88/100 (0 critical/high) | ✅ |
 | awesome-codex-plugins PR #195 maintainer merge | pending |
 
@@ -574,7 +574,7 @@ Deploy on push `main`: [CI.md](./CI.md) — `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_
 | 2 | Pilot #1: identify/contact external candidate | pending · [PILOT-CANDIDATES.md](./PILOT-CANDIDATES.md) |
 | 2b | Pilot #1: external test repo copies starter → CI secrets → green `npm test` | ready after candidate accepts |
 | 3 | Pilot #1: staging E2E (`APP_SIGNUP_URL` + `service` preset) | pending |
-| 4 | Collect feedback (setup time, flaky, missing API/docs) → [#5](https://github.com/Alex0nder/MailAgent/issues/5) / backlog v0.70 | pending |
+| 4 | Collect feedback (setup time, flaky, missing API/docs) → [#5](https://github.com/navorina-labs/MailAgent/issues/5) / backlog v0.70 | pending |
 | 5 | Pilot #2 (Cypress track or second team) | pending |
 | 6 | Metrics vs targets ([QA-ROADMAP.md](./QA-ROADMAP.md): flaky <2%, setup <30 min) | pending |
 
@@ -633,7 +633,7 @@ Backlog: [PRODUCT-NEXT.md](./PRODUCT-NEXT.md)
 | 17 | Landing pages in site nav / footer | ✅ |
 | 18 | `@mailagent/qa` simulate `scenario` | ✅ 0.1.15 |
 | 19 | Pilot starter uses monorepo QA in CI guard | ✅ |
-| 20 | First external QA pilot | ⏳ baseline ✅ · key issued · feedback [#5](https://github.com/Alex0nder/MailAgent/issues/5) |
+| 20 | First external QA pilot | ⏳ baseline ✅ · key issued · feedback [#5](https://github.com/navorina-labs/MailAgent/issues/5) |
 | npm `@mailagent/qa@0.1.15` | ✅ tag `v0.74.0` |
 | PyPI `mailagent-agent@0.1.0` | ✅ |
 

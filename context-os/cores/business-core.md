@@ -551,9 +551,9 @@ Gmail = пользовательский mailbox, OAuth scope, не disposable. 
 
 | Channel | Command / path |
 |---------|----------------|
-| **Agent Skill** | `npx skills add Alex0nder/MailAgent --skill mailagent` |
-| **Pinned skill** | `gh skill install Alex0nder/MailAgent mailagent --pin skills-0.2.5` |
-| **Codex marketplace** | `codex plugin marketplace add Alex0nder/MailAgent` → `codex plugin install mailagent` |
+| **Agent Skill** | `npx skills add navorina-labs/MailAgent --skill mailagent` |
+| **Pinned skill** | `gh skill install navorina-labs/MailAgent mailagent --pin skills-0.2.5` |
+| **Codex marketplace** | `codex plugin marketplace add navorina-labs/MailAgent` → `codex plugin install mailagent` |
 | **MCP npm (stdio)** | `npx -y -p @mailagent/mcp@latest mailagent-mcp` |
 | **Remote MCP** | `POST https://api.webmailagent.com/mcp` + Bearer |
 | **REST SDK** | `npm i @mailagent/agent` |

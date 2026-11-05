@@ -63,7 +63,7 @@ npm run publish:agent
 No `NPM_TOKEN` and no OTP on every release:
 
 1. npm → each package → **Settings → Trusted Publisher**
-2. GitHub Actions · org/user `Alex0nder` · repo `MailAgent` · workflow `publish-packages.yml`
+2. GitHub Actions · org `navorina-labs` · repo `MailAgent` · workflow `publish-packages.yml`
 3. Permissions: `npm publish`, `npm stage publish`
 4. Push tag:
 

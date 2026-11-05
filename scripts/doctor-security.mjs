@@ -68,7 +68,7 @@ const inCi = process.env.CI === "true" || process.env.GITHUB_ACTIONS === "true";
 console.log("\nGitHub repo settings (gh):");
 const gh = spawnSync(
   "gh",
-  ["api", "repos/Alex0nder/MailAgent", "--jq", ".security_and_analysis"],
+  ["api", "repos/navorina-labs/MailAgent", "--jq", ".security_and_analysis"],
   { encoding: "utf8", env: { ...process.env, GH_TOKEN: process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN } }
 );
 if (gh.status !== 0) {

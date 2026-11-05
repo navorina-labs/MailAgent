@@ -119,7 +119,7 @@ codex mcp add mailagent -- npx -y -p @mailagent/mcp@0.2.16 mailagent-mcp
 ## Agent Skills
 
 ```bash
-npx skills add Alex0nder/MailAgent --skill mailagent
+npx skills add navorina-labs/MailAgent --skill mailagent
 npm run sync:skills   # after editing skills/mailagent/SKILL.md
 ```
 

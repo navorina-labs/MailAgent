@@ -16,9 +16,9 @@ Subject: MailAgent QA pilot — ~30 min setup
 Hi — we're piloting MailAgent for disposable signup inboxes in CI (no shared Gmail).
 
 1. Copy our starter into your test repo:
-   https://github.com/Alex0nder/MailAgent/tree/main/examples/qa-pilot-starter
+   https://github.com/navorina-labs/MailAgent/tree/main/examples/qa-pilot-starter
 
-   git clone https://github.com/Alex0nder/MailAgent.git /tmp/mailagent
+   git clone https://github.com/navorina-labs/MailAgent.git /tmp/mailagent
    cp -R /tmp/mailagent/examples/qa-pilot-starter ./mailagent-qa
    cd mailagent-qa
 

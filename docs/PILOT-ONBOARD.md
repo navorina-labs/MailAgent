@@ -56,7 +56,7 @@ Full template: [PILOT-INVITE.md](./PILOT-INVITE.md).
 MailAgent QA pilot — ~30 min setup
 
 1. Copy starter into your test repo:
-   https://github.com/Alex0nder/MailAgent/tree/main/examples/qa-pilot-starter
+   https://github.com/navorina-labs/MailAgent/tree/main/examples/qa-pilot-starter
 
    cp -R mailagent/examples/qa-pilot-starter ./mailagent-qa && cd mailagent-qa
 

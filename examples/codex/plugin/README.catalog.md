@@ -14,7 +14,7 @@ codex plugin add mailagent@hashgraph-online/awesome-codex-plugins
 Or from the MailAgent repo marketplace:
 
 ```bash
-codex plugin marketplace add Alex0nder/MailAgent
+codex plugin marketplace add navorina-labs/MailAgent
 codex plugin add mailagent@mailagent
 ```
 

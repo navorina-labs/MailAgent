@@ -77,7 +77,7 @@ Repo structure: [examples/codex/plugin/](../examples/codex/plugin/)
 ### Install from GitHub (repo marketplace)
 
 ```bash
-codex plugin marketplace add Alex0nder/MailAgent
+codex plugin marketplace add navorina-labs/MailAgent
 codex plugin add mailagent@mailagent
 codex mcp list
 ```
