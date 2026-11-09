@@ -84,6 +84,7 @@ trackedLinks.forEach((markup) => {
       "mailagent_pricing_viewed",
       "mailagent_key_email_sent",
       "mailagent_key_issued",
+      "mailagent_checkout_started",
     ].includes(eventName),
     `unexpected event in landing markup: ${eventName}`,
   );
@@ -103,6 +104,10 @@ assert.equal(window.AgentsOSAnalytics.track("mailagent_pricing_viewed", { surfac
 assert.match(landing, /data-analytics-view="mailagent_pricing_viewed"/);
 assert.equal(window.AgentsOSAnalytics.track("mailagent_key_email_sent", { surface: "get_key" }), true);
 assert.equal(window.AgentsOSAnalytics.track("mailagent_key_issued", { surface: "get_key" }), true);
+assert.equal(window.AgentsOSAnalytics.track("mailagent_checkout_started", { surface: "upgrade" }), true);
+const upgradeJs = fs.readFileSync(new URL("../public/upgrade.js", import.meta.url), "utf8");
+assert.match(upgradeJs, /track\("mailagent_checkout_started"/, "upgrade page tracks checkout start");
+assert.match(landing, /href="\/upgrade\.html" data-billing-on hidden/, "Upgrade button is hidden until billing is on");
 assert.doesNotMatch(landing, /mailto:[^"]*API%20key/, "Get API key goes to /get-key.html, not email");
 assert.ok(
   trackedLinks.some((markup) => attribute(markup, "data-analytics-event") === "mailagent_key_requested"),

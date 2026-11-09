@@ -10388,3 +10388,8 @@ body[data-doc="workspace"] .workspace-today-item > .workspace-actions-row {
 .agentsos-home .key-result .code-panel {
   margin: 0;
 }
+
+.agentsos-home [data-billing-on][hidden],
+.agentsos-home [data-billing-off][hidden] {
+  display: none;
+}

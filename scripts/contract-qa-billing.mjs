@@ -36,8 +36,8 @@ async function main() {
       method: "POST",
       body: {},
     });
-    if (checkout.status !== 503 || checkout.json?.error !== "stripe_not_configured") {
-      console.error("expected stripe_not_configured 503", checkout.status, checkout.json);
+    if (checkout.status !== 503 || checkout.json?.error !== "billing_unavailable") {
+      console.error("expected billing_unavailable 503", checkout.status, checkout.json);
       process.exit(1);
     }
     console.log("contract-qa-billing SKIP live checkout (Stripe disabled on host — expected)");

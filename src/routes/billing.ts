@@ -25,7 +25,7 @@ billingRoutes.post("/checkout", async (c) => {
   if (adminErr) return adminErr;
 
   if (!stripeConfigured(c.env)) {
-    return c.json({ error: "stripe_not_configured" }, 503);
+    return c.json({ error: "billing_unavailable" }, 503);
   }
 
   const teamId = c.get("teamId");
@@ -83,7 +83,7 @@ billingRoutes.post("/portal", async (c) => {
   if (adminErr) return adminErr;
 
   if (!stripeConfigured(c.env)) {
-    return c.json({ error: "stripe_not_configured" }, 503);
+    return c.json({ error: "billing_unavailable" }, 503);
   }
 
   const teamId = c.get("teamId");

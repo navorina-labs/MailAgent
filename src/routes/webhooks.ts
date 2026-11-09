@@ -108,23 +108,20 @@ webhookRoutes.post("/resend/team/:teamId", async (c) => {
 /** Stripe: subscription lifecycle → teams.plan */
 webhookRoutes.post("/stripe", async (c) => {
   if (!c.env.STRIPE_WEBHOOK_SECRET?.trim()) {
-    return c.json({ error: "not_configured" }, 503);
+    return c.json({ error: "billing_unavailable" }, 503);
   }
   const payload = await c.req.text();
   try {
     const { handleStripeWebhook } = await import("../services/billing");
-    await handleStripeWebhook(
-      c.env,
-      payload,
-      c.req.header("stripe-signature")
-    );
-    return c.json({ received: true });
+    const { duplicate } = await handleStripeWebhook(c.env, payload, c.req.header("stripe-signature"));
+    return c.json({ received: true, duplicate });
   } catch (e) {
     const msg = e instanceof Error ? e.message : "webhook_error";
     if (msg === "invalid_stripe_signature") {
       return c.json({ error: msg }, 400);
     }
+    // 500 makes Stripe retry the delivery later.
     console.warn("stripe webhook", msg);
-    return c.json({ error: msg }, 400);
+    return c.json({ error: "webhook_failed" }, 500);
   }
 });

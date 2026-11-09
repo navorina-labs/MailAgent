@@ -13,6 +13,7 @@ import {
 import { extractLinks, extractOtp } from "./extract";
 import { indexMessageSearch } from "./message-search";
 import { createResendClient } from "./resend-mail";
+import { assertMonthlyEmail } from "./email-usage";
 import {
   createResendClientForTeam,
   teamHasDedicatedResend,
@@ -119,6 +120,7 @@ export async function sendFromInbox(
     inbox,
     input.teamId
   );
+  await assertMonthlyEmail(env, input.teamId);
   const headers: Record<string, string> = {
     "Reply-To": inbox.address,
   };
