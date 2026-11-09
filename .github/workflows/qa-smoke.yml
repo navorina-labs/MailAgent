@@ -23,6 +23,7 @@ jobs:
       - run: npm run check
       - run: npm run test:api-path
       - run: npm run test:pilot-request
+      - run: npm run test:key-signup
       - run: npm run test:product-analytics
       - run: npm run build:qa
       - run: npm run verify:codex

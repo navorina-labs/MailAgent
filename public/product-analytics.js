@@ -10,6 +10,8 @@
     "mailagent_pilot_requested",
     "mailagent_pilot_submitted",
     "mailagent_pricing_viewed",
+    "mailagent_key_email_sent",
+    "mailagent_key_issued",
   ]);
   const PARAMS = ["agent", "surface", "destination"];
 

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZWFR0B14JX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-ZWFR0B14JX");
+    </script>
+    <title>Get a free API key: Mail Agent</title>
+    <meta name="description" content="Get a free Mail Agent API key: 10 inboxes, 60 requests per minute. Confirm your email and the key appears on this page." />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/favicon.svg?v=20260802-logo-a" type="image/svg+xml" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css?v=20261109-keys-3" />
+  </head>
+  <body data-site="marketing">
+    <div id="site-nav"></div>
+
+    <main class="landing agentsos-home">
+      <section class="page-section mail-spotlight pilot-section key-section" aria-labelledby="key-title">
+        <div class="site-container mail-spotlight-grid">
+          <div>
+            <p class="section-label">Free plan</p>
+            <h1 id="key-title" class="section-title">Get a free API key</h1>
+            <p class="section-desc">10 inboxes, 60 requests per minute. We email you a link; the key appears on this page after you open it.</p>
+            <p class="section-desc pilot-alt">Need more? <a href="/#pilot">Become a pilot</a></p>
+          </div>
+
+          <div>
+            <form class="pilot-form" id="key-form" data-api="https://api.webmailagent.com" novalidate>
+              <div class="pilot-row">
+                <label for="key-email">Work email</label>
+                <input id="key-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@company.com" />
+              </div>
+              <div class="pilot-row pilot-hp" aria-hidden="true">
+                <label for="key-website">Website</label>
+                <input id="key-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+              </div>
+              <div class="pilot-actions">
+                <button type="submit" class="btn btn-primary" id="key-submit">Email me the link</button>
+                <p class="pilot-status" id="key-status" role="status" aria-live="polite"></p>
+              </div>
+            </form>
+
+            <div class="pilot-form key-result" id="key-result" hidden>
+              <p class="pilot-status is-success" id="key-result-title" tabindex="-1">Your API key</p>
+              <div class="code-panel">
+                <div class="code-body"><pre><code id="key-value"></code></pre></div>
+              </div>
+              <p class="pilot-status">Shown once. Store it now, for example in your CI secrets as <code>MAILAGENT_API_KEY</code>.</p>
+              <div class="code-panel">
+                <div class="code-body"><pre><code id="key-mcp"></code></pre></div>
+              </div>
+              <div class="pilot-actions">
+                <a class="btn btn-primary" href="/docs/agents.html">Agent setup</a>
+                <a class="btn btn-outline" href="/dashboard.html">Open the console</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="/product-analytics.js?v=20261109-keys-1" defer></script>
+    <script src="/site-shell.js?v=20261109-keys-1" defer></script>
+    <script src="/site.js" defer></script>
+    <script src="/get-key.js?v=20261109-keys-1" defer></script>
+  </body>
+</html>

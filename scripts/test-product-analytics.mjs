@@ -82,6 +82,8 @@ trackedLinks.forEach((markup) => {
       "mailagent_pilot_requested",
       "mailagent_pilot_submitted",
       "mailagent_pricing_viewed",
+      "mailagent_key_email_sent",
+      "mailagent_key_issued",
     ].includes(eventName),
     `unexpected event in landing markup: ${eventName}`,
   );
@@ -99,6 +101,9 @@ assert.equal(window.AgentsOSAnalytics.track("mailagent_pilot_requested", { surfa
 assert.equal(window.AgentsOSAnalytics.track("mailagent_pilot_submitted", { surface: "pilot_form" }), true);
 assert.equal(window.AgentsOSAnalytics.track("mailagent_pricing_viewed", { surface: "pricing" }), true);
 assert.match(landing, /data-analytics-view="mailagent_pricing_viewed"/);
+assert.equal(window.AgentsOSAnalytics.track("mailagent_key_email_sent", { surface: "get_key" }), true);
+assert.equal(window.AgentsOSAnalytics.track("mailagent_key_issued", { surface: "get_key" }), true);
+assert.doesNotMatch(landing, /mailto:[^"]*API%20key/, "Get API key goes to /get-key.html, not email");
 assert.ok(
   trackedLinks.some((markup) => attribute(markup, "data-analytics-event") === "mailagent_key_requested"),
   "landing must track API key requests",

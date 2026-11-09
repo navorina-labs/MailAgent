@@ -10379,3 +10379,12 @@ body[data-doc="workspace"] .workspace-today-item > .workspace-actions-row {
     width: 100%;
   }
 }
+
+/* —— Get API key page (reuses the pilot form block) —— */
+.agentsos-home .pilot-form[hidden] {
+  display: none;
+}
+
+.agentsos-home .key-result .code-panel {
+  margin: 0;
+}
