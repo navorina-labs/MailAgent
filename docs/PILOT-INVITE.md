@@ -1,6 +1,6 @@
-# Pilot invite — copy to external QA team
+# Pilot invite: copy to an external QA team
 
-Operator checklist: [PILOT-ONBOARD.md](./PILOT-ONBOARD.md). Generate this block:
+Candidate list and first message: [PILOT-CANDIDATES.md](./PILOT-CANDIDATES.md). Operator checklist: [PILOT-ONBOARD.md](./PILOT-ONBOARD.md). Print this block:
 
 ```bash
 npm run print:pilot-invite -- acme-pilot
@@ -8,46 +8,47 @@ npm run print:pilot-invite -- acme-pilot
 
 ## Email / Slack template
 
-Replace `ACME` and send `MAILAGENT_API_KEY` in a **separate** DM (1Password / encrypted channel).
+Replace `ACME`. The team creates its own Free key, so nothing secret goes in this message.
 
 ```text
-Subject: MailAgent QA pilot — ~30 min setup
+Subject: Mail Agent pilot for ACME, about 30 minutes
 
-Hi — we're piloting MailAgent for disposable signup inboxes in CI (no shared Gmail).
+Hi, here is the setup for the Mail Agent pilot: an inbox per test run instead of a shared mailbox.
 
-1. Copy our starter into your test repo:
-   https://github.com/navorina-labs/MailAgent/tree/main/examples/qa-pilot-starter
+1. Get a Free key (10 inboxes, 60 requests per minute):
+   https://webmailagent.com/get-key
 
+2. Copy the starter into your test repo:
    git clone https://github.com/navorina-labs/MailAgent.git /tmp/mailagent
    cp -R /tmp/mailagent/examples/qa-pilot-starter ./mailagent-qa
    cd mailagent-qa
-
-2. Local smoke:
-   cp .env.example .env
-   # MAILAGENT_API_KEY — we'll send separately (scoped to ci- labels)
+   cp .env.example .env    # put MAILAGENT_API_KEY here
    npm install && npm test
 
-3. GitHub Actions (your repo → Settings → Secrets):
-   MAILAGENT_API_KEY = <scoped key>
-   (optional later) APP_SIGNUP_URL = https://your-staging.app/signup
+   Cypress: examples/qa-pilot-cypress-starter
+
+3. CI secrets:
+   MAILAGENT_API_KEY = your key
+   APP_SIGNUP_URL = https://your-staging.app/signup   (optional, for the real flow)
 
 4. Conventions:
-   - label: ci-$GITHUB_RUN_ID per job (built into starter)
-   - match `service` preset to your mail sender (auth0, github, gitlab, …)
-   - simulate test works offline; staging test needs APP_SIGNUP_URL
+   label ci-$GITHUB_RUN_ID per job (built into the starter)
+   set `service` to your mail sender preset (auth0, github, gitlab and others)
+   the simulate test needs no SMTP; the staging test needs APP_SIGNUP_URL
 
-Docs: https://webmailagent.com/docs/qa.html
-Troubleshooting: https://webmailagent.com/docs/qa-troubleshooting.html
-Feedback: reply with setup time + where you got stuck (see PILOT-ONBOARD.md)
+Docs: https://webmailagent.com/docs/qa
+Troubleshooting: https://webmailagent.com/docs/qa-troubleshooting
+Reply with setup time and where you got stuck.
 ```
 
 ## After they reply
 
 | Answer | Action |
 |--------|--------|
-| Green CI < 30 min | Ask staging `APP_SIGNUP_URL` + `service` preset |
-| Timeout on wait | `debug.html?inbox=…` · diagnose deep-link in error |
+| Green CI under 30 min | Ask for staging `APP_SIGNUP_URL` and the `service` preset |
+| Timeout on wait | `debug.html?inbox=...`, diagnose link in the error |
 | Wrong OTP | `subjectContains` or `messageIndex=1` |
-| Missing preset | backlog → `service-presets.ts` |
+| Missing preset | Backlog in `service-presets.ts` |
+| Needs more than Free | Pro, or operator plan: `npm run team:plan -- TEAM_ID pro` |
 
-Record in GitHub issue: `pilot: <team> feedback`.
+Record in GitHub issue #5: `pilot: <team> feedback`.
