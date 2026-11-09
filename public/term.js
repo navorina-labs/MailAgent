@@ -76,7 +76,40 @@
     return (code ? code : "HTTP " + status) + (json && json.hint ? ". " + json.hint : "");
   }
 
-  const core = { COMMANDS, parseLine, primaryAction, completions, errorText };
+  /** Run lines one at a time in the order they came in. Lines typed during a command wait their turn. */
+  function createQueue(runLine) {
+    const lines = [];
+    let running = false;
+    async function drain() {
+      running = true;
+      try {
+        while (lines.length) await runLine(lines.shift());
+      } finally {
+        running = false;
+      }
+    }
+    return {
+      push(line) {
+        lines.push(line);
+        if (!running) return drain();
+        return undefined;
+      },
+      /** Drop lines that have not started yet. Returns how many were dropped. */
+      clear() {
+        const n = lines.length;
+        lines.length = 0;
+        return n;
+      },
+      get pending() {
+        return lines.length;
+      },
+      get running() {
+        return running;
+      },
+    };
+  }
+
+  const core = { COMMANDS, parseLine, primaryAction, completions, errorText, createQueue };
   if (typeof module !== "undefined" && module.exports) {
     module.exports = core;
     return;
@@ -384,17 +417,16 @@
       print(["err", "unknown command: " + name], near.length ? dim("  try " + near.join(", ")) : dim("  run help"));
       return;
     }
-    input.disabled = true;
     try {
       await fn(args);
     } catch (e) {
       print(["err", "Network error. Check your connection and try again."]);
       if (state.json) print(dim(String(e && e.message)));
-    } finally {
-      input.disabled = false;
-      input.focus();
     }
   }
+
+  // The input stays open while a command runs; new lines queue up behind it.
+  const queue = createQueue(exec);
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -405,13 +437,15 @@
       state.history.push(line.replace(/\bma_\S+/g, "ma_..."));
       state.hIndex = state.history.length;
     }
-    exec(line);
+    queue.push(line);
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.ctrlKey && e.key === "c" && state.busy && !window.getSelection().toString()) {
+    if (e.ctrlKey && e.key === "c" && (state.busy || queue.pending) && !window.getSelection().toString()) {
       e.preventDefault();
-      state.busy.abort();
+      const dropped = queue.clear();
+      if (state.busy) state.busy.abort();
+      if (dropped) print(dim("skipped " + dropped + " queued command" + (dropped > 1 ? "s" : "")));
       return;
     }
     if (e.ctrlKey && e.key === "l") {
@@ -437,7 +471,10 @@
   });
 
   document.querySelectorAll("[data-cmd]").forEach((b) =>
-    b.addEventListener("click", () => exec(b.dataset.cmd))
+    b.addEventListener("click", () => {
+      queue.push(b.dataset.cmd);
+      input.focus();
+    })
   );
   screen.addEventListener("click", (e) => {
     if (e.target === screen || e.target.closest(".wrap") === e.target) input.focus();

@@ -23,6 +23,36 @@ assert.equal(term.errorText(401, {}), "Key rejected. Run: key ma_...");
 assert.match(term.errorText(429, { error: "inbox_limit_reached" }), /Inbox limit/);
 assert.match(term.errorText(408, { error: "timeout" }), /No email yet/);
 
+// Lines typed while a command runs are queued and run in order, never dropped.
+{
+  const ran = [];
+  let release;
+  const q = term.createQueue(async (line) => {
+    ran.push("start " + line);
+    if (line === "wait") await new Promise((r) => (release = r));
+    ran.push("end " + line);
+  });
+  const done = q.push("wait");
+  q.push("sim otp");
+  q.push("mail");
+  assert.equal(q.pending, 2);
+  assert.equal(q.running, true);
+  release();
+  await done;
+  assert.deepEqual(ran, ["start wait", "end wait", "start sim otp", "end sim otp", "start mail", "end mail"]);
+  assert.equal(q.running, false);
+
+  // ctrl+c drops lines that have not started.
+  let release2;
+  const q2 = term.createQueue(async (line) => { if (line === "wait") await new Promise((r) => (release2 = r)); ran.push(line); });
+  const d2 = q2.push("wait");
+  q2.push("read");
+  assert.equal(q2.clear(), 1);
+  release2();
+  await d2;
+  assert.equal(ran.at(-1), "wait");
+}
+
 // Every command has a handler.
 for (const [name] of term.COMMANDS) {
   assert.match(src, new RegExp(`(^|\\s|")${name.replace("-", "\\-")}"?\\(`, "m"), `handler for ${name}`);
