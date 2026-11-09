@@ -10,6 +10,7 @@ import {
 import { fireInboxCallback } from "./callback";
 import { shouldFireNotify } from "../lib/notify-email";
 import { fireInboxNotify } from "./notify-mail";
+import { consumeMonthlyEmail, teamForInboxKey } from "./email-usage";
 import { fireTeamEventForMessage } from "./team-event-webhook";
 import {
   recordCallbackRunSession,
@@ -66,6 +67,16 @@ export async function processInboundEmail(
 
   if (!isSenderAllowed(job.from, inbox.allowed_senders)) {
     return;
+  }
+
+  // Monthly cap: over the limit we skip fetching the body from Resend and drop the message.
+  const owner = await teamForInboxKey(env, inbox.api_key_hint);
+  if (owner) {
+    const quota = await consumeMonthlyEmail(env, owner.teamId, owner.plan);
+    if (!quota.ok) {
+      console.warn("inbound_dropped_monthly_quota", owner.teamId, inbox.id);
+      return;
+    }
   }
 
   const { data: email, error } = await resend.emails.receiving.get(job.emailId);

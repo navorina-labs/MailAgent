@@ -1,10 +1,14 @@
 /** Stripe Checkout + webhook (optional) */
 import type { Env } from "../env";
 import type { PlanId } from "../lib/plans";
+import { stripeAction, verifyStripeSignature, type StripeEvent } from "../lib/stripe-core";
 import { findTeamByStripeSubscription, setTeamPlan } from "./api-key-store";
 
+/** Billing is on only when all three Stripe secrets are set. */
 export function stripeConfigured(env: Env): boolean {
-  return Boolean(env.STRIPE_SECRET_KEY?.trim() && env.STRIPE_PRICE_PRO?.trim());
+  return Boolean(
+    env.STRIPE_SECRET_KEY?.trim() && env.STRIPE_PRICE_PRO?.trim() && env.STRIPE_WEBHOOK_SECRET?.trim()
+  );
 }
 
 /** Self-serve Stripe checkout: free → pro only */
@@ -14,7 +18,7 @@ export function canUpgradeViaStripe(plan: PlanId): boolean {
 
 export async function createCheckoutSession(
   env: Env,
-  input: { teamId: string; successUrl: string; cancelUrl: string }
+  input: { teamId: string; successUrl: string; cancelUrl: string; email?: string }
 ): Promise<{ url: string; sessionId: string }> {
   const secret = env.STRIPE_SECRET_KEY!.trim();
   const price = env.STRIPE_PRICE_PRO!.trim();
@@ -27,7 +31,9 @@ export async function createCheckoutSession(
     cancel_url: input.cancelUrl,
     client_reference_id: input.teamId,
     "metadata[team_id]": input.teamId,
+    "subscription_data[metadata][team_id]": input.teamId,
   });
+  if (input.email) body.set("customer_email", input.email);
 
   const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
     method: "POST",
@@ -78,107 +84,46 @@ export async function createBillingPortalSession(
   return { url: data.url };
 }
 
+const PROCESSED_TTL_SECONDS = 7 * 24 * 3600;
+const processedKey = (eventId: string) => `stripe:evt:${eventId}`;
+
+/** Verified Stripe webhook → teams.plan. Idempotent: replays of a handled event id are skipped. */
 export async function handleStripeWebhook(
   env: Env,
   payload: string,
   signatureHeader: string | undefined
-): Promise<void> {
+): Promise<{ duplicate: boolean }> {
   const secret = env.STRIPE_WEBHOOK_SECRET?.trim();
   if (!secret) throw new Error("stripe_webhook_not_configured");
 
   const ok = await verifyStripeSignature(payload, signatureHeader, secret);
   if (!ok) throw new Error("invalid_stripe_signature");
 
-  const event = JSON.parse(payload) as {
-    type: string;
-    data: { object: Record<string, unknown> };
-  };
+  const event = JSON.parse(payload) as StripeEvent;
+  const kv = env.RATE_LIMIT;
+  if (event.id && kv && (await kv.get(processedKey(event.id)))) {
+    return { duplicate: true };
+  }
 
-  switch (event.type) {
-    case "checkout.session.completed": {
-      const session = event.data.object;
-      const teamId =
-        (session.client_reference_id as string) ||
-        (session.metadata as { team_id?: string })?.team_id;
-      if (teamId) {
-        await setTeamPlan(env, teamId, "pro", {
-          customerId: session.customer as string | undefined,
-          subscriptionId: session.subscription as string | undefined,
-        });
-      }
-      break;
+  const action = stripeAction(event);
+  if (action.kind === "upgrade") {
+    await setTeamPlan(env, action.teamId, "pro", {
+      customerId: action.customerId ?? undefined,
+      subscriptionId: action.subscriptionId,
+    });
+  } else if (action.kind === "subscription") {
+    // Only the team's current subscription can change its plan.
+    const team = await findTeamByStripeSubscription(env, action.subscriptionId);
+    if (team) {
+      await setTeamPlan(env, team.id, action.active ? "pro" : "free", {
+        subscriptionId: action.subscriptionId,
+      });
     }
-    case "customer.subscription.deleted":
-    case "customer.subscription.updated": {
-      const sub = event.data.object;
-      const subId = sub.id as string;
-      const status = sub.status as string;
-      const team = await findTeamByStripeSubscription(env, subId);
-      if (!team) break;
-      const inactive = status === "canceled" || status === "unpaid" || status === "incomplete_expired";
-      if (event.type === "customer.subscription.deleted" || inactive) {
-        await setTeamPlan(env, team.id, "free", { subscriptionId: null });
-      }
-      break;
-    }
-    default:
-      break;
   }
-}
 
-async function verifyStripeSignature(
-  payload: string,
-  header: string | undefined,
-  secret: string
-): Promise<boolean> {
-  if (!header) return false;
-  const parts: Record<string, string> = {};
-  for (const piece of header.split(",")) {
-    const [k, v] = piece.split("=");
-    if (k && v) parts[k.trim()] = v.trim();
+  // Mark handled only after success, so Stripe retries a failed delivery.
+  if (event.id && kv) {
+    await kv.put(processedKey(event.id), "1", { expirationTtl: PROCESSED_TTL_SECONDS });
   }
-  const t = parts.t;
-  const v1 = parts.v1;
-  if (!t || !v1) return false;
-
-  const keyBytes = secret.startsWith("whsec_")
-    ? base64ToBytes(secret.slice(6))
-    : new TextEncoder().encode(secret);
-
-  const expected = await hmacSha256Hex(keyBytes, `${t}.${payload}`);
-  return timingSafeEqualHex(v1, expected);
-}
-
-function base64ToBytes(b64: string): Uint8Array {
-  const bin = atob(b64);
-  const out = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
-  return out;
-}
-
-async function hmacSha256Hex(key: Uint8Array, message: string): Promise<string> {
-  const cryptoKey = await crypto.subtle.importKey(
-    "raw",
-    key,
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"]
-  );
-  const sig = await crypto.subtle.sign(
-    "HMAC",
-    cryptoKey,
-    new TextEncoder().encode(message)
-  );
-  return [...new Uint8Array(sig)]
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-}
-
-function timingSafeEqualHex(a: string, b: string): boolean {
-  if (a.length !== b.length) return false;
-  let diff = 0;
-  for (let i = 0; i < a.length; i++) {
-    diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  }
-  return diff === 0;
+  return { duplicate: false };
 }

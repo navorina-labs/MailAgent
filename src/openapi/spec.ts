@@ -462,6 +462,76 @@ export const openApiSpec = {
         },
       },
     },
+    "/v1/upgrade/config": {
+      get: {
+        tags: ["meta"],
+        summary: "Whether self-serve Stripe billing is enabled",
+        security: [],
+        responses: { "200": { description: "{ billing: boolean }" } },
+      },
+    },
+    "/v1/upgrade/request": {
+      post: {
+        tags: ["meta"],
+        summary: "Email a one-time link to Pro checkout or the billing portal ($29/month)",
+        security: [],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                required: ["email", "action"],
+                properties: {
+                  email: { type: "string", format: "email" },
+                  action: { type: "string", enum: ["checkout", "portal"] },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          "202": { description: "Link sent (same answer when the email has no account)" },
+          "400": { description: "invalid_email, invalid_action" },
+          "429": { description: "rate_limit_exceeded" },
+          "503": { description: "stripe_not_configured" },
+        },
+      },
+    },
+    "/v1/upgrade/confirm": {
+      post: {
+        tags: ["meta"],
+        summary: "Exchange the emailed token for a Stripe Checkout or portal URL",
+        security: [],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { type: "object", required: ["token"], properties: { token: { type: "string" } } },
+            },
+          },
+        },
+        responses: {
+          "200": { description: "{ action, url }" },
+          "400": { description: "invalid_or_expired_token" },
+          "409": { description: "already_pro, no_subscription" },
+          "502": { description: "stripe_failed" },
+          "503": { description: "stripe_not_configured" },
+        },
+      },
+    },
+    "/webhooks/stripe": {
+      post: {
+        tags: ["meta"],
+        summary: "Stripe events: checkout.session.completed, customer.subscription.updated, customer.subscription.deleted",
+        security: [],
+        responses: {
+          "200": { description: "received (duplicate: true for an already handled event id)" },
+          "400": { description: "invalid_stripe_signature" },
+          "503": { description: "stripe_not_configured" },
+        },
+      },
+    },
     "/v1/pilot-requests": {
       post: {
         tags: ["meta"],

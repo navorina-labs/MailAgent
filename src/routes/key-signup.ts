@@ -129,7 +129,11 @@ keySignupRoutes.post("/confirm", async (c) => {
       apiKey,
       teamId,
       plan: "free",
-      limits: { activeInboxes: limits.maxActiveInboxes, requestsPerMinute: limits.rateLimitPerMinute },
+      limits: {
+        activeInboxes: limits.maxActiveInboxes,
+        requestsPerMinute: limits.rateLimitPerMinute,
+        emailsPerMonth: limits.monthlyEmails,
+      },
       docs: workspaceUrl("/docs/agents.html", c.env.MAILAGENT_WORKSPACE_ORIGIN),
     },
     201

@@ -1385,10 +1385,9 @@ export async function executeMcpTool(
         if (!result) return textResult({ error: "send_failed" }, true);
         return textResult(result);
       } catch (e) {
-        return textResult(
-          { error: "send_failed", message: e instanceof Error ? e.message : String(e) },
-          true
-        );
+        const message = e instanceof Error ? e.message : String(e);
+        const error = message.startsWith("monthly_quota_exceeded") ? "monthly_quota_exceeded" : "send_failed";
+        return textResult({ error, message }, true);
       }
     }
 

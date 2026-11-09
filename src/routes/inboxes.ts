@@ -66,6 +66,7 @@ import {
 } from "../services/structured-extract";
 import { publicOriginFromUrl } from "../lib/public-origin";
 import { PLAN_LIMITS } from "../lib/plans";
+import { MONTHLY_QUOTA_ERROR } from "../services/email-usage";
 import { parseRunIdFromLabel } from "../lib/agent-recipes";
 import { resolveCleanupPolicy } from "../lib/cleanup-policy";
 import {
@@ -409,6 +410,9 @@ inboxRoutes.post("/:id/send", async (c) => {
     return c.json(result, 201);
   } catch (e) {
     const msg = e instanceof Error ? e.message : "send_failed";
+    if (msg.startsWith(MONTHLY_QUOTA_ERROR)) {
+      return c.json({ error: MONTHLY_QUOTA_ERROR, message: msg }, 429);
+    }
     const status = msg.startsWith("dedicated_outbound_requires_custom_domain_inbox")
       ? 403
       : 502;
@@ -473,6 +477,9 @@ inboxRoutes.post("/:id/messages/:messageId/reply", async (c) => {
     return c.json(result, 201);
   } catch (e) {
     const msg = e instanceof Error ? e.message : "send_failed";
+    if (msg.startsWith(MONTHLY_QUOTA_ERROR)) {
+      return c.json({ error: MONTHLY_QUOTA_ERROR, message: msg }, 429);
+    }
     const status = msg.startsWith("dedicated_outbound_requires_custom_domain_inbox")
       ? 403
       : 502;

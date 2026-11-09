@@ -112,10 +112,10 @@
               },
               {
                 "@type": "Question",
-                "name": "Is Pro billed automatically?",
+                "name": "How is Pro billed?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "No. Billing is not connected yet. Pro is enabled manually on request."
+                  "text": "Pro is $29 per month. Cancel any time."
                 }
               }
             ]
@@ -135,7 +135,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/styles.css?v=20261109-keys-3" />
+    <link rel="stylesheet" href="/styles.css?v=20261110-pro-1" />
   </head>
   <body data-site="marketing">
     <div id="site-nav"></div>
@@ -481,18 +481,18 @@
           <div class="section-head">
             <p class="section-label">Pricing</p>
             <h2 id="pricing-title" class="section-title">Plans</h2>
-            <p class="section-desc">Billing is not connected yet. Pro is enabled manually.</p>
+            <p class="section-desc">Limits are per account. Emails count inbound and outbound, the counter resets monthly.</p>
           </div>
           <div class="steps landing-steps">
             <article class="step">
               <div class="step-meta"><span class="step-num">$0</span><span class="step-label">Free</span></div>
               <h3>10 inboxes, 60 req/min</h3>
-              <p>All API, MCP and SDK features.</p>
+              <p>500 emails/month. All API, MCP and SDK features.</p>
             </article>
             <article class="step">
-              <div class="step-meta"><span class="step-num">Pro</span><span class="step-label">On request</span></div>
+              <div class="step-meta"><span class="step-num">$29</span><span class="step-label">Pro, monthly</span></div>
               <h3>100 inboxes, 300 req/min</h3>
-              <p>Same features, higher limits.</p>
+              <p>5000 emails/month. Same features, cancel any time.</p>
             </article>
             <article class="step">
               <div class="step-meta"><span class="step-num">MIT</span><span class="step-label">Self-host</span></div>
@@ -502,7 +502,8 @@
           </div>
           <div class="hero-ctas" style="margin-top: 32px; justify-content: center">
             <a class="btn btn-primary" href="/get-key.html" data-analytics-event="mailagent_key_requested" data-analytics-surface="pricing">Get a free API key</a>
-            <a class="btn btn-outline" href="#pilot" data-analytics-event="mailagent_pilot_requested" data-analytics-surface="pricing">Request Pro</a>
+            <a class="btn btn-outline" href="#pilot" data-billing-off data-analytics-event="mailagent_pilot_requested" data-analytics-surface="pricing">Request Pro</a>
+            <a class="btn btn-outline" href="/upgrade.html" data-billing-on hidden>Upgrade to Pro</a>
           </div>
         </div>
       </section>
@@ -610,8 +611,9 @@
               <p>Yes. See <a href="/docs/custom-domain.html">custom domain</a> and <a href="/docs/integrate.html">self-host</a>.</p>
             </details>
             <details>
-              <summary>Is Pro billed automatically?</summary>
-              <p>No. Billing is not connected yet. Pro is enabled manually on request.</p>
+              <summary>How is Pro billed?</summary>
+              <p data-billing-on hidden>$29 per month through Stripe, on the same API key. Cancel or change the card in the <a href="/upgrade.html">billing portal</a>.</p>
+              <p data-billing-off>$29 per month. Card payments are being set up, until then Pro is enabled on request.</p>
             </details>
           </div>
         </div>
@@ -634,10 +636,11 @@
 
     <div id="site-footer"></div>
 
-    <script src="/product-analytics.js?v=20261104-pilot-1" defer></script>
+    <script src="/product-analytics.js?v=20261110-pro-1" defer></script>
     <script src="/site-shell.js?v=20261104-mail-positioning-2" defer></script>
     <script src="/site.js" defer></script>
     <script src="/pilot-form.js?v=20261104-pilot-1" defer></script>
     <script src="/landing-motion.js?v=20261104-motion-1" defer></script>
+    <script src="/billing-flag.js?v=20261110-pro-1" defer></script>
   </body>
 </html>

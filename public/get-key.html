@@ -14,14 +14,14 @@
       gtag("config", "G-ZWFR0B14JX");
     </script>
     <title>Get a free API key: Mail Agent</title>
-    <meta name="description" content="Get a free Mail Agent API key: 10 inboxes, 60 requests per minute. Confirm your email and the key appears on this page." />
+    <meta name="description" content="Get a free Mail Agent API key: 10 inboxes, 60 requests per minute, 500 emails per month. Confirm your email and the key appears on this page." />
     <meta name="robots" content="noindex" />
     <link rel="icon" href="/favicon.svg?v=20260802-logo-a" type="image/svg+xml" />
     <meta name="theme-color" content="#000000" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/styles.css?v=20261109-keys-3" />
+    <link rel="stylesheet" href="/styles.css?v=20261110-pro-1" />
   </head>
   <body data-site="marketing">
     <div id="site-nav"></div>
@@ -32,8 +32,9 @@
           <div>
             <p class="section-label">Free plan</p>
             <h1 id="key-title" class="section-title">Get a free API key</h1>
-            <p class="section-desc">10 inboxes, 60 requests per minute. We email you a link; the key appears on this page after you open it.</p>
-            <p class="section-desc pilot-alt">Need more? <a href="/#pilot">Become a pilot</a></p>
+            <p class="section-desc">10 inboxes, 60 requests per minute, 500 emails per month. We email you a link; the key appears on this page after you open it.</p>
+            <p class="section-desc pilot-alt" data-billing-off>Need more? <a href="/#pilot">Become a pilot</a></p>
+            <p class="section-desc pilot-alt" data-billing-on hidden>Need more? <a href="/upgrade.html">Pro is $29/month</a>: 100 inboxes, 5000 emails/month.</p>
           </div>
 
           <div>
@@ -64,6 +65,7 @@
               <div class="pilot-actions">
                 <a class="btn btn-primary" href="/docs/agents.html">Agent setup</a>
                 <a class="btn btn-outline" href="/dashboard.html">Open the console</a>
+                <a class="btn btn-outline" href="/upgrade.html" data-billing-on hidden>Upgrade to Pro</a>
               </div>
             </div>
           </div>
@@ -73,9 +75,10 @@
 
     <div id="site-footer"></div>
 
-    <script src="/product-analytics.js?v=20261109-keys-1" defer></script>
+    <script src="/product-analytics.js?v=20261110-pro-1" defer></script>
     <script src="/site-shell.js?v=20261109-keys-1" defer></script>
     <script src="/site.js" defer></script>
     <script src="/get-key.js?v=20261109-keys-1" defer></script>
+    <script src="/billing-flag.js?v=20261110-pro-1" defer></script>
   </body>
 </html>

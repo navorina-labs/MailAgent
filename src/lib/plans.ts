@@ -10,6 +10,8 @@ export const PLAN_LIMITS: Record<
     maxCustomDomains: number;
     notifyEmailsPerDay: number;
     dedicatedResend: boolean;
+    /** Emails per calendar month (UTC) that use Resend, inbound + outbound. null = no cap. */
+    monthlyEmails: number | null;
   }
 > = {
   free: {
@@ -19,6 +21,7 @@ export const PLAN_LIMITS: Record<
     maxCustomDomains: 1,
     notifyEmailsPerDay: 20,
     dedicatedResend: false,
+    monthlyEmails: 500,
   },
   pro: {
     rateLimitPerMinute: 300,
@@ -27,6 +30,7 @@ export const PLAN_LIMITS: Record<
     maxCustomDomains: 10,
     notifyEmailsPerDay: 500,
     dedicatedResend: false,
+    monthlyEmails: 5000,
   },
   enterprise: {
     rateLimitPerMinute: 600,
@@ -35,6 +39,7 @@ export const PLAN_LIMITS: Record<
     maxCustomDomains: 25,
     notifyEmailsPerDay: 5000,
     dedicatedResend: true,
+    monthlyEmails: null,
   },
   legacy: {
     rateLimitPerMinute: 120,
@@ -43,6 +48,7 @@ export const PLAN_LIMITS: Record<
     maxCustomDomains: 3,
     notifyEmailsPerDay: 500,
     dedicatedResend: false,
+    monthlyEmails: null,
   },
 };
 

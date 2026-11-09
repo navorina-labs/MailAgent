@@ -1,6 +1,8 @@
 # Stripe setup (Pro self-serve)
 
-MailAgent billing is **optional**. Without `STRIPE_*` secrets the API returns `stripe_not_configured` and teams stay on **free** (or operator-assigned **pro** / **enterprise**).
+MailAgent billing is **optional**. Without all three `STRIPE_*` secrets the API returns `stripe_not_configured` and teams stay on **free** (or operator-assigned **pro** / **enterprise**). The landing and `/upgrade` show "Request Pro" until `GET /v1/upgrade/config` returns `{"billing": true}`.
+
+Price: **Pro $29/month**. `wizard:stripe` and `doctor:billing` reject any other price.
 
 When you have a Stripe account, follow this once — same pattern as OIDC (`wizard:auth0`).
 
@@ -8,8 +10,8 @@ When you have a Stripe account, follow this once — same pattern as OIDC (`wiza
 
 | Plan | How |
 |------|-----|
-| **free** | Default for `npm run issue:key:db` teams |
-| **pro** | Stripe Checkout → webhook sets `teams.plan = pro` |
+| **free** | Default for `issue:key:db` and self-serve `/get-key` teams. 500 emails/month |
+| **pro** | $29/month. Stripe Checkout → webhook sets `teams.plan = pro`. 5000 emails/month |
 | **enterprise** | Operator only: `npm run team:plan -- TEAM_ID enterprise` (not Stripe self-serve yet) |
 | **legacy** | Single wrangler `API_KEY` (no team billing) |
 
@@ -34,7 +36,7 @@ npm run test:contract:qa:billing
 
 1. [Stripe Dashboard](https://dashboard.stripe.com) → **Product catalog** → **Add product**
 2. Name: `MailAgent Pro`
-3. Pricing: **Recurring** · monthly (or yearly) · amount of your choice
+3. Pricing: **Recurring**, **29.00 USD**, **Monthly**
 4. Copy **Price ID** → `price_…` → `STRIPE_PRICE_PRO`
 
 Use **test mode** keys (`sk_test_…`, `price_…` from test catalog) until go-live.
@@ -92,6 +94,16 @@ Recommended: [restricted key](https://docs.stripe.com/keys/restricted-api-keys) 
 
 ## Client flow
 
+### Self-serve (no API key in the browser)
+
+1. Free key from [/get-key](https://webmailagent.com/get-key.html) (team name = email)
+2. [/upgrade](https://webmailagent.com/upgrade.html): email + "Upgrade to Pro" or "Manage subscription"
+3. `POST /v1/upgrade/request { email, action: "checkout" | "portal" }` emails a one-time link (30 min). Same 202 answer for unknown emails
+4. Link opens `/upgrade.html#t=…` → `POST /v1/upgrade/confirm { token }` → `{ url }` → Stripe Checkout or Customer Portal
+5. Webhook → `teams.plan = pro`; cancel or any status other than `active` / `trialing` → `free`
+
+### With an API key (dashboard)
+
 1. Team key from `npm run issue:key:db -- acme`
 2. `GET /v1/me` → `billing.stripeEnabled`, `billing.canUpgrade`
 3. `POST /v1/billing/checkout` (admin scope) → `{ url }` → Stripe Checkout
@@ -115,7 +127,8 @@ Dashboard: [dashboard.html](https://webmailagent.com/dashboard.html) — **Upgra
 
 | Symptom | Fix |
 |---------|-----|
-| `stripe_not_configured` | Missing `STRIPE_SECRET_KEY` or `STRIPE_PRICE_PRO` on Worker |
+| `stripe_not_configured` | Missing `STRIPE_SECRET_KEY`, `STRIPE_PRICE_PRO` or `STRIPE_WEBHOOK_SECRET` on Worker |
+| `monthly_quota_exceeded` (429) | Team used its monthly emails (Free 500, Pro 5000, UTC month). Table `team_email_usage` |
 | `invalid_stripe_signature` | Wrong `STRIPE_WEBHOOK_SECRET` or raw body modified |
 | Upgrade button missing | Need registered team key + free plan + Stripe configured |
 | `billing_requires_registered_key` | `npm run issue:key:db` (not legacy `API_KEY` only) |

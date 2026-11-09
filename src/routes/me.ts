@@ -11,6 +11,7 @@ import { getScopedUsage } from "../services/console-stats";
 import { outboundCapabilities } from "../lib/outbound-capabilities";
 import { getDedicatedResendStatus } from "../services/team-resend";
 import { getRateLimitUsage } from "../lib/rate-limit-usage";
+import { monthlyEmailsUsed } from "../services/email-usage";
 
 export const meRoutes = new Hono<{ Bindings: Env; Variables: ApiVariables }>();
 
@@ -40,6 +41,7 @@ meRoutes.get("/", async (c) => {
       : null;
 
   const rateLimit = await getRateLimitUsage(c.env, hint, limits.rateLimitPerMinute);
+  const emailsThisMonth = limits.monthlyEmails === null ? null : await monthlyEmailsUsed(c.env, teamId);
 
   return c.json({
     plan,
@@ -52,6 +54,7 @@ meRoutes.get("/", async (c) => {
       maxTeamKeys: limits.maxTeamKeys,
       maxCustomDomains: limits.maxCustomDomains,
       notifyEmailsPerDay: limits.notifyEmailsPerDay,
+      monthlyEmails: limits.monthlyEmails,
     },
     usage: {
       activeInboxes: usageRaw.activeInboxes,
@@ -67,6 +70,7 @@ meRoutes.get("/", async (c) => {
       teamKeys: usageRaw.teamKeys,
       messagesLast24h: usageRaw.messagesLast24h,
       notifyEmailsLast24h: usageRaw.notifyEmailsLast24h,
+      emailsThisMonth,
       notifyEmailsRemaining: Math.max(
         0,
         limits.notifyEmailsPerDay - usageRaw.notifyEmailsLast24h

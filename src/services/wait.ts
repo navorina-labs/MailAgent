@@ -1,6 +1,7 @@
 /** Wait for message (poll) — for /wait, /open, MCP progress */
 import type { Env } from "../env";
 import { listMessages, type MessageRow } from "./inbox";
+import { monthlyQuotaForInbox, type MonthlyQuotaStatus } from "./email-usage";
 
 export type WaitProgressEvent = {
   inboxId: string;
@@ -32,6 +33,9 @@ export type WaitTimeoutDebug = {
     otp: string | null;
   }>;
   hint: string;
+  /** Set when the inbox owner is over the monthly email cap: inbound mail is dropped. */
+  reason?: "monthly_quota_exceeded";
+  monthlyQuota?: MonthlyQuotaStatus;
 };
 
 /** Wait for Nth message (0 = newest among matches) */
@@ -102,7 +106,10 @@ export async function buildWaitTimeoutDebug(
 ): Promise<WaitTimeoutDebug> {
   const index = Math.max(0, Math.floor(options?.messageIndex ?? 0));
   const needle = options?.subjectContains?.trim();
-  const all = await listMessages(env, inboxId, {});
+  const [all, quota] = await Promise.all([
+    listMessages(env, inboxId, {}),
+    monthlyQuotaForInbox(env, inboxId),
+  ]);
   const matching = needle
     ? await listMessages(env, inboxId, { subjectContains: needle })
     : all;
@@ -115,6 +122,7 @@ export async function buildWaitTimeoutDebug(
   } else if (all.length && !needle) {
     hint = `Found ${all.length} message(s) but wait timed out before index ${index}.`;
   }
+  if (quota) hint = quota.message;
 
   return {
     messageCount: all.length,
@@ -129,6 +137,7 @@ export async function buildWaitTimeoutDebug(
       otp: m.otp,
     })),
     hint,
+    ...(quota ? { reason: quota.error, monthlyQuota: quota } : {}),
   };
 }
 

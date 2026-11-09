@@ -20,7 +20,7 @@ Stripe — Pro subscription (10–15 мин, test mode сначала)
 1. https://dashboard.stripe.com → переключи Test mode
 
 2. Product catalog → Add product "MailAgent Pro"
-   Recurring price → скопируй Price ID (price_…)
+   Recurring price: 29.00 USD, Monthly → скопируй Price ID (price_…)
 
 3. Settings → Billing → Customer portal → включи cancel / payment method
 
@@ -82,6 +82,11 @@ async function validatePrice(secret, priceId) {
   }
   if (data.type !== "recurring") {
     throw new Error(`price ${priceId} must be recurring (subscription)`);
+  }
+  if (data.unit_amount !== 2900 || data.currency !== "usd" || data.recurring?.interval !== "month") {
+    throw new Error(
+      `price ${priceId} must be 29.00 USD per month (got ${data.unit_amount / 100} ${data.currency} per ${data.recurring?.interval})`
+    );
   }
   return data;
 }

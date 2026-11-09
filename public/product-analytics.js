@@ -12,6 +12,7 @@
     "mailagent_pricing_viewed",
     "mailagent_key_email_sent",
     "mailagent_key_issued",
+    "mailagent_checkout_started",
   ]);
   const PARAMS = ["agent", "surface", "destination"];
 
