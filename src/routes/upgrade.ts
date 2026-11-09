@@ -3,7 +3,7 @@
  * GET  /v1/upgrade/config                       → { billing: boolean }
  * POST /v1/upgrade/request { email, action }    → emails a one-time link (action: checkout | portal)
  * POST /v1/upgrade/confirm { token }            → { url } of Stripe Checkout or the customer portal
- * Without all Stripe secrets every write endpoint returns 503 billing_unavailable.
+ * Without all Stripe secrets every write endpoint returns 503 stripe_not_configured.
  */
 import { Hono } from "hono";
 import type { Env } from "../env";
@@ -26,7 +26,7 @@ export const upgradeRoutes = new Hono<{ Bindings: Env }>();
 
 const CONTACT = "hello@webmailagent.com";
 const tokenKey = (hash: string) => `billing:tok:${hash}`;
-const unavailable = { error: "billing_unavailable", contact: CONTACT } as const;
+const unavailable = { error: "stripe_not_configured", contact: CONTACT } as const;
 
 async function readJson(req: Request): Promise<Record<string, unknown> | null> {
   try {

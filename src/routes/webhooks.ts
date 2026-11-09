@@ -108,7 +108,7 @@ webhookRoutes.post("/resend/team/:teamId", async (c) => {
 /** Stripe: subscription lifecycle → teams.plan */
 webhookRoutes.post("/stripe", async (c) => {
   if (!c.env.STRIPE_WEBHOOK_SECRET?.trim()) {
-    return c.json({ error: "billing_unavailable" }, 503);
+    return c.json({ error: "stripe_not_configured" }, 503);
   }
   const payload = await c.req.text();
   try {

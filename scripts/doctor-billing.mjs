@@ -34,6 +34,9 @@ async function validatePrice(secret, priceId) {
   const data = await res.json().catch(() => ({}));
   if (!res.ok) return { ok: false, message: data.error?.message ?? `HTTP ${res.status}` };
   if (data.type !== "recurring") return { ok: false, message: "price must be recurring" };
+  if (data.unit_amount !== 2900 || data.currency !== "usd" || data.recurring?.interval !== "month") {
+    return { ok: false, message: `expected 29.00 USD per month, got ${data.unit_amount / 100} ${data.currency} per ${data.recurring?.interval}` };
+  }
   return { ok: true, interval: data.recurring?.interval, currency: data.currency };
 }
 
@@ -70,6 +73,13 @@ if (!localOk && !devVars.STRIPE_SECRET_KEY) {
   console.log("Stripe not configured locally (expected until billing launch).");
   console.log("When ready: npm run wizard:stripe");
   console.log("Guide: docs/STRIPE-SETUP.md\n");
+}
+
+try {
+  const cfg = await fetch(`${publicApi}/v1/upgrade/config`).then((r) => r.json());
+  console.log(`Prod self-serve upgrade (/v1/upgrade/config): billing ${cfg.billing === true ? "on" : "off"}\n`);
+} catch {
+  console.log("Prod /v1/upgrade/config: unreachable\n");
 }
 
 if (!apiKey) {

@@ -26,12 +26,12 @@
 
         <h2>Plans</h2>
         <table class="doc-table">
-          <thead><tr><th>Plan</th><th>Rate limit</th><th>Active inboxes</th><th>How</th></tr></thead>
+          <thead><tr><th>Plan</th><th>Rate limit</th><th>Active inboxes</th><th>Emails/month</th><th>How</th></tr></thead>
           <tbody>
-            <tr><td>free</td><td>60/min</td><td>10</td><td>Default (<code>issue:key:db</code>)</td></tr>
-            <tr><td>pro</td><td>300/min</td><td>100</td><td>Stripe Checkout or operator</td></tr>
-            <tr><td>enterprise</td><td>600/min</td><td>500</td><td>Operator · <a href="/docs/dedicated-domains.html">Dedicated Resend</a></td></tr>
-            <tr><td>legacy</td><td>120/min</td><td>500</td><td>Single wrangler <code>API_KEY</code></td></tr>
+            <tr><td>free</td><td>60/min</td><td>10</td><td>500</td><td><a href="/get-key.html">Get a free key</a></td></tr>
+            <tr><td>pro, $29/month</td><td>300/min</td><td>100</td><td>5000</td><td><a href="/upgrade.html">Upgrade</a> or operator</td></tr>
+            <tr><td>enterprise</td><td>600/min</td><td>500</td><td>no cap</td><td>Operator, <a href="/docs/dedicated-domains.html">Dedicated Resend</a></td></tr>
+            <tr><td>legacy</td><td>120/min</td><td>500</td><td>no cap</td><td>Single wrangler <code>API_KEY</code></td></tr>
           </tbody>
         </table>
 
@@ -57,13 +57,19 @@ npm run doctor:billing</code></pre>
         <h2>API</h2>
         <pre class="doc-pre"><code>GET  /v1/me                    → billing.stripeEnabled, canUpgrade
 POST /v1/billing/checkout      → { url }  (admin scope, free plan)
-POST /v1/billing/portal        → { url }  (existing Stripe customer)</code></pre>
+POST /v1/billing/portal        → { url }  (existing Stripe customer)
+
+GET  /v1/upgrade/config        → { billing }  (public)
+POST /v1/upgrade/request       → emails a one-time link { email, action: checkout | portal }
+POST /v1/upgrade/confirm       → { url }  (token from the link)</code></pre>
+        <p>Emails per month count outbound sends and inbound messages. Over the cap the API returns <code>429 monthly_quota_exceeded</code>.</p>
         <p><a href="/dashboard.html">Dashboard</a> — Upgrade / Manage billing when Stripe is enabled.</p>
 
         <h2>Webhook events</h2>
         <ul class="doc-list">
           <li><code>checkout.session.completed</code> → <code>teams.plan = pro</code></li>
-          <li><code>customer.subscription.updated</code> / <code>deleted</code> → downgrade when canceled</li>
+          <li><code>customer.subscription.updated</code>: <code>active</code> or <code>trialing</code> keeps pro, any other status moves to free</li>
+          <li><code>customer.subscription.deleted</code> → free</li>
         </ul>
 
         <h2>Enterprise</h2>

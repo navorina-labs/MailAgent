@@ -14,7 +14,7 @@
       gtag("config", "G-ZWFR0B14JX");
     </script>
     <title>Get a free API key: Mail Agent</title>
-    <meta name="description" content="Get a free Mail Agent API key: 10 inboxes, 60 requests per minute. Confirm your email and the key appears on this page." />
+    <meta name="description" content="Get a free Mail Agent API key: 10 inboxes, 60 requests per minute, 500 emails per month. Confirm your email and the key appears on this page." />
     <meta name="robots" content="noindex" />
     <link rel="icon" href="/favicon.svg?v=20260802-logo-a" type="image/svg+xml" />
     <meta name="theme-color" content="#000000" />
@@ -32,8 +32,9 @@
           <div>
             <p class="section-label">Free plan</p>
             <h1 id="key-title" class="section-title">Get a free API key</h1>
-            <p class="section-desc">10 inboxes, 60 requests per minute. We email you a link; the key appears on this page after you open it.</p>
-            <p class="section-desc pilot-alt">Need more? <a href="/#pilot">Become a pilot</a></p>
+            <p class="section-desc">10 inboxes, 60 requests per minute, 500 emails per month. We email you a link; the key appears on this page after you open it.</p>
+            <p class="section-desc pilot-alt" data-billing-off>Need more? <a href="/#pilot">Become a pilot</a></p>
+            <p class="section-desc pilot-alt" data-billing-on hidden>Need more? <a href="/upgrade.html">Pro is $29/month</a>: 100 inboxes, 5000 emails/month.</p>
           </div>
 
           <div>
@@ -64,6 +65,7 @@
               <div class="pilot-actions">
                 <a class="btn btn-primary" href="/docs/agents.html">Agent setup</a>
                 <a class="btn btn-outline" href="/dashboard.html">Open the console</a>
+                <a class="btn btn-outline" href="/upgrade.html" data-billing-on hidden>Upgrade to Pro</a>
               </div>
             </div>
           </div>
@@ -77,5 +79,6 @@
     <script src="/site-shell.js?v=20261109-keys-1" defer></script>
     <script src="/site.js" defer></script>
     <script src="/get-key.js?v=20261109-keys-1" defer></script>
+    <script src="/billing-flag.js?v=20261110-pro-1" defer></script>
   </body>
 </html>

@@ -16,7 +16,7 @@
     invalid_or_expired_token: "This link has expired or was already used. Request a new one below.",
     already_pro: "This account is already on Pro. Use Manage subscription to change it.",
     no_subscription: "No paid subscription on this account yet. Use Upgrade to Pro.",
-    billing_unavailable: "Card payments are not enabled yet. Write to " + CONTACT + ".",
+    stripe_not_configured: "Card payments are not enabled yet. Write to " + CONTACT + ".",
   };
   const fallback = "Something went wrong. Write to " + CONTACT + ".";
   const RETURNS = {
@@ -72,7 +72,7 @@
         setStatus("Check " + value + ". The link works once, for 30 minutes.", "success");
         return;
       }
-      if (json.error === "billing_unavailable") return showOff();
+      if (json.error === "stripe_not_configured") return showOff();
       if (json.field === "email") email.setAttribute("aria-invalid", "true");
       setStatus(ERRORS[json.error] || fallback, "error");
     } catch {
@@ -95,7 +95,7 @@
         location.assign(json.url);
         return;
       }
-      if (json.error === "billing_unavailable") return showOff();
+      if (json.error === "stripe_not_configured") return showOff();
       setStatus(ERRORS[json.error] || fallback, "error");
     } catch {
       setStatus(fallback, "error");
