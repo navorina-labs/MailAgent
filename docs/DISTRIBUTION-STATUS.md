@@ -8,6 +8,8 @@ Last automated check: CI `check:catalog-prs` (weekly) · discovery: `GET /v1/age
 
 | Asset | Path |
 |-------|------|
+| Free key (self-serve) | https://webmailagent.com/get-key |
+| Pilot candidates | [PILOT-CANDIDATES.md](./PILOT-CANDIDATES.md) |
 | Playwright starter | [examples/qa-pilot-starter](../examples/qa-pilot-starter) |
 | Cypress starter | [examples/qa-pilot-cypress-starter](../examples/qa-pilot-cypress-starter) |
 | 30-min guide | [QA-PILOT.md](./QA-PILOT.md) |
@@ -24,12 +26,12 @@ Last automated check: CI `check:catalog-prs` (weekly) · discovery: `GET /v1/age
 | MCP npm | `npx -y -p @mailagent/mcp@latest mailagent-mcp` |
 | REST SDK | `npm i @mailagent/agent @mailagent/qa` |
 
-## Curated catalogs (pending maintainer merge)
+## Curated catalogs
 
 | Catalog | PR | State |
 |---------|-----|--------|
-| [awesome-codex-plugins](https://github.com/hashgraph-online/awesome-codex-plugins) | [#195](https://github.com/hashgraph-online/awesome-codex-plugins/pull/195) | open, mergeable |
-| [awesome-agent-skills](https://github.com/VoltAgent/awesome-agent-skills) | [#659](https://github.com/VoltAgent/awesome-agent-skills/pull/659) | open, clean after fork refresh |
+| [awesome-codex-plugins](https://github.com/hashgraph-online/awesome-codex-plugins) | [#195](https://github.com/hashgraph-online/awesome-codex-plugins/pull/195) | closed unmerged (3 July 2026) |
+| [awesome-agent-skills](https://github.com/VoltAgent/awesome-agent-skills) | [#659](https://github.com/VoltAgent/awesome-agent-skills/pull/659) | closed unmerged (20 June 2026): maintainer wants more stars and adoption first. Resubmit after pilots |
 
 ```bash
 npm run check:catalog-prs
@@ -41,7 +43,7 @@ npm run check:catalog-prs
 |------|---------|----------|
 | Codex Plugin Directory | OpenAI self-serve; tarball ready: `dist/mailagent-codex-plugin-0.2.5.tar.gz` | [CODEX-DIRECTORY-SUBMIT.md](./CODEX-DIRECTORY-SUBMIT.md) |
 | Agent Skill Hub search | Hub OAuth / `skhub login`; `gh skill publish --dry-run` passes | [SKILLS-SUBMIT.md](./SKILLS-SUBMIT.md) |
-| Stripe Pro + SLA live | Stripe account | [STRIPE-SETUP.md](./STRIPE-SETUP.md) |
+| Stripe Pro ($29/month) + SLA live | Stripe account | [STRIPE-SETUP.md](./STRIPE-SETUP.md) |
 | Pentest report | Third-party vendor | [PENTEST-PREP.md](./PENTEST-PREP.md) |
 | SOC 2 Type II | Formal audit | [SOC2.md](./SOC2.md) |
 

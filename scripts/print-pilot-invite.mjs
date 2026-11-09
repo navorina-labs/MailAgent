@@ -15,10 +15,6 @@ console.log("─".repeat(60));
 console.log(block.replace(/ACME/g, teamLabel).replace(/acme-pilot/g, slug).trim());
 console.log("─".repeat(60));
 console.log(`
-Next: issue scoped key (local only — public repo, never log keys in CI):
-
-  # add DATABASE_URL to .env (Neon / GitHub secret copy)
-  npm run issue:pilot-key -- ${slug}
-
-Send the ma_… key separately. Guide: docs/PILOT-ONBOARD.md
+The team creates its own Free key at https://webmailagent.com/get-key.
+Track status in docs/PILOT-CANDIDATES.md. Guide: docs/PILOT-ONBOARD.md
 `);
