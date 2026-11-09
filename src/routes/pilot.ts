@@ -3,6 +3,7 @@ import { Hono } from "hono";
 import type { Env } from "../env";
 import { createResendClient } from "../services/resend-mail";
 import { pilotEmail, validatePilotRequest } from "../lib/pilot-request";
+import { hourlyLimitHit } from "../lib/hourly-limit";
 
 export const pilotRoutes = new Hono<{ Bindings: Env }>();
 
@@ -10,15 +11,9 @@ const DEFAULT_PILOT_INBOX = "hello@webmailagent.com";
 const PER_IP_PER_HOUR = 5;
 
 pilotRoutes.post("/", async (c) => {
-  const kv = c.env.RATE_LIMIT;
   const ip = c.req.header("CF-Connecting-IP") ?? "unknown";
-  const key = `pilot:${ip}:${Math.floor(Date.now() / 3_600_000)}`;
-  if (kv) {
-    const used = Number((await kv.get(key)) ?? 0);
-    if (used >= PER_IP_PER_HOUR) {
-      return c.json({ error: "rate_limit_exceeded", retryAfterSeconds: 3600 }, 429);
-    }
-    c.executionCtx.waitUntil(kv.put(key, String(used + 1), { expirationTtl: 3700 }));
+  if (await hourlyLimitHit(c.env.RATE_LIMIT, c.executionCtx, `pilot:${ip}`, PER_IP_PER_HOUR)) {
+    return c.json({ error: "rate_limit_exceeded", retryAfterSeconds: 3600 }, 429);
   }
 
   let body: unknown;

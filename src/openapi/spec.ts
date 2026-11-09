@@ -412,6 +412,56 @@ export const openApiSpec = {
         responses: { "200": { description: "This schema" } },
       },
     },
+    "/v1/keys/request": {
+      post: {
+        tags: ["meta"],
+        summary: "Request a free API key (emails a one-time confirmation link)",
+        security: [],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                required: ["email"],
+                properties: { email: { type: "string", format: "email" } },
+              },
+            },
+          },
+        },
+        responses: {
+          "202": { description: "sent" },
+          "400": { description: "invalid_email, inbox_domain_not_allowed, disposable_email, email_not_deliverable" },
+          "429": { description: "rate_limit_exceeded (5 per hour per IP, 3 per hour per email)" },
+          "503": { description: "signup_unavailable" },
+        },
+      },
+    },
+    "/v1/keys/confirm": {
+      post: {
+        tags: ["meta"],
+        summary: "Confirm the emailed link and receive a Free API key once",
+        security: [],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                required: ["token"],
+                properties: { token: { type: "string" } },
+              },
+            },
+          },
+        },
+        responses: {
+          "201": { description: "apiKey, teamId, plan, limits" },
+          "400": { description: "invalid_or_expired_token" },
+          "409": { description: "key_limit_reached" },
+          "429": { description: "rate_limit_exceeded" },
+        },
+      },
+    },
     "/v1/pilot-requests": {
       post: {
         tags: ["meta"],
