@@ -5,6 +5,7 @@ import { billingLinkEmail, noAccountEmail, parseBillingAction } from "../src/lib
 import { PLAN_LIMITS } from "../src/lib/plans";
 import { stripeConfigured } from "../src/services/billing";
 import type { Env } from "../src/env";
+import { monthlyQuotaStatus } from "../src/services/email-usage";
 
 async function sign(secret: string, t: number, payload: string): Promise<string> {
   const key = await crypto.subtle.importKey(
@@ -88,5 +89,19 @@ assert.equal(PLAN_LIMITS.pro.maxActiveInboxes, 100);
 assert.equal(PLAN_LIMITS.pro.rateLimitPerMinute, 300);
 assert.equal(monthKey(new Date("2026-11-30T23:59:59Z")), "2026-11");
 assert.equal(monthKey(new Date("2026-12-01T00:00:00Z")), "2026-12");
+
+// Wait timeout and diagnose explain the monthly cap.
+assert.equal(monthlyQuotaStatus(499, "free"), null);
+const over = monthlyQuotaStatus(500, "free");
+assert.equal(over?.error, "monthly_quota_exceeded");
+assert.equal(over?.limit, 500);
+assert.equal(over?.plan, "free");
+assert.match(over!.message, /^monthly_quota_exceeded: 500 emails per month on the free plan/);
+assert.match(over!.message, /Upgrade to Pro/);
+assert.match(over!.message, /Inbound email is not delivered/);
+assert.equal(monthlyQuotaStatus(5000, "pro")?.limit, 5000);
+assert.doesNotMatch(monthlyQuotaStatus(5000, "pro")!.message, /Upgrade/);
+assert.equal(monthlyQuotaStatus(1_000_000, "enterprise"), null);
+assert.equal(monthlyQuotaStatus(1_000_000, "legacy"), null);
 
 console.log("billing: ok");

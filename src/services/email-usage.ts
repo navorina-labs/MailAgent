@@ -74,6 +74,47 @@ export async function monthlyEmailsUsed(env: Env, teamId: string | null | undefi
   }
 }
 
+export type MonthlyQuotaStatus = {
+  error: typeof MONTHLY_QUOTA_ERROR;
+  plan: string;
+  limit: number;
+  used: number;
+  message: string;
+};
+
+/** Over-cap status for explaining a wait timeout; null when the team is under its cap or has none. */
+export function monthlyQuotaStatus(used: number, rawPlan: string | null | undefined): MonthlyQuotaStatus | null {
+  const plan = normalizePlan(rawPlan);
+  const limit = PLAN_LIMITS[plan].monthlyEmails;
+  if (limit === null || used < limit) return null;
+  return {
+    error: MONTHLY_QUOTA_ERROR,
+    plan,
+    limit,
+    used,
+    message: `${monthlyQuotaMessage(limit, plan)} Inbound email is not delivered until then.`,
+  };
+}
+
+/** Is the team that owns this inbox over its monthly cap? Never throws. */
+export async function monthlyQuotaForInbox(env: Env, inboxId: string): Promise<MonthlyQuotaStatus | null> {
+  try {
+    const rows = (await getDb(env)`
+      SELECT t.id AS team_id, t.plan
+      FROM inboxes i
+      JOIN api_keys k ON k.key_hint = i.api_key_hint
+      JOIN teams t ON t.id = k.team_id
+      WHERE i.id = ${inboxId}
+      LIMIT 1
+    `) as { team_id: string; plan: string }[];
+    if (!rows[0]) return null;
+    if (PLAN_LIMITS[normalizePlan(rows[0].plan)].monthlyEmails === null) return null;
+    return monthlyQuotaStatus(await monthlyEmailsUsed(env, rows[0].team_id), rows[0].plan);
+  } catch {
+    return null;
+  }
+}
+
 /** Inbound: find the team that owns an inbox (via its API key hint) and its plan. */
 export async function teamForInboxKey(
   env: Env,

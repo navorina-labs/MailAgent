@@ -20,6 +20,7 @@ export type InboxDiagnoseOptions = {
 
 export type DiagnoseFailureCode =
   | "no_messages"
+  | "monthly_quota_exceeded"
   | "subject_filter_no_match"
   | "message_index_too_high"
   | "callback_failed"
@@ -165,6 +166,19 @@ export async function buildInboxDiagnose(
     messages,
     debugUiUrl: debugUrl,
   });
+
+  const quota = waitDebug.monthlyQuota;
+  if (quota) {
+    troubleshooting.unshift(quota.message);
+    recovery.failureSummary = { code: "monthly_quota_exceeded", message: quota.message, confidence: "high" };
+    recovery.recommendedAction = {
+      type: "open_debug_ui",
+      confidence: "high",
+      reason: quota.message,
+      label: quota.plan === "free" ? "Upgrade to Pro" : "Wait for the monthly reset",
+      href: quota.plan === "free" ? "https://webmailagent.com/upgrade.html" : debugUrl,
+    };
+  }
 
   return {
     inboxId: inbox.id,
