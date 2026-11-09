@@ -26,6 +26,7 @@ jobs:
       - run: npm run test:key-signup
       - run: npm run test:billing
       - run: npm run test:product-analytics
+      - run: npm run test:term
       - run: npm run build:qa
       - run: npm run verify:codex
 
