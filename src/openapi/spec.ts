@@ -462,6 +462,46 @@ export const openApiSpec = {
         },
       },
     },
+    "/v1/keys/rotate/request": {
+      post: {
+        tags: ["meta"],
+        summary: "Email a one-time link to replace a leaked or lost key",
+        security: [],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { type: "object", required: ["email"], properties: { email: { type: "string" } } },
+            },
+          },
+        },
+        responses: {
+          "202": { description: "sent (same answer whether or not the email has a key)" },
+          "400": { description: "invalid_email" },
+          "429": { description: "rate_limit_exceeded" },
+        },
+      },
+    },
+    "/v1/keys/rotate/confirm": {
+      post: {
+        tags: ["meta"],
+        summary: "Revoke every key for the email and return one new key; inboxes move to it",
+        security: [],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { type: "object", required: ["token"], properties: { token: { type: "string" } } },
+            },
+          },
+        },
+        responses: {
+          "201": { description: "apiKey, teamId, revokedKeys, movedInboxes" },
+          "400": { description: "invalid_or_expired_token" },
+          "429": { description: "rate_limit_exceeded" },
+        },
+      },
+    },
     "/v1/upgrade/config": {
       get: {
         tags: ["meta"],
