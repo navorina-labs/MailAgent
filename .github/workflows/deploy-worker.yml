@@ -55,6 +55,12 @@ jobs:
         run: |
           if [ -n "$DATABASE_URL" ]; then npm run db:migrate; fi
 
+      - name: SQL contract on the real database (throwaway team, before deploy)
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          if [ -n "$DATABASE_URL" ]; then npm run db:check-sql; fi
+
       - name: Deploy to Cloudflare Workers
         run: npm run deploy
         env:

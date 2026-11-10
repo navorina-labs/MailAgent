@@ -53,6 +53,7 @@
     "test:script-origins": "node --test scripts/public-origins.test.mjs",
     "types": "wrangler types",
     "db:migrate": "node scripts/migrate.mjs",
+    "db:check-sql": "npx tsx scripts/check-sql.ts",
     "build:mcp": "cd mcp && npm install && npm run build",
     "build:qa": "cd packages/mailagent-qa && npm install && npm run build",
     "build:agent": "cd packages/mailagent-agent && npm install && npm run build",

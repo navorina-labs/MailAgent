@@ -296,7 +296,7 @@ export async function rotateTeamKeys(
  * MCP access tokens are stateless, so check the live state behind them:
  * a revoked or replaced key kills its tokens, a suspended team is blocked.
  */
-async function applyMcpTokenState(env: Env, auth: ResolvedAuth): Promise<ResolvedAuth | null> {
+export async function applyMcpTokenState(env: Env, auth: ResolvedAuth): Promise<ResolvedAuth | null> {
   if (!auth.teamId) return auth;
   const sql = getDb(env);
   const rows = (await sql`
@@ -316,4 +316,16 @@ async function applyMcpTokenState(env: Env, auth: ResolvedAuth): Promise<Resolve
     if (row.expires_at && new Date(row.expires_at).getTime() <= Date.now()) return null;
   }
   return { ...auth, suspended: Boolean(row.suspended_at) };
+}
+
+/** Revoke the live key with this token (leak report). Returns the team name for the owner notice. */
+export async function revokeKeyByToken(env: Env, token: string): Promise<{ apiKeyId: string; teamName: string } | null> {
+  const hash = await apiKeyHashFromToken(token);
+  const rows = (await getDb(env)`
+    UPDATE api_keys k SET revoked_at = NOW()
+    FROM teams t
+    WHERE k.key_hash = ${hash} AND t.id = k.team_id AND k.revoked_at IS NULL
+    RETURNING k.id, t.name AS team_name
+  `) as { id: string; team_name: string }[];
+  return rows[0] ? { apiKeyId: rows[0].id, teamName: rows[0].team_name } : null;
 }
