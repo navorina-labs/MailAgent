@@ -76,6 +76,13 @@
     return (code ? code : "HTTP " + status) + (json && json.hint ? ". " + json.hint : "");
   }
 
+  /** What to do with a new key after GET /v1/me: save it, refuse it, or save it unchecked (server or network trouble). */
+  function keyCheckDecision(status) {
+    if (status >= 200 && status < 300) return "save";
+    if (status === 401 || status === 403) return "reject";
+    return "unchecked";
+  }
+
   /** Run lines one at a time in the order they came in. Lines typed during a command wait their turn. */
   function createQueue(runLine) {
     const lines = [];
@@ -109,7 +116,7 @@
     };
   }
 
-  const core = { COMMANDS, parseLine, primaryAction, completions, errorText, createQueue };
+  const core = { COMMANDS, parseLine, primaryAction, completions, errorText, createQueue, keyCheckDecision };
   if (typeof module !== "undefined" && module.exports) {
     module.exports = core;
     return;
@@ -183,9 +190,10 @@
     store.set(INBOX_STORAGE, state.inbox ? JSON.stringify(state.inbox) : "");
   }
 
-  async function api(method, path, body, signal) {
+  async function api(method, path, body, signal, withKey) {
     const headers = { Accept: "application/json" };
-    if (key()) headers.Authorization = "Bearer " + key();
+    const k = withKey || key();
+    if (k) headers.Authorization = "Bearer " + k;
     if (body !== undefined) headers["Content-Type"] = "application/json";
     const res = await fetch(base() + path, {
       method,
@@ -231,6 +239,14 @@
     }
   }
 
+  function showMe(me) {
+    const { plan, limits = {}, usage = {} } = me || {};
+    row("plan", String(plan || "free"), "hi");
+    row("inboxes", (usage.activeInboxes ?? "?") + "/" + (limits.maxActiveInboxes ?? "?"));
+    if (limits.monthlyEmails != null) row("emails", (usage.emailsThisMonth ?? "?") + "/" + limits.monthlyEmails + " this month");
+    row("rate", (limits.rateLimitPerMinute ?? "?") + " requests/min");
+  }
+
   const run = {
     help() {
       for (const [name, args, desc, http] of COMMANDS) {
@@ -247,20 +263,25 @@
         return;
       }
       if (!/^ma_/.test(k)) { print(["err", "Keys start with ma_"]); return; }
+      // Check the key first; save it only if the server accepts it.
+      const r = await api("GET", "/v1/me", undefined, undefined, k);
+      const decision = keyCheckDecision(r.status);
+      if (decision === "reject") {
+        fail(r);
+        print(dim(key() ? "not saved, still using " + keyHint(key()) : "not saved"));
+        return;
+      }
       store.set(KEY_STORAGE, k);
       print(["ok", "key saved"], dim("  " + keyHint(k) + ", stored in this browser only"));
-      await run.whoami();
+      if (decision === "save") showMe(r.json);
+      else print(dim("could not check the key now (HTTP " + r.status + "), run whoami later"));
     },
 
     async whoami() {
       if (needKey()) return;
       const r = await api("GET", "/v1/me");
       if (!r.ok) return fail(r);
-      const { plan, limits = {}, usage = {} } = r.json;
-      row("plan", String(plan || "free"), "hi");
-      row("inboxes", (usage.activeInboxes ?? "?") + "/" + (limits.maxActiveInboxes ?? "?"));
-      if (limits.monthlyEmails != null) row("emails", (usage.emailsThisMonth ?? "?") + "/" + limits.monthlyEmails + " this month");
-      row("rate", (limits.rateLimitPerMinute ?? "?") + " requests/min");
+      showMe(r.json);
     },
 
     async new(args) {

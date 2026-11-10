@@ -53,6 +53,13 @@ assert.match(term.errorText(408, { error: "timeout" }), /No email yet/);
   assert.equal(ran.at(-1), "wait");
 }
 
+// A key is saved only when the server accepts it.
+assert.equal(term.keyCheckDecision(200), "save");
+assert.equal(term.keyCheckDecision(401), "reject");
+assert.equal(term.keyCheckDecision(403), "reject");
+assert.equal(term.keyCheckDecision(503), "unchecked");
+assert.equal(term.keyCheckDecision(429), "unchecked");
+
 // Every command has a handler.
 for (const [name] of term.COMMANDS) {
   assert.match(src, new RegExp(`(^|\\s|")${name.replace("-", "\\-")}"?\\(`, "m"), `handler for ${name}`);
