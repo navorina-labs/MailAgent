@@ -1,8 +1,7 @@
 /** POST /webhooks/github/secret-scanning: GitHub reports leaked ma_ keys; we revoke them and tell the owner. */
 import { Hono } from "hono";
 import type { Env } from "../env";
-import { getDb } from "../db/client";
-import { apiKeyHashFromToken } from "../lib/api-key-hint";
+import { revokeKeyByToken } from "../services/api-key-store";
 import { createResendClient } from "../services/resend-mail";
 import { workspaceUrl } from "../lib/public-origin";
 import {
@@ -53,7 +52,6 @@ githubSecretScanningRoutes.post("/secret-scanning", async (c) => {
   const alerts = parseAlerts(parsed);
   if (!alerts) return c.json({ error: "invalid_body" }, 400);
 
-  const sql = getDb(c.env);
   const from = c.env.OUTBOUND_FROM?.trim();
   const labels: { token_raw: string; token_type: string; label: "true_positive" | "false_positive" }[] = [];
 
@@ -62,14 +60,8 @@ githubSecretScanningRoutes.post("/secret-scanning", async (c) => {
       labels.push({ token_raw: alert.token, token_type: alert.type, label: "false_positive" });
       continue;
     }
-    const hash = await apiKeyHashFromToken(alert.token);
-    const rows = (await sql`
-      UPDATE api_keys k SET revoked_at = NOW()
-      FROM teams t
-      WHERE k.key_hash = ${hash} AND t.id = k.team_id AND k.revoked_at IS NULL
-      RETURNING k.id, t.name AS team_name
-    `) as { id: string; team_name: string }[];
-    const hit = rows[0];
+    const revoked = await revokeKeyByToken(c.env, alert.token);
+    const hit = revoked ? { id: revoked.apiKeyId, team_name: revoked.teamName } : null;
     labels.push({ token_raw: alert.token, token_type: alert.type, label: hit ? "true_positive" : "false_positive" });
     if (!hit) continue;
     console.warn("github_secret_scanning_revoked", hit.id, alert.url ?? "");
