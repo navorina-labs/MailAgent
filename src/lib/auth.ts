@@ -4,6 +4,7 @@ import type { ApiVariables } from "./api-context";
 import { bearerToken } from "./api-key-hint";
 import { PLAN_LIMITS } from "./plans";
 import { resolveAuth } from "../services/api-key-store";
+import { unauthorizedBody } from "./auth-error";
 import type { ResolvedAuth } from "../services/api-key-store";
 
 function applyAuthContext(
@@ -25,9 +26,10 @@ export async function requireApiKey(
   c: Context<{ Bindings: Env; Variables: ApiVariables }>,
   next: Next
 ) {
-  const auth = await resolveAuth(c.env, bearerToken(c.req.header("Authorization")));
+  const token = bearerToken(c.req.header("Authorization"));
+  const auth = await resolveAuth(c.env, token);
   if (!auth) {
-    return c.json({ error: "unauthorized" }, 401);
+    return c.json(unauthorizedBody(Boolean(token)), 401);
   }
   applyAuthContext(c, auth);
   await next();
@@ -38,14 +40,18 @@ export async function requireMcpAuth(
   c: Context<{ Bindings: Env; Variables: ApiVariables }>,
   next: Next
 ) {
-  const auth = await resolveAuth(c.env, bearerToken(c.req.header("Authorization")));
+  const token = bearerToken(c.req.header("Authorization"));
+  const auth = await resolveAuth(c.env, token);
   if (!auth) {
     const origin = publicOriginFromUrl(c.req.url, c.env.MAILAGENT_PUBLIC_API_ORIGIN);
     c.header(
       "WWW-Authenticate",
       `Bearer resource_metadata="${origin}/.well-known/oauth-protected-resource/mcp"`
     );
-    return c.json({ error: "unauthorized", oauth: `${origin}/.well-known/oauth-authorization-server` }, 401);
+    return c.json(
+      { ...unauthorizedBody(Boolean(token)), oauth: `${origin}/.well-known/oauth-authorization-server` },
+      401
+    );
   }
   applyAuthContext(c, auth);
   await next();

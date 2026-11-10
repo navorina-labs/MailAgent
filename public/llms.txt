@@ -1,0 +1,42 @@
+# Mail Agent
+
+> Email inboxes for AI agents and E2E tests. Create an inbox per run, wait for the signup, login or reset email, and get the next step back: an OTP or a link, not raw HTML.
+
+API base: https://api.webmailagent.com
+Auth: `Authorization: Bearer ma_...`
+Free key (10 inboxes, 60 requests/min, 500 emails/month), one email confirmation: https://webmailagent.com/get-key
+Pro: $29/month, 100 inboxes, 5000 emails/month: https://webmailagent.com/upgrade.html
+
+## Quick flow
+
+1. `POST /v1/inboxes` with `{"label": "ci-run-42"}` returns `{ id, address }`.
+2. Use `address` in the signup or login form of the app under test.
+3. `GET /v1/inboxes/{id}/wait?timeout=60` waits for the email (408 `timeout` comes with a diagnosis).
+4. `GET /v1/inboxes/{id}/extract` returns `otp`, `primaryLink` and `links`.
+5. `DELETE /v1/inboxes/{id}` when done.
+
+One call for steps 1 to 4: `POST /v1/inboxes/open`.
+No SMTP in CI: `POST /v1/inboxes/{id}/simulate` with `{"scenario": "otp"}` injects a test email.
+Stuck: `GET /v1/inboxes/{id}/diagnose`.
+Plan, limits and usage: `GET /v1/me`.
+
+## MCP
+
+Claude Code:
+
+```
+claude mcp add mailagent -e MAILAGENT_API_KEY=ma_... -- npx -y -p @mailagent/mcp@latest mailagent-mcp
+```
+
+## Docs
+
+- [Agent setup](https://webmailagent.com/docs/agents.html): MCP, skills, Codex
+- [QA and CI](https://webmailagent.com/docs/qa.html): Playwright and Cypress starters
+- [Troubleshooting](https://webmailagent.com/docs/qa-troubleshooting.html)
+- [OpenAPI](https://api.webmailagent.com/v1/openapi.json)
+- [Terminal](https://webmailagent.com/term): the same API as typed commands
+- [Source](https://github.com/navorina-labs/MailAgent)
+
+## Rules
+
+Inboxes are for testing your own product and for agents acting for their owner. No bulk signups on other sites. Keys are rate limited and can be revoked.

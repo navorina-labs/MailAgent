@@ -63,6 +63,7 @@
     "test:extract": "npx tsx scripts/test-extract.ts",
     "test:pilot-request": "npx tsx scripts/test-pilot-request.ts",
     "test:api-path": "npx tsx scripts/test-api-path.ts",
+    "test:auth-error": "npx tsx scripts/test-auth-error.ts",
     "test:key-signup": "npx tsx scripts/test-key-signup.ts",
     "test:billing": "npx tsx scripts/test-billing.ts",
     "test:preset-advisor": "npx tsx scripts/test-preset-advisor.ts",
