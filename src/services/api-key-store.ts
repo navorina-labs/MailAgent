@@ -30,8 +30,8 @@ export async function resolveAuth(
   if (token.startsWith("mat_")) {
     const { resolveMcpAccessToken } = await import("./mcp-oauth");
     const oauth = await resolveMcpAccessToken(env, token);
-    if (oauth) return oauth;
-    return null;
+    if (!oauth) return null;
+    return applyMcpTokenState(env, oauth);
   }
 
   const hint = await apiKeyHintFromToken(token);
@@ -290,4 +290,30 @@ export async function rotateTeamKeys(
     await sql`UPDATE api_keys SET revoked_at = NOW() WHERE id = ANY(${oldIds}::text[]) AND team_id = ${teamId}`;
   }
   return { apiKeyId, hint, revoked: oldIds.length, movedInboxes };
+}
+
+/**
+ * MCP access tokens are stateless, so check the live state behind them:
+ * a revoked or replaced key kills its tokens, a suspended team is blocked.
+ */
+async function applyMcpTokenState(env: Env, auth: ResolvedAuth): Promise<ResolvedAuth | null> {
+  if (!auth.teamId) return auth;
+  const sql = getDb(env);
+  const rows = (await sql`
+    SELECT t.suspended_at,
+           k.id AS key_id,
+           k.revoked_at,
+           k.expires_at
+    FROM teams t
+    LEFT JOIN api_keys k ON k.id = ${auth.apiKeyId ?? ""} AND k.team_id = t.id
+    WHERE t.id = ${auth.teamId}
+    LIMIT 1
+  `) as { suspended_at: string | null; key_id: string | null; revoked_at: string | null; expires_at: string | null }[];
+  const row = rows[0];
+  if (!row) return null;
+  if (auth.apiKeyId) {
+    if (!row.key_id || row.revoked_at) return null;
+    if (row.expires_at && new Date(row.expires_at).getTime() <= Date.now()) return null;
+  }
+  return { ...auth, suspended: Boolean(row.suspended_at) };
 }

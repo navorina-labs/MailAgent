@@ -70,6 +70,7 @@
     "test:security-headers": "npx tsx scripts/test-security-headers.ts",
     "test:webhook-signature": "npx tsx scripts/test-webhook-signature.ts",
     "test:abuse": "npx tsx scripts/test-abuse.ts",
+    "test:github-secret-scanning": "npx tsx scripts/test-github-secret-scanning.ts",
     "test:key-signup": "npx tsx scripts/test-key-signup.ts",
     "test:billing": "npx tsx scripts/test-billing.ts",
     "test:preset-advisor": "npx tsx scripts/test-preset-advisor.ts",
