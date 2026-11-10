@@ -21,7 +21,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/styles.css?v=20261110-pro-1" />
+    <link rel="stylesheet" href="/styles.css?v=20261110-keyui-1" />
   </head>
   <body data-site="marketing">
     <div id="site-nav"></div>
@@ -54,17 +54,25 @@
             </form>
 
             <div class="pilot-form key-result" id="key-result" hidden>
-              <p class="pilot-status is-success" id="key-result-title" tabindex="-1">Your API key</p>
-              <div class="code-panel">
-                <div class="code-body"><pre><code id="key-value"></code></pre></div>
+              <div class="key-result-head">
+                <h2 class="key-result-title" id="key-result-title" tabindex="-1">Your API key</h2>
+                <p class="pilot-status">Shown once. Save it now, for example as the CI secret <code>MAILAGENT_API_KEY</code>.</p>
               </div>
-              <p class="pilot-status">Shown once. Store it now, for example in your CI secrets as <code>MAILAGENT_API_KEY</code>.</p>
-              <div class="code-panel">
-                <div class="code-body"><pre><code id="key-mcp"></code></pre></div>
+              <div class="key-block">
+                <p class="key-label">API key</p>
+                <div class="code-panel">
+                  <div class="code-body"><pre><code id="key-value"></code></pre></div>
+                </div>
+              </div>
+              <div class="key-block">
+                <p class="key-label">Claude Code MCP</p>
+                <div class="code-panel">
+                  <div class="code-body"><pre><code id="key-mcp"></code></pre></div>
+                </div>
               </div>
               <div class="pilot-actions">
-                <a class="btn btn-primary" href="/docs/agents.html">Agent setup</a>
-                <a class="btn btn-outline" href="/dashboard.html">Open the console</a>
+                <a class="btn btn-primary" href="/term">Try in terminal</a>
+                <a class="btn btn-outline" href="/docs/agents.html">Agent setup</a>
                 <a class="btn btn-outline" href="/upgrade.html" data-billing-on hidden>Upgrade to Pro</a>
               </div>
             </div>

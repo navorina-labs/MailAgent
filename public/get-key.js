@@ -20,6 +20,7 @@
     key_limit_reached: "This email already has the maximum number of keys. Write to " + CONTACT + ".",
   };
   const fallback = "Something went wrong. Write to " + CONTACT + ".";
+  let sent = false;
 
   function setStatus(text, kind) {
     status.textContent = text;
@@ -57,6 +58,7 @@
       if (code === 202) {
         setStatus("Check " + value + ". The link works once, for 30 minutes.", "success");
         window.AgentsOSAnalytics?.track("mailagent_key_email_sent", { surface: "get_key" });
+        sent = true;
         return;
       }
       if (json.field === "email") email.setAttribute("aria-invalid", "true");
@@ -65,7 +67,7 @@
       setStatus(fallback, "error");
     } finally {
       submit.disabled = false;
-      submit.textContent = "Email me the link";
+      submit.textContent = sent ? "Send again" : "Email me the link";
     }
   });
 
@@ -81,8 +83,8 @@
         result.hidden = false;
         document.getElementById("key-value").textContent = json.apiKey;
         document.getElementById("key-mcp").textContent =
-          "claude mcp add mailagent -e MAILAGENT_API_KEY=" + json.apiKey +
-          " -- npx -y -p @mailagent/mcp@latest mailagent-mcp";
+          "claude mcp add mailagent \\\n  -e MAILAGENT_API_KEY=" + json.apiKey +
+          " \\\n  -- npx -y -p @mailagent/mcp@latest mailagent-mcp";
         document.getElementById("key-result-title").focus();
         window.AgentsOSAnalytics?.track("mailagent_key_issued", { surface: "get_key" });
         return;
