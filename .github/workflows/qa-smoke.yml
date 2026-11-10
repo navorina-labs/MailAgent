@@ -25,6 +25,7 @@ jobs:
       - run: npm run test:auth-error
       - run: npm run test:security-headers
       - run: npm run test:webhook-signature
+      - run: npm run test:abuse
       - run: npm run test:pilot-request
       - run: npm run test:key-signup
       - run: npm run test:billing

@@ -17,6 +17,8 @@ export interface ResolvedAuth {
   apiKeyId: string | null;
   label: string | null;
   scope: ApiKeyScope;
+  /** Team suspended by the abuse guard or an operator. Auth answers 403. */
+  suspended?: boolean;
 }
 
 export async function resolveAuth(
@@ -45,6 +47,7 @@ export async function resolveAuth(
       apiKeyId: row.id,
       label: row.label,
       scope: scopeFromDb(row),
+      suspended: Boolean(row.suspended_at),
     };
   }
 
@@ -66,7 +69,7 @@ export async function resolveAuth(
 async function lookupKeyByHash(env: Env, hash: string) {
   const sql = getDb(env);
   const rows = (await sql`
-    SELECT k.id, k.team_id, k.label, k.scope_label_prefix, k.scope_read_only, t.plan AS team_plan
+    SELECT k.id, k.team_id, k.label, k.scope_label_prefix, k.scope_read_only, t.plan AS team_plan, t.suspended_at
     FROM api_keys k
     JOIN teams t ON t.id = k.team_id
     WHERE k.key_hash = ${hash}
@@ -78,6 +81,7 @@ async function lookupKeyByHash(env: Env, hash: string) {
     team_id: string;
     label: string | null;
     team_plan: string;
+    suspended_at: string | null;
     scope_label_prefix: string | null;
     scope_read_only: boolean;
   }[];

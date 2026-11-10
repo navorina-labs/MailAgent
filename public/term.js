@@ -42,6 +42,7 @@
     disposable_email: "Disposable email addresses are not accepted.",
     email_not_deliverable: "This domain does not accept email.",
     key_limit_reached: "This email already has the maximum number of keys.",
+    account_suspended: "Account suspended for mail that looks like signups on other sites. Write to hello@webmailagent.com.",
   };
 
   /** Split a command line into name and args. Quotes group words. */
