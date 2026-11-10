@@ -62,13 +62,20 @@ assert.equal(term.keyCheckDecision(429), "unchecked");
 
 // A pasted key alone is the key command, case kept; keys are never printed in full.
 {
-  const k = "ma_PSdTycPhQl0en3LhUnGw0-Ht5hTyMy6o";
+  const k = "ma_FAKEfakeFAKEfakeFAKEfakeFAKE9Zq1";
   const r = JSON.parse(JSON.stringify(term.resolveLine("  " + k + " ")));
   assert.deepEqual(r, { name: "key", args: [k] });
   assert.equal(term.resolveLine("new x").name, "new");
-  assert.equal(term.maskKeys("unknown " + k), "unknown ma_PSd...My6o");
-  assert.equal(term.maskKeys(k.toLowerCase()), "ma_psd...my6o");
-  assert.doesNotMatch(term.maskKeys("x " + k + " y"), /Ql0en3/);
+  assert.equal(term.maskKeys("unknown " + k), "unknown ma_FAK" + "*".repeat(k.length - 10) + "9Zq1");
+  assert.equal(term.maskKeys(k.toLowerCase()), "ma_fak" + "*".repeat(k.length - 10) + "9zq1");
+  assert.doesNotMatch(term.maskKeys("x " + k + " y"), /akeFAKEfak/);
+  // The input box: a full key shows masked, the real key goes back on submit.
+  const keys = new Map();
+  const shown = term.hideKeysInInput("key " + k, keys);
+  assert.equal(shown, "key ma_FAK" + "*".repeat(k.length - 10) + "9Zq1");
+  assert.doesNotMatch(shown, /akeFAKEfak/);
+  assert.equal(term.revealKeysInInput(shown, keys), "key " + k);
+  assert.equal(term.hideKeysInInput("ma_short", new Map()), "ma_short");
 }
 
 // Every command has a handler.
