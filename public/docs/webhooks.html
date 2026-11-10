@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Signed webhooks: Mail Agent</title>
+    <meta name="description" content="Verify that inbox callbacks and team webhooks come from Mail Agent: HMAC-SHA256 signature in the MailAgent-Signature header." />
+    <link rel="icon" href="/favicon.svg?v=20261110-logo-at" type="image/svg+xml" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="doc-page" data-site="docs" data-doc="webhooks">
+    <div id="site-nav"></div>
+    <div class="doc-layout">
+      <aside class="doc-sidebar" id="site-doc-nav" aria-label="Documentation"></aside>
+      <article class="doc-content">
+      <h1>Signed webhooks</h1>
+      <p class="doc-lead">
+        Every inbox <code>callbackUrl</code> POST and every team webhook carries a signature.
+        Check it before you trust the payload.
+      </p>
+
+      <h2>Header</h2>
+      <pre class="doc-pre"><code>MailAgent-Signature: t=1794276000,v1=5f2b...e91c</code></pre>
+      <ul class="doc-list">
+        <li><code>t</code>: Unix time in seconds when the request was signed.</li>
+        <li><code>v1</code>: hex HMAC-SHA256 of <code>"&lt;t&gt;.&lt;raw body&gt;"</code> with your signing secret.</li>
+        <li>Reject requests older than 5 minutes to block replays.</li>
+      </ul>
+
+      <h2>Get your signing secret</h2>
+      <pre class="doc-pre"><code>curl https://api.webmailagent.com/v1/webhook-secret \
+  -H "Authorization: Bearer $MAILAGENT_API_KEY"</code></pre>
+      <p>
+        The secret (<code>whsec_...</code>) is the same for all keys of a team and does not change
+        when you replace a key. Store it like the API key.
+      </p>
+
+      <h2>Verify in Node.js</h2>
+      <pre class="doc-pre"><code>import crypto from "node:crypto";
+
+export function verifyMailAgent(rawBody, header, secret) {
+  const parts = Object.fromEntries(header.split(",").map((p) =&gt; p.split("=")));
+  const t = Number(parts.t);
+  if (!t || Math.abs(Date.now() / 1000 - t) &gt; 300) return false;
+  const expected = crypto.createHmac("sha256", secret).update(`${t}.${rawBody}`).digest("hex");
+  const got = Buffer.from(parts.v1 || "", "hex");
+  const want = Buffer.from(expected, "hex");
+  return got.length === want.length &amp;&amp; crypto.timingSafeEqual(got, want);
+}</code></pre>
+
+      <h2>Verify in Python</h2>
+      <pre class="doc-pre"><code>import hashlib, hmac, time
+
+def verify_mailagent(raw_body: bytes, header: str, secret: str) -&gt; bool:
+    parts = dict(p.split("=", 1) for p in header.split(","))
+    t = int(parts.get("t", "0"))
+    if abs(time.time() - t) &gt; 300:
+        return False
+    expected = hmac.new(secret.encode(), f"{t}.".encode() + raw_body, hashlib.sha256).hexdigest()
+    return hmac.compare_digest(expected, parts.get("v1", ""))</code></pre>
+
+      <p>Use the raw request body, not re-serialized JSON: any change in spacing breaks the signature.</p>
+
+      <h2>More</h2>
+      <ul class="doc-list">
+        <li><a href="/docs/qa.html">QA guide</a>: <code>callbackUrl</code> on inboxes</li>
+        <li><a href="/docs/teams.html">Teams</a>: team webhook for all inboxes</li>
+      </ul>
+      </article>
+    </div>
+    <div id="site-footer"></div>
+    <script src="/site-shell.js?v=20261110-logo-at" defer></script>
+  </body>
+</html>

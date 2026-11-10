@@ -19,6 +19,7 @@ One call for steps 1 to 4: `POST /v1/inboxes/open`.
 No SMTP in CI: `POST /v1/inboxes/{id}/simulate` with `{"scenario": "otp"}` injects a test email.
 Stuck: `GET /v1/inboxes/{id}/diagnose`.
 Plan, limits and usage: `GET /v1/me`.
+Webhooks are signed (`MailAgent-Signature`); secret from `GET /v1/webhook-secret`: https://webmailagent.com/docs/webhooks.html
 
 ## MCP
 

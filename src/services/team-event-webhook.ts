@@ -98,6 +98,7 @@ export async function fireTeamEventForMessage(
     inboxId: input.inbox.id,
     messageId: input.messageId,
     callbackUrl: config.url,
+    apiKeyHint: input.inbox.api_key_hint,
     payload: {
       ...input.payload,
       address: input.inbox.address,
