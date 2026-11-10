@@ -6,7 +6,7 @@
   const PORTFOLIO = "https://alexyoung33rd.com/";
   const CONTACT = "hello@webmailagent.com";
   const KEY_REQUEST = "/get-key.html";
-  const LOGO_SVG = `<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><text x="12" y="12.5" text-anchor="middle" dominant-baseline="middle" fill="#ecfef5" font-family="Georgia, 'Times New Roman', Times, serif" font-size="16" font-weight="500">a</text></svg>`;
+  const LOGO_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="#ecfef5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></svg>`;
 
   const NAV_DROPDOWNS = [
     {
