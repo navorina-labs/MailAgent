@@ -22,6 +22,8 @@ export interface Env {
   RATE_LIMIT_PER_MINUTE?: string;
   STRIPE_SECRET_KEY?: string;
   STRIPE_WEBHOOK_SECRET?: string;
+  /** Master secret for signing outgoing webhooks (default: API_KEY) */
+  WEBHOOK_SIGNING_SECRET?: string;
   /** Price id (price_…) for Pro subscription */
   STRIPE_PRICE_PRO?: string;
   /** OAuth access token TTL for MCP (seconds, default 3600) */

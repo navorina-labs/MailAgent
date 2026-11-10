@@ -65,6 +65,7 @@
     "test:api-path": "npx tsx scripts/test-api-path.ts",
     "test:auth-error": "npx tsx scripts/test-auth-error.ts",
     "test:security-headers": "npx tsx scripts/test-security-headers.ts",
+    "test:webhook-signature": "npx tsx scripts/test-webhook-signature.ts",
     "test:key-signup": "npx tsx scripts/test-key-signup.ts",
     "test:billing": "npx tsx scripts/test-billing.ts",
     "test:preset-advisor": "npx tsx scripts/test-preset-advisor.ts",

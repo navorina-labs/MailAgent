@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { webhookSecretRoutes } from "./routes/webhook-secret";
 import { withSecurityHeaders } from "./lib/security-headers";
 import { cors } from "hono/cors";
 import { InboxWait } from "./durable-objects/inbox-wait";
@@ -91,6 +92,7 @@ app.route("/v1", openapiRoutes);
 app.route("/v1/inboxes", inboxRoutes);
 app.route("/v1/stats", statsRoutes);
 app.route("/v1/me", meRoutes);
+app.route("/v1/webhook-secret", webhookSecretRoutes);
 app.route("/v1/billing", billingRoutes);
 app.route("/v1/console", consoleRoutes);
 app.route("/v1/audit", auditRoutes);

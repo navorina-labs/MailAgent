@@ -462,6 +462,17 @@ export const openApiSpec = {
         },
       },
     },
+    "/v1/webhook-secret": {
+      get: {
+        tags: ["meta"],
+        summary: "Signing secret for callbacks and team webhooks (MailAgent-Signature: t=..,v1=HMAC-SHA256)",
+        security: bearer,
+        responses: {
+          "200": { description: "signingSecret, header, format, toleranceSeconds, docs" },
+          "403": { description: "insufficient_scope (read-only keys)" },
+        },
+      },
+    },
     "/v1/keys/rotate/request": {
       post: {
         tags: ["meta"],

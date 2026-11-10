@@ -106,6 +106,7 @@
         { id: "teams", href: "/docs/teams.html", label: "Teams & keys" },
         { id: "qa", href: "/docs/qa.html", label: "QA / Playwright" },
         { id: "scoped-keys", href: "/docs/scoped-keys.html", label: "Scoped keys" },
+        { id: "webhooks", href: "/docs/webhooks.html", label: "Signed webhooks" },
         { id: "raw-mime", href: "/docs/raw-mime.html", label: "Raw MIME" },
         { id: "attachments", href: "/docs/attachments.html", label: "Attachments" },
         { id: "custom-domain", href: "/docs/custom-domain.html", label: "Custom domain" },

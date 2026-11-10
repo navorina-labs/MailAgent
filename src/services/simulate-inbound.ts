@@ -182,6 +182,7 @@ export async function simulateInboundMessage(
       inboxId: inbox.id,
       messageId: row.id,
       callbackUrl: inbox.callback_url,
+      apiKeyHint: inbox.api_key_hint,
       payload: {
         ...payload,
         address: inbox.address,
