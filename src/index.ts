@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { githubSecretScanningRoutes } from "./routes/github-secret-scanning";
 import { runAbuseGuard } from "./services/abuse-guard";
 import { webhookSecretRoutes } from "./routes/webhook-secret";
 import { withSecurityHeaders } from "./lib/security-headers";
@@ -86,6 +87,7 @@ app.use(
 );
 
 app.route("/", healthRoutes);
+app.route("/webhooks/github", githubSecretScanningRoutes);
 app.route("/webhooks", webhookRoutes);
 app.route("/v1", statusRoutes);
 app.route("/v1", apiMetaRoutes);
