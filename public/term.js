@@ -21,6 +21,7 @@
     ["sim", "[scenario]", "inject a test email (otp, magic_link, ...)", "POST /v1/inboxes/:id/simulate"],
     ["rm", "[id]", "delete an inbox", "DELETE /v1/inboxes/:id"],
     ["get-key", "<email>", "email me a free API key", "POST /v1/keys/request"],
+    ["replace-key", "<email>", "leaked key? email a link that revokes it and gives a new one", "POST /v1/keys/rotate/request"],
     ["upgrade", "", "Pro plan, $29/month"],
     ["json", "", "toggle raw JSON output"],
     ["logout", "", "forget the key in this browser"],
@@ -405,6 +406,18 @@
       if (r.status !== 202) return fail(r);
       print(["ok", "check " + email], dim("  the link works once, for 30 minutes"));
       print(dim("the key opens on /get-key.html, then come back and run: key ma_..."));
+    },
+
+    async "replace-key"(args) {
+      const email = (args[0] || "").trim();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        print(["err", "Usage: replace-key you@company.com"]);
+        return;
+      }
+      const r = await api("POST", "/v1/keys/rotate/request", { email, website: "" });
+      if (r.status !== 202) return fail(r);
+      print(["ok", "check " + email], dim("  opening the link revokes your current keys"));
+      print(dim("the new key opens on /get-key.html, then come back and run: key ma_..."));
     },
 
     upgrade() {

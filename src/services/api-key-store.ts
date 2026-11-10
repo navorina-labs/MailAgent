@@ -251,3 +251,39 @@ export async function countTeamKeys(env: Env, teamId: string): Promise<number> {
   `) as { count: number }[];
   return rows[0]?.count ?? 0;
 }
+
+/**
+ * Replace every active key of a team with one new key (leaked or lost key).
+ * Order keeps the team usable if a step fails: add the new key, move inboxes and
+ * custom domains to it, then revoke the old keys.
+ */
+export async function rotateTeamKeys(
+  env: Env,
+  teamId: string,
+  input: { token: string; label?: string }
+): Promise<{ apiKeyId: string; hint: string; revoked: number; movedInboxes: number }> {
+  const sql = getDb(env);
+  const old = (await sql`
+    SELECT id, key_hint FROM api_keys
+    WHERE team_id = ${teamId} AND revoked_at IS NULL
+  `) as { id: string; key_hint: string }[];
+
+  const { apiKeyId, hint } = await addTeamKey(env, teamId, { token: input.token, label: input.label });
+  const oldHints = [...new Set(old.map((k) => k.key_hint))];
+  const oldIds = old.map((k) => k.id);
+
+  let movedInboxes = 0;
+  if (oldHints.length) {
+    const moved = await sql`
+      UPDATE inboxes SET api_key_hint = ${hint}
+      WHERE api_key_hint = ANY(${oldHints}::text[])
+      RETURNING id
+    `;
+    movedInboxes = moved.length;
+    await sql`UPDATE domains SET api_key_hint = ${hint} WHERE api_key_hint = ANY(${oldHints}::text[])`;
+  }
+  if (oldIds.length) {
+    await sql`UPDATE api_keys SET revoked_at = NOW() WHERE id = ANY(${oldIds}::text[]) AND team_id = ${teamId}`;
+  }
+  return { apiKeyId, hint, revoked: oldIds.length, movedInboxes };
+}

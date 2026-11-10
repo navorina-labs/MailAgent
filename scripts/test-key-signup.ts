@@ -5,7 +5,9 @@ import {
   isOwnInboxDomain,
   newApiKey,
   newSignupToken,
+  noKeyEmail,
   normalizeSignupEmail,
+  rotationEmail,
   sha256Hex,
 } from "../src/lib/key-signup";
 import { hourlyLimitHit } from "../src/lib/hourly-limit";
@@ -48,5 +50,19 @@ for (let i = 0; i < 3; i++) {
 }
 assert.equal(await hourlyLimitHit(kv, ctx, "t:ip", 3), true);
 assert.equal(await hourlyLimitHit(undefined, ctx, "t:ip", 3), false);
+
+// Replace a leaked key: the email carries a link, never a key, and says what happens.
+{
+  const link = "https://webmailagent.com/get-key.html#r=abc";
+  const mail = rotationEmail(link);
+  assert.match(mail.subject, /Replace/);
+  assert.ok(mail.text.includes(link));
+  assert.match(mail.text, /stop working/);
+  assert.match(mail.text, /Nothing changes until the link is opened/);
+  assert.doesNotMatch(mail.text, /ma_/);
+  const none = noKeyEmail("https://webmailagent.com/get-key.html");
+  assert.match(none.text, /no key is registered/);
+  for (const t of [mail.subject, mail.text, none.subject, none.text]) assert.doesNotMatch(t, /[—–·]/);
+}
 
 console.log("key signup: ok");

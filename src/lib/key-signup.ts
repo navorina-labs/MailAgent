@@ -51,3 +51,31 @@ export function confirmationEmail(link: string): { subject: string; text: string
     ].join("\n"),
   };
 }
+
+export function rotationEmail(link: string): { subject: string; text: string } {
+  return {
+    subject: "Replace your Mail Agent API key",
+    text: [
+      "Open this link to replace your Mail Agent API key:",
+      "",
+      link,
+      "",
+      "All current keys for this email stop working right away. Your inboxes move to the new key.",
+      "The link works once and expires in 30 minutes.",
+      "If you did not ask for this, ignore this email. Nothing changes until the link is opened.",
+    ].join("\n"),
+  };
+}
+
+export function noKeyEmail(getKeyUrl: string): { subject: string; text: string } {
+  return {
+    subject: "No Mail Agent key for this email",
+    text: [
+      "Someone asked to replace a Mail Agent API key for this address, but no key is registered to it.",
+      "",
+      `Get a free key: ${getKeyUrl}`,
+      "",
+      "If you did not ask for this, ignore this email.",
+    ].join("\n"),
+  };
+}

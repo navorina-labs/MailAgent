@@ -21,7 +21,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/styles.css?v=20261110-keyui-1" />
+    <link rel="stylesheet" href="/styles.css?v=20261110-keyrotate-1" />
   </head>
   <body data-site="marketing">
     <div id="site-nav"></div>
@@ -51,12 +51,14 @@
                 <button type="submit" class="btn btn-primary" id="key-submit">Email me the link</button>
                 <p class="pilot-status" id="key-status" role="status" aria-live="polite"></p>
               </div>
+              <button type="button" class="key-mode" id="key-mode">Lost or leaked key? Replace it</button>
             </form>
 
             <div class="pilot-form key-result" id="key-result" hidden>
               <div class="key-result-head">
                 <h2 class="key-result-title" id="key-result-title" tabindex="-1">Your API key</h2>
                 <p class="pilot-status">Shown once. Save it now, for example as the CI secret <code>MAILAGENT_API_KEY</code>.</p>
+                <p class="pilot-status is-success" id="key-result-note" hidden></p>
               </div>
               <div class="key-block">
                 <p class="key-label">API key</p>
@@ -86,7 +88,7 @@
     <script src="/product-analytics.js?v=20261110-pro-1" defer></script>
     <script src="/site-shell.js?v=20261110-logo-at" defer></script>
     <script src="/site.js" defer></script>
-    <script src="/get-key.js?v=20261109-keys-1" defer></script>
+    <script src="/get-key.js?v=20261110-keyrotate-1" defer></script>
     <script src="/billing-flag.js?v=20261110-pro-1" defer></script>
   </body>
 </html>

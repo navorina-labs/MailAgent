@@ -10445,6 +10445,27 @@ body[data-doc="workspace"] .workspace-today-item > .workspace-actions-row {
   }
 }
 
+.agentsos-home .key-mode {
+  justify-self: start;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.agentsos-home .key-mode:hover {
+  color: var(--text);
+}
+
+.agentsos-home .key-mode[hidden] {
+  display: none;
+}
+
 /* Browser autofill keeps the dark field. */
 .agentsos-home .pilot-form input:-webkit-autofill,
 .agentsos-home .pilot-form input:-webkit-autofill:hover,
