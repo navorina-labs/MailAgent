@@ -3,16 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZWFR0B14JX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "G-ZWFR0B14JX");
-    </script>
+    <!-- No third-party scripts on pages that show an API key (see src/lib/security-headers.ts). -->
     <title>Get a free API key: Mail Agent</title>
     <meta name="description" content="Get a free Mail Agent API key: 10 inboxes, 60 requests per minute, 500 emails per month. Confirm your email and the key appears on this page." />
     <meta name="robots" content="noindex" />
@@ -21,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/styles.css?v=20261110-keyrotate-1" />
+    <link rel="stylesheet" href="/styles.css?v=20261110-keytimer-1" />
   </head>
   <body data-site="marketing">
     <div id="site-nav"></div>
@@ -66,6 +57,7 @@
                   <div class="code-body"><pre><code id="key-value"></code></pre></div>
                 </div>
               </div>
+              <p class="pilot-status key-timer" id="key-timer" aria-live="polite"></p>
               <div class="key-block">
                 <p class="key-label">Claude Code MCP</p>
                 <div class="code-panel">
@@ -88,7 +80,7 @@
     <script src="/product-analytics.js?v=20261110-pro-1" defer></script>
     <script src="/site-shell.js?v=20261110-logo-at" defer></script>
     <script src="/site.js" defer></script>
-    <script src="/get-key.js?v=20261110-keyrotate-1" defer></script>
+    <script src="/get-key.js?v=20261110-keytimer-1" defer></script>
     <script src="/billing-flag.js?v=20261110-pro-1" defer></script>
   </body>
 </html>
