@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { withSecurityHeaders } from "./lib/security-headers";
 import { cors } from "hono/cors";
 import { InboxWait } from "./durable-objects/inbox-wait";
 import type { Env, EmailQueueMessage } from "./env";
@@ -144,7 +145,7 @@ async function handleFetch(
     return app.fetch(request, env, ctx);
   }
 
-  return env.ASSETS.fetch(request);
+  return withSecurityHeaders(await env.ASSETS.fetch(request), path);
 }
 
 export default {

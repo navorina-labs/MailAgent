@@ -110,6 +110,59 @@
     }
   });
 
+  // The key stays on screen for a short time only, then leaves the page for good.
+  const VISIBLE_SECONDS = 300;
+  const AFTER_COPY_SECONDS = 30;
+  let hideAt = 0;
+  let timer = null;
+  let copied = false;
+
+  const mask = (k) => k.slice(0, 6) + "..." + k.slice(-4);
+  const clock = (sec) => Math.floor(sec / 60) + ":" + String(sec % 60).padStart(2, "0");
+
+  function hideKey(apiKey) {
+    clearInterval(timer);
+    timer = null;
+    const masked = mask(apiKey);
+    document.getElementById("key-value").textContent = masked;
+    document.getElementById("key-mcp").textContent =
+      "claude mcp add mailagent \\\n  -e MAILAGENT_API_KEY=" + masked + " \\\n  -- npx -y -p @mailagent/mcp@latest mailagent-mcp";
+    result.querySelectorAll(".code-copy-btn").forEach((b) => { b.disabled = true; b.hidden = true; });
+    const t = document.getElementById("key-timer");
+    t.textContent = "";
+    t.append(
+      copied ? "Key hidden. " : "Key hidden before it was copied. ",
+      Object.assign(document.createElement("a"), { href: "/get-key?replace", textContent: "Lost it? Replace the key" })
+    );
+    t.classList.remove("is-error");
+  }
+
+  function tick(apiKey) {
+    const left = Math.max(0, Math.round((hideAt - Date.now()) / 1000));
+    const t = document.getElementById("key-timer");
+    if (left === 0) return hideKey(apiKey);
+    t.textContent = copied
+      ? "Copied. The key leaves this page in " + clock(left) + "."
+      : "Copy it now. The key leaves this page in " + clock(left) + ".";
+    t.classList.toggle("is-error", !copied && left <= 60);
+  }
+
+  function startKeyTimer(apiKey) {
+    hideAt = Date.now() + VISIBLE_SECONDS * 1000;
+    const onCopy = () => {
+      if (!timer) return;
+      if (!copied) {
+        copied = true;
+        hideAt = Math.min(hideAt, Date.now() + AFTER_COPY_SECONDS * 1000);
+      }
+      tick(apiKey);
+    };
+    result.addEventListener("click", (e) => { if (e.target.closest(".code-copy-btn")) onCopy(); });
+    result.addEventListener("copy", onCopy);
+    timer = setInterval(() => tick(apiKey), 1000);
+    tick(apiKey);
+  }
+
   function showKey(apiKey, title, note) {
     form.hidden = true;
     if (modeBtn) modeBtn.hidden = true;
@@ -123,6 +176,7 @@
       "claude mcp add mailagent \\\n  -e MAILAGENT_API_KEY=" + apiKey +
       " \\\n  -- npx -y -p @mailagent/mcp@latest mailagent-mcp";
     document.getElementById("key-result-title").focus();
+    startKeyTimer(apiKey);
   }
 
   async function confirm(token, replace) {

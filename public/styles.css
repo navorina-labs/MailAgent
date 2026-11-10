@@ -10466,6 +10466,14 @@ body[data-doc="workspace"] .workspace-today-item > .workspace-actions-row {
   display: none;
 }
 
+.agentsos-home .key-timer {
+  font-variant-numeric: tabular-nums;
+}
+
+.agentsos-home .key-timer a {
+  color: var(--text);
+}
+
 /* Browser autofill keeps the dark field. */
 .agentsos-home .pilot-form input:-webkit-autofill,
 .agentsos-home .pilot-form input:-webkit-autofill:hover,
