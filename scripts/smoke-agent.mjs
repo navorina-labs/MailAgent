@@ -168,7 +168,7 @@ async function main() {
     "POST /mcp initialize",
     init.status,
     "session=",
-    sessionId ?? "(none)"
+    sessionId ? `${sessionId.slice(0, 8)}…` : "(none)"
   );
   if (!init.ok || !initJson?.result) {
     console.log(
