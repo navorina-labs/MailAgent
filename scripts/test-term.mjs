@@ -19,7 +19,7 @@ assert.equal(term.primaryAction({ otp: null, primaryLink: null, links: ["https:/
 assert.equal(term.primaryAction({ otp: null, primaryLink: null, links: [] }).type, "manual");
 
 assert.deepEqual([...term.completions("w")], ["whoami", "wait"]);
-assert.equal(term.errorText(401, {}), "Key rejected. Run: key ma_...");
+assert.match(term.errorText(401, {}), /^Key rejected\. Paste a valid key/);
 assert.match(term.errorText(429, { error: "inbox_limit_reached" }), /Inbox limit/);
 assert.match(term.errorText(408, { error: "timeout" }), /No email yet/);
 
@@ -59,6 +59,17 @@ assert.equal(term.keyCheckDecision(401), "reject");
 assert.equal(term.keyCheckDecision(403), "reject");
 assert.equal(term.keyCheckDecision(503), "unchecked");
 assert.equal(term.keyCheckDecision(429), "unchecked");
+
+// A pasted key alone is the key command, case kept; keys are never printed in full.
+{
+  const k = "ma_PSdTycPhQl0en3LhUnGw0-Ht5hTyMy6o";
+  const r = JSON.parse(JSON.stringify(term.resolveLine("  " + k + " ")));
+  assert.deepEqual(r, { name: "key", args: [k] });
+  assert.equal(term.resolveLine("new x").name, "new");
+  assert.equal(term.maskKeys("unknown " + k), "unknown ma_PSd...My6o");
+  assert.equal(term.maskKeys(k.toLowerCase()), "ma_psd...my6o");
+  assert.doesNotMatch(term.maskKeys("x " + k + " y"), /Ql0en3/);
+}
 
 // Every command has a handler.
 for (const [name] of term.COMMANDS) {

@@ -30,8 +30,8 @@
   const NAMES = COMMANDS.map((c) => c[0]);
 
   const ERRORS = {
-    unauthorized: "Key rejected. Run: key ma_...",
-    invalid_api_key: "Key rejected. Run: key ma_...",
+    unauthorized: "Key rejected. Paste a valid key, or run: replace-key you@company.com",
+    invalid_api_key: "Key rejected. Paste a valid key, or run: replace-key you@company.com",
     inbox_limit_reached: "Inbox limit reached for your plan. Delete one with rm, or run upgrade.",
     inbox_not_found: "Inbox not found. Run ls.",
     no_messages: "No email yet. Run wait.",
@@ -52,6 +52,18 @@
     while ((m = re.exec(String(line || "")))) parts.push(m[1] ?? m[2] ?? m[3]);
     const name = (parts.shift() || "").toLowerCase();
     return { name, args: parts };
+  }
+
+  /** A pasted key on its own line means "key <that key>". Keeps the key's original case. */
+  function resolveLine(line) {
+    const trimmed = String(line || "").trim();
+    if (/^ma_[A-Za-z0-9_-]{6,}$/.test(trimmed)) return { name: "key", args: [trimmed] };
+    return parseLine(trimmed);
+  }
+
+  /** Never print a key in full: ma_abc...xyz. */
+  function maskKeys(text) {
+    return String(text || "").replace(/\bma_[A-Za-z0-9_-]{6,}/gi, (k) => k.slice(0, 6) + "..." + k.slice(-4));
   }
 
   /** Same priority as agent.primaryAction on the server: OTP, then link. */
@@ -117,7 +129,7 @@
     };
   }
 
-  const core = { COMMANDS, parseLine, primaryAction, completions, errorText, createQueue, keyCheckDecision };
+  const core = { COMMANDS, parseLine, primaryAction, completions, errorText, createQueue, keyCheckDecision, resolveLine, maskKeys };
   if (typeof module !== "undefined" && module.exports) {
     module.exports = core;
     return;
@@ -240,6 +252,15 @@
     }
   }
 
+  /** One line that says what to type next. */
+  function next(cmd, what) {
+    print(dim("next: "), ["hi", cmd], dim("  " + what));
+  }
+
+  function updatePlaceholder() {
+    input.placeholder = key() ? "type a command, help lists all" : "paste your API key here";
+  }
+
   function showMe(me) {
     const { plan, limits = {}, usage = {} } = me || {};
     row("plan", String(plan || "free"), "hi");
@@ -276,6 +297,8 @@
       print(["ok", "key saved"], dim("  " + keyHint(k) + ", stored in this browser only"));
       if (decision === "save") showMe(r.json);
       else print(dim("could not check the key now (HTTP " + r.status + "), run whoami later"));
+      updatePlaceholder();
+      next("new", "create an inbox");
     },
 
     async whoami() {
@@ -292,7 +315,8 @@
       if (!r.ok) return fail(r);
       setInbox(r.json);
       print(["hi", r.json.address, { copy: true }], dim("  " + r.json.id));
-      print(dim("send mail there, then run wait"));
+      next("sim otp", "send a test email with a code to this inbox");
+      print(dim("      or use the address in your signup form, then run wait"));
     },
 
     async ls() {
@@ -431,6 +455,7 @@
 
     logout() {
       store.set(KEY_STORAGE, "");
+      updatePlaceholder();
       setInbox(null);
       print(["ok", "key removed from this browser"]);
     },
@@ -442,13 +467,14 @@
 
   async function exec(line) {
     const trimmed = String(line || "").trim();
-    print(["ok", "$ "], ["hi", trimmed.replace(/\bma_[A-Za-z0-9_-]{6,}/g, (k) => keyHint(k))]);
+    print(["ok", "$ "], ["hi", maskKeys(trimmed)]);
     if (!trimmed) return;
-    const { name, args } = parseLine(trimmed);
+    const { name, args } = resolveLine(trimmed);
     const fn = run[name];
     if (!fn) {
+      const shown = maskKeys(name).slice(0, 32);
       const near = completions(name.slice(0, 2));
-      print(["err", "unknown command: " + name], near.length ? dim("  try " + near.join(", ")) : dim("  run help"));
+      print(["err", "unknown command: " + shown], near.length ? dim("  try " + near.join(", ")) : dim("  run help"));
       return;
     }
     try {
@@ -518,10 +544,13 @@
   print(["hi", "mail agent"], dim("  inboxes for agents that test signups"));
   if (key()) {
     print(dim("key " + keyHint(key()) + (state.inbox ? ", inbox " + state.inbox.address : "")));
-    print(dim("run new, wait, read. help lists everything"));
+    if (state.inbox) next("sim otp", "test email to this inbox, or wait for real mail");
+    else next("new", "create an inbox");
   } else {
-    print(dim("start: key ma_...   no key? get-key you@company.com"));
-    print(dim("help lists everything"));
+    print(dim("1  get a free key:  "), ["hi", "get-key you@company.com"], dim("  or open "), ["info", "/get-key", { href: "/get-key" }]);
+    print(dim("2  paste the key here and press enter"));
+    print(dim("3  "), ["hi", "new"], dim(", then "), ["hi", "sim otp"], dim(": a test email, the code shows up here"));
   }
+  updatePlaceholder();
   input.focus();
 })(typeof window !== "undefined" ? window : globalThis);
