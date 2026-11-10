@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { runAbuseGuard } from "./services/abuse-guard";
 import { webhookSecretRoutes } from "./routes/webhook-secret";
 import { withSecurityHeaders } from "./lib/security-headers";
 import { cors } from "hono/cors";
@@ -161,9 +162,11 @@ export default {
   },
 
   async scheduled(_controller: ScheduledController, env: Env): Promise<void> {
+    // Abuse check first: purge removes expired inboxes and their mail.
+    const abuse = await runAbuseGuard(env);
     const result = await purgeExpired(env);
     const audit = await purgeExpiredAuditEvents(env);
     const monitors = await runDueWorkspaceMonitors(env, 10);
-    console.log("cron purge", { ...result, auditDeleted: audit.deleted, monitorsRan: monitors.ran });
+    console.log("cron purge", { ...result, auditDeleted: audit.deleted, monitorsRan: monitors.ran, abuse });
   },
 };

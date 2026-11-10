@@ -5,6 +5,7 @@ import { bearerToken } from "./api-key-hint";
 import { PLAN_LIMITS } from "./plans";
 import { resolveAuth } from "../services/api-key-store";
 import { unauthorizedBody } from "./auth-error";
+import { SUSPENDED_MESSAGE } from "./abuse";
 import type { ResolvedAuth } from "../services/api-key-store";
 
 function applyAuthContext(
@@ -31,6 +32,7 @@ export async function requireApiKey(
   if (!auth) {
     return c.json(unauthorizedBody(Boolean(token)), 401);
   }
+  if (auth.suspended) return c.json({ error: "account_suspended", message: SUSPENDED_MESSAGE }, 403);
   applyAuthContext(c, auth);
   await next();
 }
@@ -53,6 +55,7 @@ export async function requireMcpAuth(
       401
     );
   }
+  if (auth.suspended) return c.json({ error: "account_suspended", message: SUSPENDED_MESSAGE }, 403);
   applyAuthContext(c, auth);
   await next();
 }
