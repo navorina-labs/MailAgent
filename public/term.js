@@ -62,9 +62,33 @@
     return parseLine(trimmed);
   }
 
-  /** Never print a key in full: ma_abc...xyz. */
+  /** Start and end of a key, the rest as stars: ma_PSd*************************My6o. */
+  function maskKey(k) {
+    return k.slice(0, 6) + "*".repeat(Math.max(3, k.length - 10)) + k.slice(-4);
+  }
+
+  /** Never print a key in full. */
   function maskKeys(text) {
-    return String(text || "").replace(/\bma_[A-Za-z0-9_-]{6,}/gi, (k) => k.slice(0, 6) + "..." + k.slice(-4));
+    return String(text || "").replace(/\bma_[A-Za-z0-9_-]{6,}/gi, maskKey);
+  }
+
+  /**
+   * The input box never shows a full key either (screen recordings, demos).
+   * Full keys in `value` become masks; `keys` remembers mask -> key for submit.
+   */
+  function hideKeysInInput(value, keys) {
+    return String(value || "").replace(/\bma_[A-Za-z0-9_-]{32}\b/g, (k) => {
+      const m = maskKey(k);
+      keys.set(m, k);
+      return m;
+    });
+  }
+
+  /** Put the real keys back before the line runs. */
+  function revealKeysInInput(value, keys) {
+    let v = String(value || "");
+    for (const [m, k] of keys) v = v.split(m).join(k);
+    return v;
   }
 
   /** Same priority as agent.primaryAction on the server: OTP, then link. */
@@ -130,7 +154,7 @@
     };
   }
 
-  const core = { COMMANDS, parseLine, primaryAction, completions, errorText, createQueue, keyCheckDecision, resolveLine, maskKeys };
+  const core = { COMMANDS, parseLine, primaryAction, completions, errorText, createQueue, keyCheckDecision, resolveLine, maskKeys, maskKey, hideKeysInInput, revealKeysInInput };
   if (typeof module !== "undefined" && module.exports) {
     module.exports = core;
     return;
@@ -159,7 +183,7 @@
 
   const base = () => (store.get(BASE_STORAGE) || DEFAULT_BASE).replace(/\/$/, "");
   const key = () => store.get(KEY_STORAGE).trim();
-  const keyHint = (k) => (k.length > 10 ? k.slice(0, 6) + "..." + k.slice(-4) : "set");
+  const keyHint = (k) => (k.length > 10 ? maskKey(k) : "set");
 
   /** print(["dim", "text"], " plain ", ["val", "x", {copy: true}]) */
   function print(...parts) {
@@ -491,8 +515,9 @@
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const line = input.value;
+    const line = revealKeysInInput(input.value, inputKeys);
     input.value = "";
+    inputKeys.clear();
     if (line.trim()) {
       // Never keep keys in history.
       state.history.push(line.replace(/\bma_\S+/g, "ma_..."));
@@ -512,6 +537,18 @@
     if (e.ctrlKey && e.key === "l") {
       e.preventDefault();
       run.clear();
+    }
+  });
+
+  // A pasted (or dropped, or autofilled) key shows as ma_PSd****My6o right away.
+  const inputKeys = new Map();
+  input.addEventListener("input", () => {
+    const v = input.value;
+    const hidden = hideKeysInInput(v, inputKeys);
+    if (hidden !== v) {
+      const end = input.selectionEnd === v.length;
+      input.value = hidden;
+      if (end) input.setSelectionRange(hidden.length, hidden.length);
     }
   });
 
