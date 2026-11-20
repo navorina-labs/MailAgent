@@ -7,6 +7,7 @@ The landing (`public/index.html`, original AgentsOS styles from `styles.css`) me
 | Event | When it fires | Parameters |
 | --- | --- | --- |
 | `mailagent_key_requested` | A visitor opens the "Get API key" email (navigation, hero, pricing, final CTA) | `surface` |
+| `mailagent_demo_opened` | A visitor opens the keyless demo in /term (hero "Try it, no key") | `surface` |
 | `mailagent_pilot_requested` | A visitor opens the Pro access or pilot email (pricing, final CTA) | `surface` |
 | `mailagent_pilot_submitted` | The pilot form was accepted by `POST /v1/pilot-requests` (202) | `surface` (`pilot_form`) |
 | `mailagent_pricing_viewed` | The pricing section scrolled into view (once per page load) | `surface` (`pricing`) |

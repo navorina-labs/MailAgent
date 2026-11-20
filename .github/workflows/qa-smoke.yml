@@ -10,7 +10,7 @@ on:
 
 jobs:
   check-and-smoke:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # Playwright has no chromium build for 26.04 yet
     steps:
       - uses: actions/checkout@v6
 
@@ -26,6 +26,7 @@ jobs:
       - run: npm run test:security-headers
       - run: npm run test:webhook-signature
       - run: npm run test:abuse
+      - run: npm run test:demo
       - run: npm run test:github-secret-scanning
       - run: npm run test:pilot-request
       - run: npm run test:key-signup

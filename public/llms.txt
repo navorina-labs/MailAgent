@@ -4,6 +4,7 @@
 
 API base: https://api.webmailagent.com
 Auth: `Authorization: Bearer ma_...`
+No key yet: `POST /v1/demo` with `{"scenario": "otp"}` runs a sample email through the same extraction (nothing stored), or open https://webmailagent.com/term#demo
 Free key (10 inboxes, 60 requests/min, 500 emails/month), one email confirmation: https://webmailagent.com/get-key
 Pro: $29/month, 100 inboxes, 5000 emails/month: https://webmailagent.com/upgrade.html
 
