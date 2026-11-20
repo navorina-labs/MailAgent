@@ -7,6 +7,7 @@
     "agentsos_catalog_opened",
     "agentsos_agent_selected",
     "mailagent_key_requested",
+    "mailagent_demo_opened",
     "mailagent_pilot_requested",
     "mailagent_pilot_submitted",
     "mailagent_pricing_viewed",

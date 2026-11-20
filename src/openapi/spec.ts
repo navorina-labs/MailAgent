@@ -583,6 +583,31 @@ export const openApiSpec = {
         },
       },
     },
+    "/v1/demo": {
+      post: {
+        tags: ["meta"],
+        summary: "Keyless demo: a sample email through the real extraction, nothing stored",
+        security: [],
+        requestBody: {
+          required: false,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  scenario: { type: "string", enum: ["otp", "magic_link", "password_reset", "invite"], default: "otp" },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          "200": { description: "demo run: inbox (not created), message, verification, agent.primaryAction" },
+          "400": { description: "unknown_scenario" },
+          "429": { description: "rate_limit_exceeded (30 per hour per IP)" },
+        },
+      },
+    },
     "/v1/pilot-requests": {
       post: {
         tags: ["meta"],

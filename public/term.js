@@ -10,6 +10,7 @@
 
   const COMMANDS = [
     ["help", "", "list commands"],
+    ["demo", "[scenario]", "the whole flow on a sample email, no key needed", "POST /v1/demo"],
     ["key", "<ma_key>", "save your API key in this browser"],
     ["whoami", "", "plan, usage, limits", "GET /v1/me"],
     ["new", "[label]", "create an inbox and select it", "POST /v1/inboxes"],
@@ -230,7 +231,7 @@
 
   async function api(method, path, body, signal, withKey) {
     const headers = { Accept: "application/json" };
-    const k = withKey || key();
+    const k = withKey === "-" ? "" : withKey || key();
     if (k) headers.Authorization = "Bearer " + k;
     if (body !== undefined) headers["Content-Type"] = "application/json";
     const res = await fetch(base() + path, {
@@ -394,6 +395,32 @@
       } finally {
         state.busy = null;
       }
+    },
+
+    async demo(args) {
+      const scenario = (args[0] || "otp").trim();
+      const r = await api("POST", "/v1/demo", { scenario }, undefined, "-");
+      if (!r.ok) {
+        if (r.json.scenarios) print(["err", "unknown scenario"], dim("  try " + r.json.scenarios.join(", ")));
+        else fail(r);
+        return;
+      }
+      const d = r.json;
+      const pause = (ms) => new Promise((res) => setTimeout(res, ms));
+      print(dim("demo: a sample email from a made-up app, nothing is stored"));
+      await pause(300);
+      row("inbox", d.inbox.address, "hi");
+      await pause(500);
+      row("your app", 'sends "' + d.message.subject + '"');
+      await pause(700);
+      print(dim("result"));
+      const a = (d.agent && d.agent.primaryAction) || {};
+      if (a.type === "otp") print(["big", a.value]);
+      else if (a.value) row("link", a.value, "info");
+      if (a.instruction) print(dim("agent gets: " + a.instruction));
+      const others = (d.scenarios || []).filter((x) => x !== d.scenario);
+      if (others.length) print(dim("other emails: "), ["hi", "demo " + others[0]], dim(", " + others.slice(1).map((x) => "demo " + x).join(", ")));
+      if (!key()) next("get-key you@company.com", "a free key for real inboxes");
     },
 
     async read() {
@@ -585,10 +612,15 @@
     if (state.inbox) next("sim otp", "test email to this inbox, or wait for real mail");
     else next("new", "create an inbox");
   } else {
+    print(dim("0  just looking?  "), ["hi", "demo"], dim("  the whole flow on a sample email, no key"));
     print(dim("1  get a free key:  "), ["hi", "get-key you@company.com"], dim("  or open "), ["info", "/get-key", { href: "/get-key" }]);
     print(dim("2  paste the key here and press enter"));
     print(dim("3  "), ["hi", "new"], dim(", then "), ["hi", "sim otp"], dim(": a test email, the code shows up here"));
   }
   updatePlaceholder();
   input.focus();
+  if (location.hash === "#demo") {
+    history.replaceState(null, "", location.pathname + location.search);
+    queue.push("demo");
+  }
 })(typeof window !== "undefined" ? window : globalThis);

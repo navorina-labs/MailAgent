@@ -209,7 +209,8 @@
         ${navLink("/#integrations", "Integrations")}
         ${navLink("/#compare", "Compare")}
         ${navLink("/#pricing", "Pricing")}
-        ${navLink("/docs/", "Docs")}`;
+        ${navLink("/docs/", "Docs")}
+        ${navLink("/term", "Terminal")}`;
     }
     return `${navLink("/docs/", "Docs")}
       ${navLink("/docs/integrate.html", "Self-host")}
